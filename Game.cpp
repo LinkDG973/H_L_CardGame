@@ -1,7 +1,12 @@
 ﻿
 #include "Game.h"
 
+#include <string>
+#include <io.h>
+#include <fcntl.h>
+
 ERROR_CODE Game::Init() {
+	_setmode(_fileno(stdout), _O_U16TEXT);
 
 	// Initalise the Deck
 
@@ -17,17 +22,12 @@ ERROR_CODE Game::Init() {
 			suit_index++;
 		}
 		Draw_Card(_C);
-
 	}
-
-	// Draw Cards
-	//Draw_Card(_Deck[0]);
 
 	return GAME_OK;
 }
 
 ERROR_CODE Game::Draw_Card(Card& _C) {
-
 
 		//"┌─────────┐"
 		//"│{}{}     │"
@@ -39,14 +39,13 @@ ERROR_CODE Game::Draw_Card(Card& _C) {
 		//"│     {}{}│"
 		//"└─────────┘"
 
-
-	//std::cout << "┌─────────┐\n" << "│{}{}     │\n" << "│    {}   │\n" << "│     {}{}│\n" << "└─────────┘";
-	std::cout << "__________\n" 
-		      << "| " << _C.GetVal() << _C.GetSuit() << "     |\n" 
-			  << "|   " << _C.GetSuit() << "    |\n" 
-			  << "|     " << _C.GetSuit() << _C.GetVal() << " |\n" 
-			  << "----------\n";
-
+	std::wcout << L"┌─────────┐\n";						 // ┌─────────┐
+	std::wcout << L"│" << _C.GetVal() << L"        │\n"; // │         │
+	std::wcout << L"│         │\n";						 // │         │
+	std::wcout << L"│    " << _C.GetSuit() << L"    │\n";// │    ♠    │
+	std::wcout << L"│         │\n";						 // │         │
+	std::wcout << L"│        " << _C.GetVal() << L"│\n"; // │         │
+	std::wcout << L"└─────────┘\n";						 // └─────────┘
 
 	return GAME_OK;
 }
