@@ -3,8 +3,13 @@
 
 #include <iostream>
 
-int main()
-{
+#include "Game.h"
+
+int main() {
+
+    Game _Game;
+
+
     std::cout << "Hello World!\n";
 }
 
