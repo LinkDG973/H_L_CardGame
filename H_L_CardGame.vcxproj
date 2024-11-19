@@ -129,6 +129,11 @@
   <ItemGroup>
     <ClCompile Include="H_L_CardGame.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Game.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
