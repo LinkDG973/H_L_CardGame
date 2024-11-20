@@ -47,7 +47,7 @@ private:
 	ERROR_CODE Draw_Card(Card& _C);
 	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent);
 	ERROR_CODE GenerateGraphics(Card& _C);
-	ERROR_CODE PlayerInput(wstring _Input);
+	bool PlayerInput(wstring _Input);
 	ERROR_CODE Reset_PlayState();
 
 	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
@@ -56,9 +56,9 @@ private:
 	Card _InPlay[10];
 	Card _FaceDown;
 
-	int randomIndex = 0;
 
 	int _Score = 0;
 
-	int _Index = 0;
+	int _randomIndex = 0;
+	int _CardIndex = 0;
 };

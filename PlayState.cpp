@@ -27,13 +27,11 @@ ERROR_CODE PlayState::Init() {
 }
 
 void PlayState::Update() {
-	wstring name = L"";
+	wstring playIn = L"";
 	wcout << "Hold : ";
-	wcin >> name;
-	if (_Index < 10) {
-		_InPlay[_Index++].SetFlipState(false);
-	}
-	else {
+	wcin >> playIn;
+	PlayerInput(playIn);
+	if (_CardIndex >= 10) {
 		Reset_PlayState();
 		Game::getInstance().SwitchState(START_STATE);
 	}
@@ -46,34 +44,49 @@ void PlayState::Render() {
 	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
 	wcout << L"Score  : " << _Score << endl;
 	wcout << BOARDER << endl;
-	Draw_Cards(&_Deck[randomIndex], 1, 1, 3); // Focus Card
+	Draw_Cards(&_Deck[_randomIndex], 1, 1, 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	wcout << BOARDER << endl;
 	wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
 	wcout << BOARDER << endl;
 
-
 	SetDirtyRender(false);
 }
 
-ERROR_CODE PlayState::PlayerInput(wstring _Input) {
-
+bool PlayState::PlayerInput(wstring _Input) {
 	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
-
+		if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
+			_Score += 150;
+		}
+		else {
+			-100;
+		}
+		_InPlay[_CardIndex++].SetFlipState(false);
+		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+	}
+	else if (_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") {
+		if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
+			_Score += 150;
+		}
+		else {
+			-100;
+		}
+		_InPlay[_CardIndex++].SetFlipState(false);
+		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
 	}
 
-	return GAME_OK;
+	return false;
 }
 
 ERROR_CODE PlayState::Reset_PlayState() {
 	system("cls");
 
-	_Index = 0;
+	_CardIndex = 0;
 	_Score = 0;
 
 	srand(time(0));
-	randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+	_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
 
 	for (Card& _C : _InPlay) {
 		_C = _Deck[randomNum(0, DEFAULT_DECK_SIZE - 1)];
