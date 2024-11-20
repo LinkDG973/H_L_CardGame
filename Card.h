@@ -12,7 +12,11 @@ public:
 
 	std::wstring& GetCardGraphic(int _Index) { return _Graphic[_Index]; }
 
+	bool GetFlipState() { return _Flipped; }
+	void SetFlipState(bool _Val) { _Flipped = _Val; }
+
 private:
+	bool _Flipped = false;
 	wchar_t _Suit = L'_';
 	unsigned __int8 _Value = 0;
 	std::wstring _Graphic[CARD_GRAPHIC_SIZE] = {

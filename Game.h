@@ -40,5 +40,6 @@ private:
 	bool _GameRunning = false;
 
 	std::wstring _UserName = L"";
+	int _HighScore = 0;
 };
 

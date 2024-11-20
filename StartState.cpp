@@ -4,7 +4,9 @@
 void StartState::Update() {
 	wstring name = L"";
 
-	wcout << "Input Name : ";
+	for (int y = 0; y < 10; ++y) wcout << endl;
+
+	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << CARD_INDENT << "Input Name : ";
 	wcin >> name;
 
 	Game::getInstance().setUserName(name);

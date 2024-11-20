@@ -15,14 +15,13 @@ static ERROR_CODE ret_code;  // Error Check Return Variable
 #define START_STATE 0
 #define PLAY_STATE 1
 
-
 constexpr ui8 MAX_DECK_SIZE = 54;
 constexpr ui8 DEFAULT_DECK_SIZE = 52;
 constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 
 constexpr wchar_t SUITS[4] = { L'♠', L'♦', L'♥', L'♣' };
 static const std::wstring CARD_INDENT = L"           ";
-static const std::wstring BOARDER = L"////////////////////////////";
+static const std::wstring BOARDER = L"──────────────────────────────────────────────────────────────────────────";
 
 static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"┌─────────┐",

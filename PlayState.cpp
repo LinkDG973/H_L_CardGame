@@ -20,6 +20,14 @@ ERROR_CODE PlayState::Init() {
 	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
 		_FaceDown.GetCardGraphic(i) = _FaceDownCard[i];
 	}
+	srand(time(0));
+	randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+
+	for (Card& _C : _InPlay) {
+		_C = _Deck[randomNum(0, DEFAULT_DECK_SIZE - 1)];
+		_C.SetFlipState(true);
+	}
+
 	return GAME_OK;
 }
 
@@ -27,15 +35,23 @@ void PlayState::Update() {
 	wstring name = L"";
 	wcout << "Hold : ";
 	wcin >> name;
-
+	_InPlay[_Index++].SetFlipState(false);
 	SetDirtyRender(true);
 }
 
 void PlayState::Render() {
 	system("cls");
-	wcout << L"Current Player : " << Game::getInstance().GetUserName() << endl;
-	Draw_Cards(&_FaceDown, 1, 1, 3); // Focus Card
-	Draw_Cards(_Deck, 9, 5, 1); // Player's Cards
+	wcout << BOARDER << endl;
+	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
+	wcout << L"Score  : " << _Score << endl;
+	wcout << BOARDER << endl;
+	Draw_Cards(&_Deck[randomIndex], 1, 1, 3); // Focus Card
+	wcout << BOARDER << endl;
+	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
+	wcout << BOARDER << endl;
+	wcout << L"│		HIGHER		│		LOWER		│" << endl;
+	wcout << BOARDER << endl;
+
 
 	SetDirtyRender(false);
 }
@@ -52,11 +68,15 @@ ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int
 	for (int i = 0; i < _C_Count; i + 0) { // for the number of cards
 		for (int x = 0; x < CARD_GRAPHIC_SIZE; ++x) { // for the number of graphics
 			wstring _line = L"";
-			for (int y = 0; y < _Indent; ++y)
-				_line += CARD_INDENT;
+			for (int y = 0; y < _Indent; ++y) _line += CARD_INDENT;
 			num = 0;
 			for (int j = 0; j < _Columns; ++j) { // for the number of columns
-				_line += _CardSet[i + num].GetCardGraphic(x);
+				if (_CardSet[i + num].GetFlipState()) {
+					_line += _FaceDown.GetCardGraphic(x);
+				}
+				else {
+					_line += _CardSet[i + num].GetCardGraphic(x);
+				}
 				++num;
 			}
 			wcout << _line << endl;
