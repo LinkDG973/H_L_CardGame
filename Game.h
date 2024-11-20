@@ -23,6 +23,7 @@ public:
 
 	bool IsGameRunning() { return _GameRunning; }
 
+	wstring GetUserName() { return _UserName; }
 	void setUserName(wstring _Val) { _UserName = _Val; }
 
 private:

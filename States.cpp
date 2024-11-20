@@ -26,7 +26,7 @@ ERROR_CODE PlayState::Init() {
 void PlayState::Update() {
 	wstring name = L"";
 
-	wcout << "Input Name";
+	wcout << "Input Name : ";
 	wcin >> name;
 
 	Game::getInstance().setUserName(name);
@@ -37,7 +37,7 @@ void PlayState::Update() {
 
 void PlayState::Render() {
 	system("cls");
-
+	wcout << L"Current Player : " << Game::getInstance().GetUserName() << endl;
 	Draw_Cards(&_FaceDown, 1, 1, 3); // Focus Card
 	Draw_Cards(_Deck, 9, 5, 1); // Player's Cards
 
