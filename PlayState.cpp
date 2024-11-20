@@ -25,14 +25,10 @@ ERROR_CODE PlayState::Init() {
 
 void PlayState::Update() {
 	wstring name = L"";
-
-	wcout << "Input Name : ";
+	wcout << "Hold : ";
 	wcin >> name;
 
-	Game::getInstance().setUserName(name);
-
 	SetDirtyRender(true);
-
 }
 
 void PlayState::Render() {

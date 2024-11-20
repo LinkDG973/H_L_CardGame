@@ -21,9 +21,16 @@ private:
 	bool _DirtyRender = true;
 };
 
-// Main Menu State
+// Start State
 // Play State
 // End State
+
+class StartState : public State {
+public:
+	void Update() override;
+	void Render() override;
+	ERROR_CODE Init() override { return GAME_OK; }
+};
 
 class PlayState : public State {
 public:

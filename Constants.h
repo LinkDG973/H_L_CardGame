@@ -12,6 +12,10 @@ typedef ui8 ERROR_CODE; // Error Code Type
 static ERROR_CODE ret_code;  // Error Check Return Variable
 #define GAME_OK 0	// Clean Error Code
 
+#define START_STATE 0
+#define PLAY_STATE 1
+
+
 constexpr ui8 MAX_DECK_SIZE = 54;
 constexpr ui8 DEFAULT_DECK_SIZE = 52;
 constexpr ui8 CARD_GRAPHIC_SIZE = 7;

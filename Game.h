@@ -10,7 +10,11 @@ class Game : public Singleton<Game> {
 public:
 	Game() {
 		_setmode(_fileno(stdout), _O_U16TEXT);
-		_CurrentState = new PlayState();
+
+		_GameStates[0] = new StartState();
+		_GameStates[1] = new PlayState();
+
+		_CurrentState = _GameStates[0];
 		_GameRunning = true;
 	};
 	~Game() {};
@@ -26,8 +30,12 @@ public:
 	wstring GetUserName() { return _UserName; }
 	void setUserName(wstring _Val) { _UserName = _Val; }
 
+	void SwitchState(int _Index) { _CurrentState = _GameStates[_Index]; }
+
 private:
 	State* _CurrentState;
+
+	State* _GameStates[2];
 
 	bool _GameRunning = false;
 
