@@ -1,4 +1,5 @@
 ﻿
+#include "Game.h"
 #include "States.h"
 #include <sstream>  // Used to access stringstream library
 
@@ -28,6 +29,8 @@ void PlayState::Update() {
 	wcout << "Input Name";
 	wcin >> name;
 
+	Game::getInstance().setUserName(name);
+
 	SetDirtyRender(true);
 
 }
@@ -36,7 +39,7 @@ void PlayState::Render() {
 	system("cls");
 
 	Draw_Cards(&_FaceDown, 1, 1, 3); // Focus Card
-	Draw_Cards(_Deck, 9, 7, 1); // Player's Cards
+	Draw_Cards(_Deck, 9, 5, 1); // Player's Cards
 
 	SetDirtyRender(false);
 }

@@ -4,8 +4,9 @@
 #include "States.h"
 #include <fcntl.h>
 #include <io.h>
+#include "Singleton.h"
 
-class Game {
+class Game : public Singleton<Game> {
 public:
 	Game() {
 		_setmode(_fileno(stdout), _O_U16TEXT);
@@ -21,6 +22,8 @@ public:
 	};
 
 	bool IsGameRunning() { return _GameRunning; }
+
+	void setUserName(wstring _Val) { _UserName = _Val; }
 
 private:
 	State* _CurrentState;
