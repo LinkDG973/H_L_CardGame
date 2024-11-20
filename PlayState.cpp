@@ -20,13 +20,8 @@ ERROR_CODE PlayState::Init() {
 	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
 		_FaceDown.GetCardGraphic(i) = _FaceDownCard[i];
 	}
-	srand(time(0));
-	randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
 
-	for (Card& _C : _InPlay) {
-		_C = _Deck[randomNum(0, DEFAULT_DECK_SIZE - 1)];
-		_C.SetFlipState(true);
-	}
+	Reset_PlayState();
 
 	return GAME_OK;
 }
@@ -35,7 +30,13 @@ void PlayState::Update() {
 	wstring name = L"";
 	wcout << "Hold : ";
 	wcin >> name;
-	_InPlay[_Index++].SetFlipState(false);
+	if (_Index < 10) {
+		_InPlay[_Index++].SetFlipState(false);
+	}
+	else {
+		Reset_PlayState();
+		Game::getInstance().SwitchState(START_STATE);
+	}
 	SetDirtyRender(true);
 }
 
@@ -49,11 +50,37 @@ void PlayState::Render() {
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	wcout << BOARDER << endl;
-	wcout << L"│		HIGHER		│		LOWER		│" << endl;
+	wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
 	wcout << BOARDER << endl;
 
 
 	SetDirtyRender(false);
+}
+
+ERROR_CODE PlayState::PlayerInput(wstring _Input) {
+
+	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
+
+	}
+
+	return GAME_OK;
+}
+
+ERROR_CODE PlayState::Reset_PlayState() {
+	system("cls");
+
+	_Index = 0;
+	_Score = 0;
+
+	srand(time(0));
+	randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+
+	for (Card& _C : _InPlay) {
+		_C = _Deck[randomNum(0, DEFAULT_DECK_SIZE - 1)];
+		_C.SetFlipState(true);
+	}
+
+	return GAME_OK;
 }
 
 ERROR_CODE PlayState::Draw_Card(Card& _C) {
