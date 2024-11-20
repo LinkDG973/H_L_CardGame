@@ -12,6 +12,7 @@ static ERROR_CODE ret_code;  // Error Check Return Variable
 
 constexpr ui8 MAX_DECK_SIZE = 54;
 constexpr ui8 DEFAULT_DECK_SIZE = 52;
+constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 
 //constexpr char SUITS[4] = { 'H','S','D','C' };
 constexpr wchar_t SUITS[4] = { L'♠', L'♦', L'♥', L'♣' };

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class Card {
 public:
@@ -10,10 +10,19 @@ public:
 	wchar_t GetSuit() { return _Suit; }
 	int GetVal() { return _Value; }
 
-private:
+	std::wstring& GetCardGraphic(int _Index) { return _Graphic[_Index]; }
 
+private:
 	wchar_t _Suit = L'_';
 	unsigned __int8 _Value = 0;
-
+	std::wstring _Graphic[CARD_GRAPHIC_SIZE] = {
+		L"┌─────────┐",
+		L"│         │", 
+		L"│         │", 
+		L"│         │", 
+		L"│         │", 
+		L"│         │", 
+		L"└─────────┘"
+	};
 };
 

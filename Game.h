@@ -13,13 +13,12 @@ public:
 	~Game() {};
 
 private:
-
-
 	ERROR_CODE Init();
 
+	ERROR_CODE GenerateGraphics(Card& _C);
 	ERROR_CODE Draw_Card(Card& _C);
+	ERROR_CODE Draw_Cards(int _C_Count, int _Columns);
 
 	Card _Deck[DEFAULT_DECK_SIZE];
-
 };
 
