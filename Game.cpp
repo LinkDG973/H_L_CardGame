@@ -7,10 +7,14 @@
 #include <sstream>  // Used to access stringstream library
 #include <algorithm>
 
+
 using namespace std;
 
 ERROR_CODE Game::Init() {
+
+	_GameRunning = true;
 	_setmode(_fileno(stdout), _O_U16TEXT);
+
 
 	// Initalise the Deck
 	ui8 num = 1;
@@ -25,9 +29,33 @@ ERROR_CODE Game::Init() {
 		}
 	}
 
-	Draw_Cards(5, 13);
+	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
+		_FaceDown.GetCardGraphic(i) = _FaceDownCard[i];
+	}
+
+	_DirtyRender = true;
+	
 
 	return GAME_OK;
+}
+
+void Game::Update() {
+	wstring name = L"";
+
+	wcout << "Input Name";
+	wcin >> name;
+
+	_DirtyRender = true;
+}
+
+void Game::Render() {
+	system("cls");
+
+	Draw_Cards(&_FaceDown, 1, 1, 3);
+
+	Draw_Cards(_Deck, 9, 5, 1);
+
+	_DirtyRender = false;
 }
 
 ERROR_CODE Game::GenerateGraphics(Card& _C) {
@@ -96,22 +124,24 @@ ERROR_CODE Game::Draw_Card(Card& _C) {
 	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
 		wcout << _C.GetCardGraphic(i) << endl;
 	}
-
 	return GAME_OK;
 }
 
-ERROR_CODE Game::Draw_Cards(int _C_Count, int _Columns) {
-	for (int i = 0; i < DEFAULT_DECK_SIZE; i + 0) { // for the number of cards
+ERROR_CODE Game::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent) {
+	int num = 0;
+	for (int i = 0; i < _C_Count; i + 0) { // for the number of cards
 		for (int x = 0; x < CARD_GRAPHIC_SIZE; ++x) { // for the number of graphics
 			wstring _line = L"";
-			int num = 0;
+			for (int y = 0; y < _Indent; ++y)
+				_line += CARD_INDENT;
+			num = 0;
 			for (int j = 0; j < _Columns; ++j) { // for the number of columns
-				_line += _Deck[i + num].GetCardGraphic(x);
+				_line += _CardSet[i + num].GetCardGraphic(x);
 				++num;
 			}
 			wcout << _line << endl;
 		}
-		i += _Columns;
+		i += num;
 	}
 
 	return GAME_OK;

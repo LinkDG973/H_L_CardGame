@@ -9,8 +9,11 @@ int main() {
 
     Game _Game;
 
+    while (_Game.IsGameRunning()) {
+        if (_Game.IsRenderDirty()) _Game.Render();
+        _Game.Update();
+    }
 
-    //std::cout << "Hello World!\n";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
