@@ -30,6 +30,11 @@ public:
 	void Update() override;
 	void Render() override;
 	ERROR_CODE Init() override { return GAME_OK; }
+private:
+
+	void DrawTitleScreen();
+
+	bool _ValidInput = true;
 };
 
 class PlayState : public State {

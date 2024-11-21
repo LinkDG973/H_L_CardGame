@@ -41,7 +41,7 @@ void PlayState::Update() {
 
 void PlayState::Render() {
 	system("cls");
-	wcout << BOARDER << endl;
+	wcout << BOARDER << endl << BOARDER << endl;
 	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
 	wcout << L"Score  : " << _Score << endl;
 	wcout << BOARDER << endl;
