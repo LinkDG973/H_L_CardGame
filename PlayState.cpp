@@ -28,19 +28,25 @@ ERROR_CODE PlayState::Init() {
 
 void PlayState::Update() {
 	wstring playIn = L"";
+	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
 	wcout << "Higher or Lower? ( H / L ) : ";
 	wcin >> playIn;
-	PlayerInput(playIn);
+	_ValidInput = PlayerInput(playIn);
 	if (_CardIndex >= 10) { // If game has finished
 		Game::getInstance().SetScore(_Score);
 		Reset_PlayState();
 		Game::getInstance().SwitchState(END_STATE);
 	}
+
 	SetDirtyRender(true);
 }
 
 void PlayState::Render() {
-	system("cls");
+	DrawGameScreen();
+	SetDirtyRender(false);
+}
+
+void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl << BOARDER << endl;
 	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
 	wcout << L"Score  : " << _Score << endl;
@@ -51,12 +57,9 @@ void PlayState::Render() {
 	wcout << BOARDER << endl;
 	wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
 	wcout << BOARDER << endl;
-
-	SetDirtyRender(false);
 }
 
 bool PlayState::PlayerInput(wstring _Input) {
-
 	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h" ||
 		_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") 
 	{
@@ -79,14 +82,17 @@ bool PlayState::PlayerInput(wstring _Input) {
 
 		_InPlay[_CardIndex++].SetFlipState(false);
 		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+		return true;
 	}
-
+	
 	return false;
 }
 
 ERROR_CODE PlayState::Reset_PlayState() {
 	system("cls");
 
+	_ValidInput = true;
+	_GameIsSetup = false;
 	_CardIndex = 0;
 	_Score = 0;
 

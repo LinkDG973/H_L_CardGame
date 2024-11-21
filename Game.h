@@ -12,6 +12,7 @@ public:
 		_setmode(_fileno(stdout), _O_U16TEXT);
 
 		_GameStates[START_STATE] = new StartState();
+		_GameStates[SETUP_STATE] = new SetupState();
 		_GameStates[PLAY_STATE] = new PlayState();
 		_GameStates[END_STATE] = new EndState();
 

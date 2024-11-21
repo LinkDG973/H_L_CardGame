@@ -30,12 +30,11 @@ void StartState::DrawTitleScreen() {
 
 void StartState::Update() {
 	wstring _Input = L"";
-	DrawTitleScreen();
 	wcin >> _Input;
 
 	if (_Input == L"P" || _Input == L"p") {
 		Game::getInstance().setUserName(_Input);
-		Game::getInstance().SwitchState(PLAY_STATE);
+		Game::getInstance().SwitchState(SETUP_STATE);
 	}
 	else if (_Input == L"S" || _Input == L"s") {
 
@@ -50,6 +49,5 @@ void StartState::Update() {
 }
 
 void StartState::Render() {
-	system("cls");
-
+	DrawTitleScreen();
 }

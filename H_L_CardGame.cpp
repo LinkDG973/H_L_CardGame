@@ -8,6 +8,7 @@ int main() {
     Game _Game;
 
     while (_Game.IsGameRunning()) {
+        system("cls");
         _Game.Render();
         _Game.Update();
     }
