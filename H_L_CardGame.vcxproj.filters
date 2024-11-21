@@ -18,13 +18,13 @@
     <ClCompile Include="H_L_CardGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StartState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

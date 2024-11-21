@@ -62,3 +62,10 @@ private:
 	int _randomIndex = 0;
 	int _CardIndex = 0;
 };
+
+class EndState : public State {
+public:
+	void Update() override;
+	void Render() override;
+	ERROR_CODE Init() override { return GAME_OK; }
+};

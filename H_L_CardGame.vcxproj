@@ -128,7 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="EndState.cpp" />
     <ClCompile Include="H_L_CardGame.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="StartState.cpp" />

@@ -31,9 +31,10 @@ void PlayState::Update() {
 	wcout << "Hold : ";
 	wcin >> playIn;
 	PlayerInput(playIn);
-	if (_CardIndex >= 10) {
+	if (_CardIndex >= 10) { // If game has finished
+		Game::getInstance().SetScore(_Score);
 		Reset_PlayState();
-		Game::getInstance().SwitchState(START_STATE);
+		Game::getInstance().SwitchState(END_STATE);
 	}
 	SetDirtyRender(true);
 }

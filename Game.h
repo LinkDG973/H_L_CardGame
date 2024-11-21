@@ -11,10 +11,11 @@ public:
 	Game() {
 		_setmode(_fileno(stdout), _O_U16TEXT);
 
-		_GameStates[0] = new StartState();
-		_GameStates[1] = new PlayState();
+		_GameStates[START_STATE] = new StartState();
+		_GameStates[PLAY_STATE] = new PlayState();
+		_GameStates[END_STATE] = new EndState();
 
-		_CurrentState = _GameStates[0];
+		_CurrentState = _GameStates[START_STATE];
 		_GameRunning = true;
 	};
 	~Game() {};
@@ -30,16 +31,23 @@ public:
 	wstring GetUserName() { return _UserName; }
 	void setUserName(wstring _Val) { _UserName = _Val; }
 
+	int GetScore() { return _Score; }
+	void SetScore(int _Val) { _Score = _Val; }
+
+	int GetHighScore() { return _HighScore; }
+	void SetHighScore(int _Val) { _HighScore = _Val; }
+
 	void SwitchState(int _Index) { _CurrentState = _GameStates[_Index]; }
 
 private:
 	State* _CurrentState;
 
-	State* _GameStates[2];
+	State* _GameStates[STATE_COUNT];
 
 	bool _GameRunning = false;
 
 	std::wstring _UserName = L"";
 	int _HighScore = 0;
+	int _Score = 0;
 };
 
