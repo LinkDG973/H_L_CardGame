@@ -26,6 +26,64 @@ ERROR_CODE PlayState::Init() {
 	return GAME_OK;
 }
 
+ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
+	wstringstream ss;
+	wstringstream mSuit; // │    ♦    │
+	mSuit << L"│    " << _C.GetSuit() << L"    │";
+	wstringstream dSuit; // │  ♦   ♦  │
+	dSuit << L"│  " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+
+	if (_C.GetVal() > 1 && _C.GetVal() <= 3) {
+		ss << L"│" << _C.GetVal() << L"   " << _C.GetSuit() << L"    │"; // │{}{}     │
+	}
+	else if (_C.GetVal() > 3 && _C.GetVal() < 10) {
+		ss << L"│" << _C.GetVal() << L" " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+	}
+
+	switch (_C.GetVal())
+	{
+	case 1:
+		ss << L"│A        │";
+	case 3:
+	case 5:
+		_C.GetCardGraphic(3) = mSuit.str();
+		break;
+	case 8:
+		_C.GetCardGraphic(2) = mSuit.str();
+	case 7:
+		_C.GetCardGraphic(4) = mSuit.str();
+	case 6:
+		_C.GetCardGraphic(3) = dSuit.str();
+		break;
+	case 9:
+		_C.GetCardGraphic(2) = dSuit.str();
+		_C.GetCardGraphic(3) = mSuit.str();
+		_C.GetCardGraphic(4) = dSuit.str();
+		break;
+	case 10:
+		ss << L"│" << _C.GetVal() << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+		_C.GetCardGraphic(2) = dSuit.str();
+		_C.GetCardGraphic(3) = dSuit.str();
+		_C.GetCardGraphic(4) = dSuit.str();
+		break;
+	case 11:
+		ss << L"│J " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+		break;
+	case 12:
+		ss << L"│Q " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+		break;
+	case 13:
+		ss << L"│K " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+		break;
+	}
+
+	_C.GetCardGraphic(1) = ss.str();
+	_C.GetCardGraphic(5) = _C.GetCardGraphic(1);
+	if (_C.GetVal() != 10)std::reverse(_C.GetCardGraphic(5).begin(), _C.GetCardGraphic(5).end());
+
+	return GAME_OK;
+}
+
 void PlayState::Update() {
 	char _Input = ' ';
 	cin >> _Input;
@@ -58,35 +116,6 @@ void PlayState::DrawGameScreen() {
 	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
 	wcout << "Higher or Lower? ( H / L ) : ";
 }
-
-//bool PlayState::CheckInput(wstring _Input) {
-//	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h" ||
-//		_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") 
-//	{
-//		if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
-//			if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
-//				_Score += 150;
-//			}
-//			else {
-//				_Score -= 100;
-//			}
-//		}
-//		else if (_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") {
-//			if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
-//				_Score += 150;
-//			}
-//			else {
-//				_Score -= 100;
-//			}
-//		}
-//
-//		_InPlay[_CardIndex++].SetFlipState(false);
-//		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
-//		return true;
-//	}
-//	
-//	return false;
-//}
 
 bool PlayState::CheckInput(char _Input) {
 	switch (_Input) {
@@ -167,68 +196,6 @@ ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int
 		}
 		i += num;
 	}
-
-	return GAME_OK;
-}
-
-ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
-	wstringstream ss;
-
-	wstringstream mSuit; // │    ♦    │
-	mSuit << L"│    " << _C.GetSuit() << L"    │";
-
-	wstringstream dSuit; // │  ♦   ♦  │
-	dSuit << L"│  " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-
-	if (_C.GetVal() > 1 && _C.GetVal() <= 3) {
-		ss << L"│" << _C.GetVal() << L"   " << _C.GetSuit() << L"    │"; // │{}{}     │
-	}
-	else if (_C.GetVal() > 3 && _C.GetVal() < 10) {
-		ss << L"│" << _C.GetVal() << L" " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-	}
-
-	switch (_C.GetVal())
-	{
-	case 1:
-		ss << L"│A        │";
-	case 3:
-	case 5:
-		_C.GetCardGraphic(3) = mSuit.str();
-		break;
-	case 8:
-		_C.GetCardGraphic(2) = mSuit.str();
-	case 7:
-		_C.GetCardGraphic(4) = mSuit.str();
-	case 6:
-		_C.GetCardGraphic(3) = dSuit.str();
-		break;
-	case 9:
-		_C.GetCardGraphic(2) = dSuit.str();
-		_C.GetCardGraphic(3) = mSuit.str();
-		_C.GetCardGraphic(4) = dSuit.str();
-		break;
-	case 10:
-		ss << L"│" << _C.GetVal() << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		_C.GetCardGraphic(2) = dSuit.str();
-		_C.GetCardGraphic(3) = dSuit.str();
-		_C.GetCardGraphic(4) = dSuit.str();
-		break;
-	case 11:
-		ss << L"│J " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		break;
-	case 12:
-		ss << L"│Q " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		break;
-	case 13:
-		ss << L"│K " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		break;
-	default:
-		break;
-	}
-
-	_C.GetCardGraphic(1) = ss.str();
-	_C.GetCardGraphic(5) = _C.GetCardGraphic(1);
-	if (_C.GetVal() != 10)std::reverse(_C.GetCardGraphic(5).begin(), _C.GetCardGraphic(5).end());
 
 	return GAME_OK;
 }

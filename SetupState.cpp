@@ -22,13 +22,11 @@ bool SetupState::CheckInput(char _Input) {
 	return true;
 }
 
-wstring toggleChar(bool _toggle) {
+wchar_t toggleChar(bool _toggle) {
 	if (_toggle) {
-		return L"╳";
+		return L'╳';
 	}
-	else {
-		return L" ";
-	}
+	return L' ';
 }
 
 void SetupState::Render() {
