@@ -48,7 +48,6 @@ void PlayState::Render() {
 
 void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl << BOARDER << endl;
-	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
 	wcout << L"Score  : " << _Score << endl;
 	wcout << BOARDER << endl;
 	Draw_Card(_Deck[_randomIndex], 3); // Focus Card

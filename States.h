@@ -41,6 +41,11 @@ class SetupState : public State {
 	void Render() override;
 	ERROR_CODE Init() override { return GAME_OK; }
 private:
+	bool _PWJokers = false;
+	bool _PWDuplicateCards = true;
+	bool _PWCoins = false;
+	bool _PWDlbNothing = false;
+
 };
 
 class PlayState : public State {
