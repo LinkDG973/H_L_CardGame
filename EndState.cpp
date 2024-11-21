@@ -1,14 +1,11 @@
 #include "Game.h"
 #include "States.h"
 
-void EndState::Update() {
-	wstring _Input = L"";
-	wcin >> _Input;
-
-	if (_Input == L"Yes" || _Input == L"yes" || _Input == L"Y" || _Input == L"y") {
+bool EndState::CheckInput(char _Input) {
+	switch (_Input) {
+	case 'Y':
 		Game::getInstance().SwitchState(START_STATE);
-	}
-	else {
+	default: 
 		system("cls");
 		for (int y = 0; y < 10; ++y) wcout << endl;
 		wcout << BOARDER << endl;
@@ -17,7 +14,11 @@ void EndState::Update() {
 		for (int y = 0; y < 10; ++y) wcout << endl;
 
 		Game::getInstance().setGameRunning(false);
+		return false; 
+		break;
 	}
+
+	return true;
 }
 
 void EndState::Render() {
@@ -41,3 +42,4 @@ void EndState::Render() {
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "Play Again ? Y / N" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"\u2192 ";
 }
+

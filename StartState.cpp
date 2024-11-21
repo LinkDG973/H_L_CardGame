@@ -28,24 +28,17 @@ void StartState::DrawTitleScreen() {
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Select Option (P / S / R) \u2192 ";
 }
 
-void StartState::Update() {
-	wstring _Input = L"";
-	wcin >> _Input;
-
-	if (_Input == L"P" || _Input == L"p") {
-		Game::getInstance().setUserName(_Input);
+bool StartState::CheckInput(char _Input) {
+	switch (_Input) {
+	case 'P':
 		Game::getInstance().SwitchState(SETUP_STATE);
-	}
-	else if (_Input == L"S" || _Input == L"s") {
-
-	}
-	else if (_Input == L"R" || _Input == L"r") {
-
-	}
-	else {
-		_ValidInput = false;
+		break;
+	case 'S':  break;
+	case 'R':  break;
+	default: return false; break;
 	}
 
+	return true;
 }
 
 void StartState::Render() {

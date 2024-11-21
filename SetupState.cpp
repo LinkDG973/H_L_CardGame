@@ -3,14 +3,7 @@
 
 #include <cctype>
 
-void SetupState::Update() {
-	char _Input = ' ';
-	cin >> _Input;
-	_Input = toupper(_Input);
-	_ValidInput = CheckInput(_Input);
-}
-
-bool SetupState::CheckInput(char& _Input) {
+bool SetupState::CheckInput(char _Input) {
 	switch (_Input) {
 		case 'S':
 			// setup game with set settings

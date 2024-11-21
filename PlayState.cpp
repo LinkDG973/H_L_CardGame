@@ -27,11 +27,10 @@ ERROR_CODE PlayState::Init() {
 }
 
 void PlayState::Update() {
-	wstring playIn = L"";
-	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
-	wcout << "Higher or Lower? ( H / L ) : ";
-	wcin >> playIn;
-	_ValidInput = CheckInput(playIn);
+	char _Input = ' ';
+	cin >> _Input;
+	_Input = toupper(_Input);
+	_ValidInput = CheckInput(_Input);
 	if (_CardIndex >= 10) { // If game has finished
 		Game::getInstance().SetScore(_Score);
 		Reset_PlayState();
@@ -56,35 +55,63 @@ void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl;
 	wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
 	wcout << BOARDER << endl;
+	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
+	wcout << "Higher or Lower? ( H / L ) : ";
 }
 
-bool PlayState::CheckInput(wstring _Input) {
-	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h" ||
-		_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") 
-	{
-		if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
-			if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
-				_Score += 150;
-			}
-			else {
-				_Score -= 100;
-			}
-		}
-		else if (_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") {
-			if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
-				_Score += 150;
-			}
-			else {
-				_Score -= 100;
-			}
-		}
+//bool PlayState::CheckInput(wstring _Input) {
+//	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h" ||
+//		_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") 
+//	{
+//		if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
+//			if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
+//				_Score += 150;
+//			}
+//			else {
+//				_Score -= 100;
+//			}
+//		}
+//		else if (_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") {
+//			if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
+//				_Score += 150;
+//			}
+//			else {
+//				_Score -= 100;
+//			}
+//		}
+//
+//		_InPlay[_CardIndex++].SetFlipState(false);
+//		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+//		return true;
+//	}
+//	
+//	return false;
+//}
 
-		_InPlay[_CardIndex++].SetFlipState(false);
-		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
-		return true;
+bool PlayState::CheckInput(char _Input) {
+	switch (_Input) {
+	case 'H':  
+		if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
+			_Score += 150;
+		}
+		else {
+			_Score -= 100;
+		}
+		break;
+	case 'L':  
+		if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
+			_Score += 150;
+		}
+		else {
+			_Score -= 100;
+		}
+		break;
+	default: return false; break;
 	}
-	
-	return false;
+
+	_InPlay[_CardIndex++].SetFlipState(false);
+	_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+	return true;
 }
 
 ERROR_CODE PlayState::Reset_PlayState() {
