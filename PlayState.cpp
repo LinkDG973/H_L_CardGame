@@ -45,7 +45,8 @@ void PlayState::Render() {
 	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
 	wcout << L"Score  : " << _Score << endl;
 	wcout << BOARDER << endl;
-	Draw_Cards(&_Deck[_randomIndex], 1, 1, 3); // Focus Card
+	//Draw_Cards(&_Deck[_randomIndex], 1, 1, 3); // Focus Card
+	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	wcout << BOARDER << endl;
@@ -56,23 +57,27 @@ void PlayState::Render() {
 }
 
 bool PlayState::PlayerInput(wstring _Input) {
-	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
-		if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
-			_Score += 150;
+
+	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h" ||
+		_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") 
+	{
+		if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h") {
+			if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
+				_Score += 150;
+			}
+			else {
+				_Score -= 100;
+			}
 		}
-		else {
-			-100;
+		else if (_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") {
+			if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
+				_Score += 150;
+			}
+			else {
+				_Score -= 100;
+			}
 		}
-		_InPlay[_CardIndex++].SetFlipState(false);
-		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
-	}
-	else if (_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") {
-		if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
-			_Score += 150;
-		}
-		else {
-			-100;
-		}
+
 		_InPlay[_CardIndex++].SetFlipState(false);
 		_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
 	}
@@ -97,9 +102,11 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	return GAME_OK;
 }
 
-ERROR_CODE PlayState::Draw_Card(Card& _C) {
-	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
-		wcout << _C.GetCardGraphic(i) << endl;
+ERROR_CODE PlayState::Draw_Card(Card& _C, int _Indent) {
+	for (int i = 0; i < CARD_GRAPHIC_SIZE - 1; ++i) {
+		wstring _line = L"";
+		for (int y = 0; y < _Indent; ++y) _line += CARD_INDENT;
+		wcout << _line << _C.GetCardGraphic(i) << endl;
 	}
 	return GAME_OK;
 }
@@ -112,11 +119,16 @@ ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int
 			for (int y = 0; y < _Indent; ++y) _line += CARD_INDENT;
 			num = 0;
 			for (int j = 0; j < _Columns; ++j) { // for the number of columns
-				if (_CardSet[i + num].GetFlipState()) {
-					_line += _FaceDown.GetCardGraphic(x);
+				if (x == 7 && (i+num) == _CardIndex) {
+					_line += _Selector;
 				}
 				else {
-					_line += _CardSet[i + num].GetCardGraphic(x);
+					if (_CardSet[i + num].GetFlipState()) {
+						_line += _FaceDown.GetCardGraphic(x);
+					}
+					else {
+						_line += _CardSet[i + num].GetCardGraphic(x);
+					}
 				}
 				++num;
 			}

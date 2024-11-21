@@ -14,6 +14,7 @@ public:
 
 	bool GetFlipState() { return _Flipped; }
 	void SetFlipState(bool _Val) { _Flipped = _Val; }
+	
 
 private:
 	bool _Flipped = false;
@@ -26,7 +27,9 @@ private:
 		L"│         │", 
 		L"│         │", 
 		L"│         │", 
-		L"└─────────┘"
+		L"└─────────┘",
+		L"           "
 	};
+	
 };
 

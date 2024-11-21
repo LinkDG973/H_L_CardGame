@@ -44,7 +44,7 @@ public:
 
 private:
 	ERROR_CODE Init() override;
-	ERROR_CODE Draw_Card(Card& _C);
+	ERROR_CODE Draw_Card(Card& _C, int _Indent);
 	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent);
 	ERROR_CODE GenerateGraphics(Card& _C);
 	bool PlayerInput(wstring _Input);
