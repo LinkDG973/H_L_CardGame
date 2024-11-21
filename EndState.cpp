@@ -2,7 +2,7 @@
 #include "States.h"
 
 void EndState::Update() {
-	wstring name = L"";
+	wstring _Input = L"";
 	wcout << BOARDER << endl;
 	for (int y = 0; y < 10; ++y) wcout << endl;
 	wcout << BOARDER << endl;
@@ -22,9 +22,21 @@ void EndState::Update() {
 	wcout << BOARDER << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "Play Again ? Y / N" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"\u2192 ";
-	wcin >> name;
+	wcin >> _Input;
 
-	Game::getInstance().SwitchState(START_STATE);
+	if (_Input == L"Yes" || _Input == L"yes" || _Input == L"Y" || _Input == L"y") {
+		Game::getInstance().SwitchState(START_STATE);
+	}
+	else {
+		system("cls");
+		for (int y = 0; y < 10; ++y) wcout << endl;
+		wcout << BOARDER << endl;
+		wcout << CARD_INDENT << CARD_INDENT << L"THE GAME HAS ENDED. PRESS ANY KEY TO EXIT." << endl;
+		wcout << BOARDER << endl;
+		for (int y = 0; y < 10; ++y) wcout << endl;
+
+		Game::getInstance().setGameRunning(false);
+	}
 }
 
 void EndState::Render() {

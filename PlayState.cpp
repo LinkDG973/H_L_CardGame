@@ -28,7 +28,7 @@ ERROR_CODE PlayState::Init() {
 
 void PlayState::Update() {
 	wstring playIn = L"";
-	wcout << "Hold : ";
+	wcout << "Higher or Lower? ( H / L ) : ";
 	wcin >> playIn;
 	PlayerInput(playIn);
 	if (_CardIndex >= 10) { // If game has finished
@@ -45,7 +45,6 @@ void PlayState::Render() {
 	wcout << L"Player : " << Game::getInstance().GetUserName() << endl;
 	wcout << L"Score  : " << _Score << endl;
 	wcout << BOARDER << endl;
-	//Draw_Cards(&_Deck[_randomIndex], 1, 1, 3); // Focus Card
 	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards

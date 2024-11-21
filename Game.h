@@ -27,6 +27,7 @@ public:
 	};
 
 	bool IsGameRunning() { return _GameRunning; }
+	void setGameRunning(bool _Val) { _GameRunning = _Val; }
 
 	wstring GetUserName() { return _UserName; }
 	void setUserName(wstring _Val) { _UserName = _Val; }
