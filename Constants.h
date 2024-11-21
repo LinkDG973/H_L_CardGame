@@ -22,6 +22,8 @@ constexpr ui8 MAX_DECK_SIZE = 54;
 constexpr ui8 DEFAULT_DECK_SIZE = 52;
 constexpr ui8 CARD_GRAPHIC_SIZE = 8;
 
+constexpr ui8 ASCII_NUM_SHIFT = 48;
+
 constexpr wchar_t SUITS[4] = { L'♠', L'♦', L'♥', L'♣' };
 static const std::wstring CARD_INDENT = L"           ";
 static const std::wstring BOARDER = L"───────────────────────────────────────────────────────────────────────────────────";

@@ -1,40 +1,28 @@
 ﻿#include "Game.h"
 #include "States.h"
 
-#include <iomanip>
-#include <string>
+#include <cctype>
 
 void SetupState::Update() {
-	wstring _Input = L"";
-	wcin >> _Input;
+	char _Input = ' ';
+	cin >> _Input;
 
+	_Input = toupper(_Input);
 	_ValidInput = CheckInput(_Input);
-
 }
 
-bool SetupState::CheckInput(wstring& _Input) {
-	if (_Input == L"start" || _Input == L"S" || _Input == L"s") {
-		// setup game with set settings
-		Game::getInstance().UpdateGameConfig(_PWJokers, _PWDuplicateCards, _PWCoins, _PWDlbNothing, _NumRows);
-		Game::getInstance().SwitchState(PLAY_STATE);
-	}
-	else if (_Input == L"J" || _Input == L"j") {
-		_PWJokers = !_PWJokers;
-	}
-	else if (_Input == L"D" || _Input == L"d") {
-		_PWDuplicateCards = !_PWDuplicateCards;
-	}
-	else if (_Input == L"C" || _Input == L"c") {
-		_PWCoins = !_PWCoins;
-	}
-	else if (_Input == L"N" || _Input == L"n") {
-		_PWDlbNothing = !_PWDlbNothing;
-	}
-	else if (_Input == L"1" || _Input == L"2" || _Input == L"3") {
-		_NumRows = std::stoi(_Input);
-	}
-	else {
-		return false;
+bool SetupState::CheckInput(char& _Input) {
+	switch (_Input) {
+		case 'S':
+			// setup game with set settings
+			Game::getInstance().UpdateGameConfig(_PWJokers, _PWDuplicateCards, _PWCoins, _PWDlbNothing, _NumRows);
+			Game::getInstance().SwitchState(PLAY_STATE);
+			break;
+		case 'J': _PWJokers = !_PWJokers; break;
+		case 'D': _PWDuplicateCards = !_PWDuplicateCards; break;
+		case 'C': _PWCoins = !_PWCoins; break;
+		case 'N': _PWDlbNothing = !_PWDlbNothing; break;
+		default: return false; break;
 	}
 
 	return true;
@@ -68,7 +56,7 @@ void SetupState::Render() {
 	for (int y = 0; y < 5; ++y) wcout << endl;
 	wcout << BOARDER << endl << BOARDER << endl;
 	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
-	wcout << CARD_INDENT << L"Select Option to toggle ON or OFF, type 'start' to start game :" << endl 
+	wcout << CARD_INDENT << L"Select Option to toggle ON or OFF, type (S) to start game :" << endl 
 		<< CARD_INDENT << CARD_INDENT << CARD_INDENT << L"\u2192 ";
 
 

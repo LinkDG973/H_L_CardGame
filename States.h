@@ -42,7 +42,7 @@ class SetupState : public State {
 	ERROR_CODE Init() override { return GAME_OK; }
 private:
 
-	bool CheckInput(wstring& _Input);
+	bool CheckInput(char& _Input);
 
 	bool _PWJokers = false;
 	bool _PWDuplicateCards = false;
