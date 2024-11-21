@@ -1,10 +1,18 @@
 ﻿#include "Game.h"
 #include "States.h"
 
+#include <iomanip>
+#include <string>
+
 void SetupState::Update() {
 	wstring _Input = L"";
 	wcin >> _Input;
 
+	_ValidInput = CheckInput(_Input);
+
+}
+
+bool SetupState::CheckInput(wstring& _Input) {
 	if (_Input == L"start" || _Input == L"S" || _Input == L"s") {
 		// setup game with set settings
 		Game::getInstance().SwitchState(PLAY_STATE);
@@ -21,10 +29,14 @@ void SetupState::Update() {
 	else if (_Input == L"N" || _Input == L"n") {
 		_PWDlbNothing = !_PWDlbNothing;
 	}
+	else if (_Input == L"1" || _Input == L"2" || _Input == L"3") {
+		_NumRows = std::stoi(_Input);
+	}
 	else {
-		_ValidInput = false;
+		return false;
 	}
 
+	return true;
 }
 
 wstring toggleChar(bool _toggle) {
@@ -39,8 +51,9 @@ wstring toggleChar(bool _toggle) {
 void SetupState::Render() {
 	wcout << BOARDER << endl << BOARDER << endl;
 	for (int y = 0; y < 5; ++y) wcout << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"GAME SETUP" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"┌───────────────────────────────────────────┬───┒" << endl;
+	wcout << CARD_INDENT << CARD_INDENT << L"┌───────────────────────────────────────────────┒" << endl;
+	wcout << CARD_INDENT << CARD_INDENT << L"│                  GAME SETUP                   ┃" << endl;
+	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┬───┨" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Jokers                      (J) │ " << toggleChar(_PWJokers) << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Duplicate Cards             (D) │ " << toggleChar(_PWDuplicateCards) << L" ┃" << endl;
@@ -49,7 +62,7 @@ void SetupState::Render() {
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Double or Nothing Mode      (N) │ " << toggleChar(_PWDlbNothing) << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of Card Rows           (1 / 2 / 3) │ " << toggleChar(false) << L" ┃" << endl;
+	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of Card Rows           (1 / 2 / 3) │ " << _NumRows << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
 	for (int y = 0; y < 5; ++y) wcout << endl;
 	wcout << BOARDER << endl << BOARDER << endl;

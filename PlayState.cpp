@@ -31,7 +31,7 @@ void PlayState::Update() {
 	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
 	wcout << "Higher or Lower? ( H / L ) : ";
 	wcin >> playIn;
-	_ValidInput = PlayerInput(playIn);
+	_ValidInput = CheckInput(playIn);
 	if (_CardIndex >= 10) { // If game has finished
 		Game::getInstance().SetScore(_Score);
 		Reset_PlayState();
@@ -58,7 +58,7 @@ void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl;
 }
 
-bool PlayState::PlayerInput(wstring _Input) {
+bool PlayState::CheckInput(wstring _Input) {
 	if (_Input == L"Higher" || _Input == L"higher" || _Input == L"H" || _Input == L"h" ||
 		_Input == L"Lower" || _Input == L"lower" || _Input == L"L" || _Input == L"l") 
 	{

@@ -41,10 +41,14 @@ class SetupState : public State {
 	void Render() override;
 	ERROR_CODE Init() override { return GAME_OK; }
 private:
+
+	bool CheckInput(wstring& _Input);
+
 	bool _PWJokers = false;
 	bool _PWDuplicateCards = true;
 	bool _PWCoins = false;
 	bool _PWDlbNothing = false;
+	int _NumRows = 2;
 
 };
 
@@ -63,7 +67,7 @@ private:
 	ERROR_CODE Draw_Card(Card& _C, int _Indent);
 	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent);
 	ERROR_CODE GenerateGraphics(Card& _C);
-	bool PlayerInput(wstring _Input);
+	bool CheckInput(wstring _Input);
 	ERROR_CODE Reset_PlayState();
 
 	void DrawSetupScreen();
