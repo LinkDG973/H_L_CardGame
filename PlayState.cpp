@@ -29,52 +29,39 @@ ERROR_CODE PlayState::Init() {
 ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 	wstringstream ss;
 	wstringstream mSuit; // │    ♦    │
-	mSuit << L"│    " << _C.GetSuit() << L"    │";
 	wstringstream dSuit; // │  ♦   ♦  │
+
+	mSuit << L"│    " << _C.GetSuit() << L"    │";
 	dSuit << L"│  " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
 
 	if (_C.GetVal() > 1 && _C.GetVal() <= 3) {
-		ss << L"│" << _C.GetVal() << L"   " << _C.GetSuit() << L"    │"; // │{}{}     │
+		ss << L"│" << _C.GetVal() << L"   " << _C.GetSuit() << L"    │";
 	}
 	else if (_C.GetVal() > 3 && _C.GetVal() < 10) {
 		ss << L"│" << _C.GetVal() << L" " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
 	}
 
-	switch (_C.GetVal())
-	{
-	case 1:
-		ss << L"│A        │";
-	case 3:
-	case 5:
-		_C.GetCardGraphic(3) = mSuit.str();
-		break;
-	case 8:
-		_C.GetCardGraphic(2) = mSuit.str();
-	case 7:
-		_C.GetCardGraphic(4) = mSuit.str();
-	case 6:
-		_C.GetCardGraphic(3) = dSuit.str();
-		break;
-	case 9:
-		_C.GetCardGraphic(2) = dSuit.str();
-		_C.GetCardGraphic(3) = mSuit.str();
-		_C.GetCardGraphic(4) = dSuit.str();
-		break;
-	case 10:
-		ss << L"│" << _C.GetVal() << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		_C.GetCardGraphic(2) = dSuit.str();
-		_C.GetCardGraphic(3) = dSuit.str();
-		_C.GetCardGraphic(4) = dSuit.str();
-		break;
-	case 11:
-		ss << L"│J " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		break;
-	case 12:
-		ss << L"│Q " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		break;
-	case 13:
-		ss << L"│K " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
-		break;
+	switch (_C.GetVal()) {
+		case 1: ss << L"│A        │"; // Display value 1 cards as an ace
+		case 3:
+		case 5: _C.GetCardGraphic(3) = mSuit.str(); break;
+		case 8: _C.GetCardGraphic(2) = mSuit.str();
+		case 7: _C.GetCardGraphic(4) = mSuit.str();
+		case 6: _C.GetCardGraphic(3) = dSuit.str(); break;
+		case 9:
+			_C.GetCardGraphic(2) = dSuit.str();
+			_C.GetCardGraphic(3) = mSuit.str();
+			_C.GetCardGraphic(4) = dSuit.str();
+			break;
+		case 10:
+			ss << L"│" << _C.GetVal() << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │";
+			_C.GetCardGraphic(2) = dSuit.str();
+			_C.GetCardGraphic(3) = dSuit.str();
+			_C.GetCardGraphic(4) = dSuit.str();
+			break;
+		case 11: ss << L"│J " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │"; break; // Jack Card
+		case 12: ss << L"│Q " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │"; break; // Queen Card
+		case 13: ss << L"│K " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │"; break; // King Card
 	}
 
 	_C.GetCardGraphic(1) = ss.str();
