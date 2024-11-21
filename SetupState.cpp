@@ -6,7 +6,6 @@
 void SetupState::Update() {
 	char _Input = ' ';
 	cin >> _Input;
-
 	_Input = toupper(_Input);
 	_ValidInput = CheckInput(_Input);
 }
@@ -22,6 +21,8 @@ bool SetupState::CheckInput(char& _Input) {
 		case 'D': _PWDuplicateCards = !_PWDuplicateCards; break;
 		case 'C': _PWCoins = !_PWCoins; break;
 		case 'N': _PWDlbNothing = !_PWDlbNothing; break;
+		case '1': case '2': case '3': 
+			_NumRows = int(_Input) - ASCII_NUM_SHIFT; break;
 		default: return false; break;
 	}
 
@@ -58,6 +59,4 @@ void SetupState::Render() {
 	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
 	wcout << CARD_INDENT << L"Select Option to toggle ON or OFF, type (S) to start game :" << endl 
 		<< CARD_INDENT << CARD_INDENT << CARD_INDENT << L"\u2192 ";
-
-
 }
