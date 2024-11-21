@@ -45,7 +45,7 @@ private:
 	bool CheckInput(wstring& _Input);
 
 	bool _PWJokers = false;
-	bool _PWDuplicateCards = true;
+	bool _PWDuplicateCards = false;
 	bool _PWCoins = false;
 	bool _PWDlbNothing = false;
 	int _NumRows = 2;

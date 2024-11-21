@@ -15,6 +15,7 @@ void SetupState::Update() {
 bool SetupState::CheckInput(wstring& _Input) {
 	if (_Input == L"start" || _Input == L"S" || _Input == L"s") {
 		// setup game with set settings
+		Game::getInstance().UpdateGameConfig(_PWJokers, _PWDuplicateCards, _PWCoins, _PWDlbNothing, _NumRows);
 		Game::getInstance().SwitchState(PLAY_STATE);
 	}
 	else if (_Input == L"J" || _Input == L"j") {

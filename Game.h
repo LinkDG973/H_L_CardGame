@@ -41,6 +41,14 @@ public:
 
 	void SwitchState(int _Index) { _CurrentState = _GameStates[_Index]; }
 
+	void UpdateGameConfig(bool _J, bool _D, bool _C, bool _N, int _R){
+		_PWJokers = _J;
+		_PWDuplicateCards = _D;
+		_PWCoins = _C;
+		_PWDlbNothing = _N;
+		_NumRows = _R;
+	};
+
 private:
 	State* _CurrentState;
 
@@ -51,5 +59,11 @@ private:
 	std::wstring _UserName = L"";
 	int _HighScore = 0;
 	int _Score = 0;
+
+	bool _PWJokers = false;
+	bool _PWDuplicateCards = false;
+	bool _PWCoins = false;
+	bool _PWDlbNothing = false;
+	int _NumRows = 2;
 };
 
