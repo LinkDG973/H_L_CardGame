@@ -19,10 +19,10 @@ void StartState::DrawTitleScreen() {
 
 	wcout << BOARDER << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     MAIN MENU" << endl;
-	wcout << BOARDER << endl << endl << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   PLAY GAME (P)" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "   SETTINGS (S)" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES (R)" << endl << endl << endl << endl;
+	wcout << BOARDER << endl << endl;
+	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   PLAY GAME (P)" << endl << endl;
+	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "   SETTINGS (S)" << endl << endl;
+	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES (R)" << endl << endl << endl;
 	wcout << BOARDER << endl;
 	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
 	else wcout << endl;
@@ -37,8 +37,56 @@ void StartState::DrawRulesScreen() {
 
 	switch (_currentPage)
 	{
-	case 2: break;
-	case 3: break;
+	case 2: 
+		wcout << L"     ┌───────────────────────────────────────────────────────────────────────┒" << endl;
+		wcout << L"     │ PLAY WITH JOKERS                                                      ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ ⌂ The player is presented with one card face-up and several face-down ┃" << endl;
+		wcout << L"     │   cards. They must make an educated guess whether they or not their   ┃" << endl;
+		wcout << L"     │   card is higher or lower than the card shown above.                  ┃" << endl;
+		wcout << L"     │ ⌂ If they guess correctly, they are awarded with 150 points.          ┃" << endl;
+		wcout << L"     │ ⌂ If they guess incorrectly, they are deducted 100 points.            ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ PLAY WITH DUPLICATE CARDS                                             ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ ⌂ Each operation in the game can be selected by inputing a single     ┃" << endl;
+		wcout << L"     │   character. Character codes are shown next to their respective       ┃" << endl;
+		wcout << L"     │   operation.                                                          ┃" << endl;
+		wcout << L"     │ ⌂ For Example : 'Back (B)' allows the player to go back by inputing   ┃" << endl;
+		wcout << L"     │   'B'. Inputs work regardless of capitalisation. Inputing 'b' works   ┃" << endl;
+		wcout << L"     │   the same as 'B'.                                                    ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ PLAY WITH COINS                                                       ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ ⌂ There are 10 face-down cards in the game be defualt. This number    ┃" << endl;
+		wcout << L"     │   can be increased to 15 or decreased to 5 in the Game Setup Menu.    ┃" << endl;
+		wcout << L"     ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
+		break;
+	case 3: 
+		wcout << L"     ┌───────────────────────────────────────────────────────────────────────┒" << endl;
+		wcout << L"     │ DOUBLE OR NOTHING MODE                                                ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ ⌂ The player is presented with one card face-up and several face-down ┃" << endl;
+		wcout << L"     │   cards. They must make an educated guess whether they or not their   ┃" << endl;
+		wcout << L"     │   card is higher or lower than the card shown above.                  ┃" << endl;
+		wcout << L"     │ ⌂ If they guess correctly, they are awarded with 150 points.          ┃" << endl;
+		wcout << L"     │ ⌂ If they guess incorrectly, they are deducted 100 points.            ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ OTHER                                                                 ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ ⌂ Each operation in the game can be selected by inputing a single     ┃" << endl;
+		wcout << L"     │   character. Character codes are shown next to their respective       ┃" << endl;
+		wcout << L"     │   operation.                                                          ┃" << endl;
+		wcout << L"     │ ⌂ For Example : 'Back (B)' allows the player to go back by inputing   ┃" << endl;
+		wcout << L"     │   'B'. Inputs work regardless of capitalisation. Inputing 'b' works   ┃" << endl;
+		wcout << L"     │   the same as 'B'.                                                    ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ OTHER                                                                 ┃" << endl;
+		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
+		wcout << L"     │ ⌂ There are 10 face-down cards in the game be defualt. This number    ┃" << endl;
+		wcout << L"     │   can be increased to 15 or decreased to 5 in the Game Setup Menu.    ┃" << endl;
+		wcout << L"     ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
+		break;
 	default:
 		wcout << L"     ┌───────────────────────────────────────────────────────────────────────┒" << endl;
 		wcout << L"     │ HOW TO PLAY                                                           ┃" << endl;
