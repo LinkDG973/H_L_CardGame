@@ -86,23 +86,18 @@ void PlayState::Update() {
 	SetDirtyRender(true);
 }
 
-void PlayState::Render() {
+void PlayState::SpecificRender() {
 	DrawGameScreen();
 	SetDirtyRender(false);
 }
 
 void PlayState::DrawGameScreen() {
-	wcout << BOARDER << endl << BOARDER << endl;
 	wcout << CARD_INDENT << L"SCORE : " << _Score << endl;
 	wcout << BOARDER << endl;
 	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
-	wcout << BOARDER << endl;
-	if (!_ValidInput) wcout << CARD_INDENT << L"Invalid input, please try again." << endl;
-	else wcout << CARD_INDENT << _Result << endl;
-	wcout << BOARDER << endl;
-	wcout << CARD_INDENT << "Higher or Lower? ( H / L ) : ";
+	SetCmdPromt(L"Higher or Lower? ( H / L ) : ");
 }
 
 bool PlayState::CheckInput(char _Input) {

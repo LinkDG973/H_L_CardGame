@@ -6,8 +6,7 @@
 bool SetupState::CheckInput(char _Input) {
 	switch (_Input) {
 		case 'B':
-			// setup game with set settings
-			Game::getInstance().UpdateGameConfig(_tempConfig);
+			Game::getInstance().UpdateGameConfig(_tempConfig); // setup game with set settings
 			Game::getInstance().SwitchState(START_STATE);
 			break;
 		case 'J': _tempConfig._PWJokers = !_tempConfig._PWJokers; break;
@@ -18,7 +17,6 @@ bool SetupState::CheckInput(char _Input) {
 			_tempConfig._NumRows = int(_Input) - ASCII_NUM_SHIFT; break;
 		default: return false; break;
 	}
-
 	return true;
 }
 
@@ -27,9 +25,8 @@ wchar_t toggleChar(bool _toggle) {
 	return L' ';
 }
 
-void SetupState::Render() {
-	wcout << BOARDER << endl << BOARDER << endl;
-	for (int y = 0; y < 5; ++y) wcout << endl;
+void SetupState::SpecificRender() {
+	MakeSpace(5);
 	wcout << CARD_INDENT << CARD_INDENT << L"┌───────────────────────────────────────────────┒" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│                  GAME SETUP                   ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┬───┨" << endl;
@@ -43,10 +40,6 @@ void SetupState::Render() {
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of Card Rows           (1 / 2 / 3) │ " << _tempConfig._NumRows << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
-	for (int y = 0; y < 6; ++y) wcout << endl;
-	wcout << BOARDER << endl;
-	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
-	else wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"SELECTION MADE" << endl;
-	wcout << BOARDER << endl;
-	wcout << CARD_INDENT << L"Select Option to toggle, type (B) to Return to the title screen \u2192 ";
+	MakeSpace(6);
+	SetCmdPromt(L"Select Option to toggle, type (B) to Return to the title screen \u2192 ");
 }

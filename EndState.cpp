@@ -8,13 +8,13 @@ bool EndState::CheckInput(char _Input) {
 	case 'N':
 		system("cls");
 		wcout << BOARDER << endl << BOARDER << endl;
-		for (int y = 0; y < 12; ++y) wcout << endl;
+		MakeSpace(12);
 		wcout << BOARDER << endl;
 		wcout << CARD_INDENT << CARD_INDENT << L"THE GAME HAS ENDED. THANK YOU FOR PLAYING." << endl;
 		wcout << BOARDER << endl;
-		for (int y = 0; y < 11; ++y) wcout << endl;
+		MakeSpace(11);
 		wcout << BOARDER << endl << endl << BOARDER << endl;
-		wcout << CARD_INDENT << CARD_INDENT << L"                            PRESS ANY KEY TO EXIT..." << endl;
+		wcout << L"                            PRESS ANY KEY TO EXIT..." << endl;
 		Game::getInstance().setGameRunning(false);
 		break;
 	default: 
@@ -25,9 +25,8 @@ bool EndState::CheckInput(char _Input) {
 	return true;
 }
 
-void EndState::Render() {
-	wcout << BOARDER << endl << BOARDER << endl;
-	for (int y = 0; y < 10; ++y) wcout << endl;
+void EndState::SpecificRender() {
+	MakeSpace(10);
 	wcout << BOARDER << endl;
 
 	int tempScore = Game::getInstance().GetScore();
@@ -44,11 +43,7 @@ void EndState::Render() {
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT
 		<< Game::getInstance().GetUserName() << " SCORE : " << tempScore << endl;
 	wcout << BOARDER << endl;
-	for (int y = 0; y < 11; ++y) wcout << endl;
-	wcout << BOARDER << endl;
-	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
-	else wcout << endl;
-	wcout << BOARDER << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "Play Again ? (Y / N) \u2192 ";
+	MakeSpace(11);
+	SetCmdPromt(L"Play Again ? (Y / N) \u2192 ");
 }
 

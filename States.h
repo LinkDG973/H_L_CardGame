@@ -15,21 +15,35 @@ public:
 		_Input = toupper(_Input);
 		_ValidInput = CheckInput(_Input);
 	};
-	virtual void Render() = 0;
+	void Render() {
+		wcout << BOARDER << endl << BOARDER << endl;
+
+		SpecificRender();
+
+		wcout << BOARDER << endl;
+		if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
+		else wcout << endl;
+		wcout << BOARDER << endl;
+		wcout << _CmdPromt;
+	};
 
 	bool IsRenderDirty() { return _DirtyRender; }
+	void SetCmdPromt(wstring _Msg) { _CmdPromt = _Msg; }
 
 protected:
+	virtual void SpecificRender() = 0;
 	void SetDirtyRender(bool _Val) { _DirtyRender = _Val; }
+	void MakeSpace(int _Val) { for (int y = 0; y < _Val; ++y) wcout << endl; }
 	bool _ValidInput = true;
 private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
+	wstring _CmdPromt = L"";
 };
 
 class StartState : public State {
-public:
-	void Render() override;
+protected:
+	void SpecificRender() override;
 private:
 	bool CheckInput(char _Input) override;
 	void DrawTitleScreen();
@@ -39,8 +53,8 @@ private:
 };
 
 class SetupState : public State {
-public:
-	void Render() override;
+protected:
+	void SpecificRender() override;
 private:
 	bool CheckInput(char _Input) override;
 	GameConfig _tempConfig;
@@ -54,7 +68,8 @@ public:
 	};
 
 	void Update() override;
-	void Render() override;
+protected:
+	void SpecificRender() override;
 private:
 	bool CheckInput(char _Input) override;
 
@@ -81,8 +96,8 @@ private:
 };
 
 class EndState : public State {
-public:
-	void Render() override;
+protected:
+	void SpecificRender() override;
 private:
 	bool CheckInput(char _Input) override;
 };

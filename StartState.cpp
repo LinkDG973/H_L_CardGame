@@ -2,7 +2,6 @@
 #include "States.h"
 
 void StartState::DrawTitleScreen() {
-	wcout << BOARDER << endl << BOARDER << endl << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"┌─┒ ┌─┒┌─────┒┌─────┒┌─┒ ┌─┒┌─────┒┌────┒" << endl
 		  << CARD_INDENT << CARD_INDENT << L"│ ┃ │ ┃┕━┑ ┏━┛│┏━━┑ ┃│ ┃ │ ┃│ ┏━━━┛│ ┏━┑┃ " << endl
 		  << CARD_INDENT << CARD_INDENT << L"│ ┖─┘ ┃  │ ┃  │┃  ┕━┛│ ┖─┘ ┃│ ┖───┒│ ┖─┘┖┒" << endl
@@ -23,15 +22,10 @@ void StartState::DrawTitleScreen() {
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   PLAY GAME (P)" << endl << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "   SETTINGS (S)" << endl << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES (R)" << endl << endl << endl;
-	wcout << BOARDER << endl;
-	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
-	else wcout << endl;
-	wcout << BOARDER << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Select Option (P / S / R) \u2192 ";
+	SetCmdPromt(L"Select Option (P / S / R) \u2192 ");
 }
 
 void StartState::DrawRulesScreen() {
-	wcout << BOARDER << endl << BOARDER << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES" << endl;
 	wcout << BOARDER << endl;
 
@@ -115,11 +109,8 @@ void StartState::DrawRulesScreen() {
 	}
 
 	wcout << L"     Select Page (1 / 2 / 3)                                        PAGE " << _currentPage << L" - 3" << endl;
-	wcout << BOARDER << endl;
-	if (!_ValidInput) wcout << L"     Invalid input, please try again." << endl;
-	else wcout << endl;
-	wcout << BOARDER << endl;
-	wcout << L"     " << L"Input (B) to Return to the Title Screen \u2192 ";
+
+	SetCmdPromt(L"Input (B) to Return to the Title Screen \u2192 ");
 }
 
 bool StartState::CheckInput(char _Input) {
@@ -147,7 +138,7 @@ bool StartState::CheckInput(char _Input) {
 	return true;
 }
 
-void StartState::Render() {
+void StartState::SpecificRender() {
 	if (!_showingRules) {
 		DrawTitleScreen();
 	}
