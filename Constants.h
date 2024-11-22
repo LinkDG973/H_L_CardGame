@@ -26,6 +26,7 @@ constexpr ui8 ASCII_NUM_SHIFT = 48;
 
 constexpr wchar_t SUITS[4] = { L'♠', L'♦', L'♥', L'♣' };
 static const std::wstring CARD_INDENT = L"           ";
+static const std::wstring SMALL_INDENT = L"   ";
 static const std::wstring BOARDER = L"───────────────────────────────────────────────────────────────────────────────────";
 
 static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {

@@ -33,7 +33,8 @@ public:
 private:
 	bool CheckInput(char _Input) override;
 	void DrawTitleScreen();
-
+	void DrawRulesScreen();
+	bool _showingRules = false;
 };
 
 class SetupState : public State {

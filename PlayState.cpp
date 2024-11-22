@@ -44,10 +44,12 @@ ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 	switch (_C.GetVal()) {
 		case 1: ss << L"│A        │"; // Display value 1 cards as an ace
 		case 3:
-		case 5: _C.GetCardGraphic(3) = mSuit.str(); break;
+		case 5: _C.GetCardGraphic(3) = mSuit.str(); // Ace, 3 and 5 card have suit graphic in the centre of the card.
+			break;
 		case 8: _C.GetCardGraphic(2) = mSuit.str();
 		case 7: _C.GetCardGraphic(4) = mSuit.str();
-		case 6: _C.GetCardGraphic(3) = dSuit.str(); break;
+		case 6: _C.GetCardGraphic(3) = dSuit.str(); 
+			break;
 		case 9:
 			_C.GetCardGraphic(2) = dSuit.str();
 			_C.GetCardGraphic(3) = mSuit.str();
@@ -92,16 +94,17 @@ void PlayState::Render() {
 
 void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl << BOARDER << endl;
-	wcout << L"Score  : " << _Score << endl;
+	wcout << CARD_INDENT << L"Score  : " << _Score << endl;
 	wcout << BOARDER << endl;
 	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	wcout << BOARDER << endl;
-	wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
+	//wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
+
 	wcout << BOARDER << endl;
 	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
-	wcout << "Higher or Lower? ( H / L ) : ";
+	wcout << CARD_INDENT << "Higher or Lower? ( H / L ) : ";
 }
 
 bool PlayState::CheckInput(char _Input) {
