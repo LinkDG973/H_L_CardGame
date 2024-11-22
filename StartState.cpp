@@ -59,7 +59,7 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     │ PLAY WITH COINS                                                       ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │ ⌂ There are 10 face-down cards in the game be defualt. This number    ┃" << endl;
-		wcout << L"     │   can be increased to 15 or decreased to 5 in the Game Setup Menu.    ┃" << endl;
+		wcout << L"     │   can be increased to 15 or decreased to 5 in the Settings Menu.      ┃" << endl;
 		wcout << L"     ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
 		break;
 	case 3: 
@@ -84,7 +84,7 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     │ OTHER                                                                 ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │ ⌂ There are 10 face-down cards in the game be defualt. This number    ┃" << endl;
-		wcout << L"     │   can be increased to 15 or decreased to 5 in the Game Setup Menu.    ┃" << endl;
+		wcout << L"     │   can be increased to 15 or decreased to 5 in the Settings Menu.      ┃" << endl;
 		wcout << L"     ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
 		break;
 	default:
@@ -109,7 +109,7 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     │ NUMBER OF CARD ROWS                                                   ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │ ⌂ There are 10 face-down cards in the game be defualt. This number    ┃" << endl;
-		wcout << L"     │   can be increased to 15 or decreased to 5 in the Game Setup Menu.    ┃" << endl;
+		wcout << L"     │   can be increased to 15 or decreased to 5 in the Settings Menu.      ┃" << endl;
 		wcout << L"     ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
 		break;
 	}
