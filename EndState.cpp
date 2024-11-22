@@ -22,7 +22,7 @@ bool EndState::CheckInput(char _Input) {
 }
 
 void EndState::Render() {
-	wcout << BOARDER << endl;
+	wcout << BOARDER << endl << BOARDER << endl;
 	for (int y = 0; y < 10; ++y) wcout << endl;
 	wcout << BOARDER << endl;
 
@@ -38,7 +38,7 @@ void EndState::Render() {
 		<< Game::getInstance().GetUserName() << " SCORE : " << tempScore << endl;
 	wcout << BOARDER << endl;
 	for (int y = 0; y < 10; ++y) wcout << endl;
-	wcout << BOARDER << endl;
+	wcout << BOARDER << endl << BOARDER << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "Play Again ? Y / N" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"\u2192 ";
 }

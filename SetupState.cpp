@@ -5,10 +5,10 @@
 
 bool SetupState::CheckInput(char _Input) {
 	switch (_Input) {
-		case 'S':
+		case 'B':
 			// setup game with set settings
 			Game::getInstance().UpdateGameConfig(_PWJokers, _PWDuplicateCards, _PWCoins, _PWDlbNothing, _NumRows);
-			Game::getInstance().SwitchState(PLAY_STATE);
+			Game::getInstance().SwitchState(START_STATE);
 			break;
 		case 'J': _PWJokers = !_PWJokers; break;
 		case 'D': _PWDuplicateCards = !_PWDuplicateCards; break;
@@ -45,9 +45,10 @@ void SetupState::Render() {
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of Card Rows           (1 / 2 / 3) │ " << _NumRows << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
-	for (int y = 0; y < 5; ++y) wcout << endl;
-	wcout << BOARDER << endl << BOARDER << endl;
+	for (int y = 0; y < 6; ++y) wcout << endl;
+	wcout << BOARDER << endl;
 	if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
-	wcout << CARD_INDENT << L"Select Option to toggle ON or OFF, type (S) to start game :" << endl 
-		<< CARD_INDENT << CARD_INDENT << CARD_INDENT << L"\u2192 ";
+	else wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"SELECTION MADE" << endl;
+	wcout << BOARDER << endl;
+	wcout << CARD_INDENT << L"Select Option to toggle, type (B) to Return to the title screen \u2192 ";
 }

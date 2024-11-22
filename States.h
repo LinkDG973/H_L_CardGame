@@ -2,6 +2,7 @@
 
 #include "Constants.h"
 #include "Card.h"
+#include <sstream>
 
 class State {
 public:
@@ -35,6 +36,7 @@ private:
 	void DrawTitleScreen();
 	void DrawRulesScreen();
 	bool _showingRules = false;
+	ui8 _currentPage = 1;
 };
 
 class SetupState : public State {
@@ -81,6 +83,9 @@ private:
 	int _randomIndex = 0;
 	int _CardIndex = 0;
 	bool _GameIsSetup = false;
+
+	//wstringstream _Result;
+	wstring _Result;
 };
 
 class EndState : public State {

@@ -1,7 +1,6 @@
 ﻿
 #include "Game.h"
 #include "States.h"
-#include <sstream>  // Used to access stringstream library
 
 ERROR_CODE PlayState::Init() {
 	// Initalise the Deck
@@ -94,16 +93,15 @@ void PlayState::Render() {
 
 void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl << BOARDER << endl;
-	wcout << CARD_INDENT << L"Score  : " << _Score << endl;
+	wcout << CARD_INDENT << L"SCORE : " << _Score << endl;
 	wcout << BOARDER << endl;
 	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	wcout << BOARDER << endl;
-	//wcout << L"│" << CARD_INDENT << CARD_INDENT << "HIGHER" << CARD_INDENT << L"│" << CARD_INDENT << L"LOWER" << CARD_INDENT << L"│" << endl;
-
+	if (!_ValidInput) wcout << CARD_INDENT << L"Invalid input, please try again." << endl;
+	else wcout << CARD_INDENT << _Result << endl;
 	wcout << BOARDER << endl;
-	if (!_ValidInput) wcout << L"Invalid input, please try again." << endl;
 	wcout << CARD_INDENT << "Higher or Lower? ( H / L ) : ";
 }
 
@@ -112,17 +110,21 @@ bool PlayState::CheckInput(char _Input) {
 	case 'H':  
 		if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
 			_Score += 150;
+			_Result = L"CARD WAS HIGHER! +150 POINTS!";
 		}
 		else {
 			_Score -= 100;
+			_Result = L"CARD NOT HIGHER. -100 POINTS.";
 		}
 		break;
 	case 'L':  
 		if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
 			_Score += 150;
+			_Result = L"CARD WAS LOWER! +150 POINTS!";
 		}
 		else {
 			_Score -= 100;
+			_Result = L"CARD NOT LOWER. -100 POINTS.";
 		}
 		break;
 	default: return false; break;
