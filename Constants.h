@@ -41,4 +41,14 @@ static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 };
 static const std::wstring _Selector = L"     \u2571\u2572     ";
 
+struct GameConfig {
+	GameConfig() {};
+	GameConfig(bool _J, bool _D, bool _C, bool _N, int _R)
+		: _PWJokers(_J), _PWDuplicateCards(_D), _PWCoins(_C), _PWDlbNothing(_N), _NumRows(_R) {};
+	bool _PWJokers = true;
+	bool _PWDuplicateCards = true;
+	bool _PWCoins = true;
+	bool _PWDlbNothing = true;
+	int _NumRows = 2;
+};
 

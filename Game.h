@@ -27,27 +27,22 @@ public:
 			_CurrentState->Render();
 	};
 
-	bool IsGameRunning() { return _GameRunning; }
+	const bool IsGameRunning() { return _GameRunning; }
 	void setGameRunning(bool _Val) { _GameRunning = _Val; }
 
-	wstring GetUserName() { return _UserName; }
+	const wstring GetUserName() { return _UserName; }
 	void setUserName(wstring _Val) { _UserName = _Val; }
 
-	int GetScore() { return _Score; }
+	const int GetScore() { return _Score; }
 	void SetScore(int _Val) { _Score = _Val; }
 
-	int GetHighScore() { return _HighScore; }
+	const int GetHighScore() { return _HighScore; }
 	void SetHighScore(int _Val) { _HighScore = _Val; }
 
 	void SwitchState(int _Index) { _CurrentState = _GameStates[_Index]; }
 
-	void UpdateGameConfig(bool _J, bool _D, bool _C, bool _N, int _R){
-		_PWJokers = _J;
-		_PWDuplicateCards = _D;
-		_PWCoins = _C;
-		_PWDlbNothing = _N;
-		_NumRows = _R;
-	};
+	void UpdateGameConfig(GameConfig _GC) { _Config = _GC; };
+	const GameConfig GetGameConfig() { return _Config; }
 
 private:
 	State* _CurrentState;
@@ -60,10 +55,6 @@ private:
 	int _HighScore = 0;
 	int _Score = 0;
 
-	bool _PWJokers = false;
-	bool _PWDuplicateCards = false;
-	bool _PWCoins = false;
-	bool _PWDlbNothing = false;
-	int _NumRows = 2;
+	GameConfig _Config;
 };
 

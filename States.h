@@ -30,7 +30,6 @@ private:
 class StartState : public State {
 public:
 	void Render() override;
-
 private:
 	bool CheckInput(char _Input) override;
 	void DrawTitleScreen();
@@ -40,16 +39,11 @@ private:
 };
 
 class SetupState : public State {
+public:
 	void Render() override;
-
 private:
 	bool CheckInput(char _Input) override;
-
-	bool _PWJokers = false;
-	bool _PWDuplicateCards = false;
-	bool _PWCoins = false;
-	bool _PWDlbNothing = false;
-	int _NumRows = 2;
+	GameConfig _tempConfig;
 };
 
 class PlayState : public State {
@@ -61,8 +55,6 @@ public:
 
 	void Update() override;
 	void Render() override;
-
-
 private:
 	bool CheckInput(char _Input) override;
 
