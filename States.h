@@ -22,13 +22,14 @@ public:
 
 		wcout << BOARDER << endl;
 		if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
-		else wcout << endl;
+		else wcout << _OutPromt << endl;
 		wcout << BOARDER << endl;
-		wcout << _CmdPromt;
+		wcout << _CmdPromt + L" \u2192 ";
 	};
 
 	bool IsRenderDirty() { return _DirtyRender; }
 	void SetCmdPromt(wstring _Msg) { _CmdPromt = _Msg; }
+	void SetOutPromt(wstring _Msg) { _OutPromt = _Msg; }
 
 protected:
 	virtual void SpecificRender() = 0;
@@ -39,6 +40,7 @@ private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
 	wstring _CmdPromt = L"";
+	wstring _OutPromt = L"";
 };
 
 class StartState : public State {
@@ -68,10 +70,12 @@ public:
 	};
 
 	void Update() override;
+
 protected:
 	void SpecificRender() override;
 private:
 	bool CheckInput(char _Input) override;
+	void UpdateScore(bool _Res, wstring _Input);
 
 	ERROR_CODE Init();
 	ERROR_CODE Draw_Card(Card& _C, int _Indent);

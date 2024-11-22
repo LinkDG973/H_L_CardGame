@@ -97,32 +97,26 @@ void PlayState::DrawGameScreen() {
 	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
-	SetCmdPromt(L"Higher or Lower? ( H / L ) : ");
+	SetOutPromt(CARD_INDENT + _Result);
+	SetCmdPromt(CARD_INDENT + L"Higher or Lower? ( H / L )");
+}
+
+void PlayState::UpdateScore(bool _Res, wstring _Input) {
+	if (_Res) {
+		_Score += 150;
+		_Result = L"CARD WAS " + _Input + L"! +150 POINTS!";
+	}
+	else {
+		_Score -= 100;
+		_Result = L"CARD NOT " + _Input + L". -100 POINTS.";
+	}
 }
 
 bool PlayState::CheckInput(char _Input) {
 	switch (_Input) {
-	case 'H':  
-		if (_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal()) {
-			_Score += 150;
-			_Result = L"CARD WAS HIGHER! +150 POINTS!";
-		}
-		else {
-			_Score -= 100;
-			_Result = L"CARD NOT HIGHER. -100 POINTS.";
-		}
-		break;
-	case 'L':  
-		if (_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal()) {
-			_Score += 150;
-			_Result = L"CARD WAS LOWER! +150 POINTS!";
-		}
-		else {
-			_Score -= 100;
-			_Result = L"CARD NOT LOWER. -100 POINTS.";
-		}
-		break;
-	default: return false; break;
+		case 'H':  UpdateScore(_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal(), L"HIGHER"); break;
+		case 'L':  UpdateScore(_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal(), L"LOWER"); break;
+		default: return false; break;
 	}
 
 	_InPlay[_CardIndex++].SetFlipState(false);

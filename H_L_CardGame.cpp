@@ -4,7 +4,6 @@
 #include "Game.h"
 
 int main() {
-
     Game _Game;
 
     while (_Game.IsGameRunning()) {
@@ -12,5 +11,4 @@ int main() {
         _Game.Render();
         _Game.Update();
     }
-
 }

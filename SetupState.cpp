@@ -41,5 +41,5 @@ void SetupState::SpecificRender() {
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of Card Rows           (1 / 2 / 3) │ " << _tempConfig._NumRows << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
 	MakeSpace(6);
-	SetCmdPromt(L"Select Option to toggle, type (B) to Return to the title screen \u2192 ");
+	SetCmdPromt(L"Select Option to toggle, type 'B' to Return to the Title Screen (B)");
 }

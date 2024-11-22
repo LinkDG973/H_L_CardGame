@@ -44,6 +44,5 @@ void EndState::SpecificRender() {
 		<< Game::getInstance().GetUserName() << " SCORE : " << tempScore << endl;
 	wcout << BOARDER << endl;
 	MakeSpace(11);
-	SetCmdPromt(L"Play Again ? (Y / N) \u2192 ");
+	SetCmdPromt(L"Play Again ? (Y / N)");
 }
-

@@ -20,17 +20,16 @@ void StartState::DrawTitleScreen() {
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     MAIN MENU" << endl;
 	wcout << BOARDER << endl << endl;
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   PLAY GAME (P)" << endl << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "   SETTINGS (S)" << endl << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES (R)" << endl << endl << endl;
-	SetCmdPromt(L"Select Option (P / S / R) \u2192 ");
+	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   SETTINGS (S)" << endl << endl;
+	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"     RULES (R)" << endl << endl << endl;
+	SetCmdPromt(L"Select Option (P / S / R)");
 }
 
 void StartState::DrawRulesScreen() {
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES" << endl;
 	wcout << BOARDER << endl;
 
-	switch (_currentPage)
-	{
+	switch (_currentPage) {
 	case 2: 
 		wcout << L"     ┌───────────────────────────────────────────────────────────────────────┒" << endl;
 		wcout << L"     │ PLAY WITH JOKERS                                                      ┃" << endl;
@@ -109,29 +108,28 @@ void StartState::DrawRulesScreen() {
 	}
 
 	wcout << L"     Select Page (1 / 2 / 3)                                        PAGE " << _currentPage << L" - 3" << endl;
-
-	SetCmdPromt(L"Input (B) to Return to the Title Screen \u2192 ");
+	SetCmdPromt(L"Input (B) to Return to the Title Screen");
 }
 
 bool StartState::CheckInput(char _Input) {
 	if (!_showingRules) {
 		switch (_Input) {
-		case 'P': Game::getInstance().SwitchState(PLAY_STATE); break;
-		case 'S': Game::getInstance().SwitchState(SETUP_STATE); break;
-		case 'R':  _showingRules = true; break;
-		default: return false; break;
+			case 'P': Game::getInstance().SwitchState(PLAY_STATE); break;
+			case 'S': Game::getInstance().SwitchState(SETUP_STATE); break;
+			case 'R': _showingRules = true; break;
+			default: return false; break;
 		}
 	}
 	else {
 		switch (_Input) {
-		case 'B': 
-			_showingRules = false;
-			_currentPage = 1;
-			break;
-		case '1': _currentPage = 1; break;
-		case '2': _currentPage = 2; break;
-		case '3': _currentPage = 3; break;
-		default: return false; break;
+			case 'B': 
+				_showingRules = false;
+				_currentPage = 1;
+				break;
+			case '1': _currentPage = 1; break;
+			case '2': _currentPage = 2; break;
+			case '3': _currentPage = 3; break;
+			default: return false; break;
 		}
 	}
 
