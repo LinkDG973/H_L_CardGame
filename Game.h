@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include "Singleton.h"
+#include "Card.h"
 
 class Game : public Singleton<Game> {
 public:
@@ -44,6 +45,9 @@ public:
 	void UpdateGameConfig(GameConfig _GC) { _Config = _GC; };
 	const GameConfig GetGameConfig() { return _Config; }
 
+	Card GetCard(int _Index) { return _Deck[_Index]; }
+	void SetCard(int _Index, Card& _Card) { _Deck[_Index] = _Card; }
+
 private:
 	State* _CurrentState;
 
@@ -56,5 +60,7 @@ private:
 	int _Score = 0;
 
 	GameConfig _Config;
+	Card _Deck[MAX_DECK_SIZE];
+
 };
 

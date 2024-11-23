@@ -6,10 +6,27 @@ ERROR_CODE PlayState::Init() {
 	// Initalise the Deck
 	ui8 num = 1;
 	ui8 suit_index = 0;
-	for (Card& _C : _Deck) {
+
+	//for (Card& _C :_DeckRef) {
+	//	Card temp_Card(SUITS[suit_index], num++);
+	//	GenerateGraphics(temp_Card);
+	//	_C = temp_Card;
+	//	if (num > 13) {
+	//		if (suit_index < 3) {
+	//			num = 1;
+	//			suit_index++;
+	//		}
+	//		else {
+	//			num = 14;
+	//			suit_index = 4;
+	//		}
+	//	}
+	//}
+
+	for (int i = 0; i < MAX_DECK_SIZE; ++i) {
 		Card temp_Card(SUITS[suit_index], num++);
 		GenerateGraphics(temp_Card);
-		_C = temp_Card;
+		Game::getInstance().SetCard(i, temp_Card);
 		if (num > 13) {
 			if (suit_index < 3) {
 				num = 1;
@@ -21,6 +38,7 @@ ERROR_CODE PlayState::Init() {
 			}
 		}
 	}
+
 
 	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
 		_FaceDown.GetCardGraphic(i) = _FaceDownCard[i];
@@ -102,7 +120,7 @@ void PlayState::SpecificRender() {
 void PlayState::DrawGameScreen() {
 	wcout << CARD_INDENT << L"SCORE : " << _Score << endl;
 	wcout << BOARDER << endl;
-	Draw_Card(_Deck[_randomIndex], 3); // Focus Card
+	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	SetOutPromt(CARD_INDENT + _Result);
@@ -126,8 +144,8 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 
 bool PlayState::CheckInput(char _Input) {
 	switch (_Input) {
-		case 'H':  UpdateScore(_InPlay[_CardIndex].GetVal() >= _Deck[_randomIndex].GetVal(), L"HIGHER"); break;
-		case 'L':  UpdateScore(_InPlay[_CardIndex].GetVal() <= _Deck[_randomIndex].GetVal(), L"LOWER"); break;
+		case 'H':  UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER"); break;
+		case 'L':  UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER"); break;
 		default: return false; break;
 	}
 
@@ -148,14 +166,14 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	_randomIndex = randomNum(0, GetDeckSize());
 
 	for (Card& _C : _InPlay) {
-		_C = _Deck[randomNum(0, GetDeckSize())];
+		_C = Game::getInstance().GetCard(randomNum(0, GetDeckSize()));
 		_C.SetFlipState(true);
 	}
 
 	return GAME_OK;
 }
 
-ERROR_CODE PlayState::Draw_Card(Card& _C, int _Indent) {
+ERROR_CODE PlayState::Draw_Card(Card _C, int _Indent) {
 	for (int i = 0; i < CARD_GRAPHIC_SIZE - 1; ++i) {
 		wstring _line = L"";
 		for (int y = 0; y < _Indent; ++y) _line += CARD_INDENT;

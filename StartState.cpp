@@ -2,16 +2,21 @@
 #include "States.h"
 
 void StartState::DrawTitleScreen() {
+
+	Card card1 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
+	Card card2 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
+
+
 	wcout << L"                     ┌─┒ ┌─┒┌─────┒┌─────┒┌─┒ ┌─┒┌─────┒┌────┒" << endl
 		  << L"                     │ ┃ │ ┃┕━┑ ┏━┛│┏━━┑ ┃│ ┃ │ ┃│ ┏━━━┛│ ┏━┑┃" << endl
 		  << L"                     │ ┖─┘ ┃  │ ┃  │┃  ┕━┛│ ┖─┘ ┃│ ┖───┒│ ┖─┘┖┒" << endl
-		  << L"                     │ ┏━┑ ┃  │ ┃  │┃ ┌──┒│ ┏━┑ ┃│ ┏━━━┛│ ┏━┑ ┃" << endl
-		  << L"                     │ ┃ │ ┃┌─┘ ┖─┒│┖─┴─ ┃│ ┃ │ ┃│ ┖───┒│ ┃ │ ┃" << endl
-		  << L"                     ┕━┛ ┕━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛┕━━━━━┛┕━┛ ┕━┛" << endl
-		  << L"                         ┌─┒    ┌─────┒┌┒   ┌┒┌─────┒┌────┒" << endl
-		  << L"                         │ ┃    │ ┏━┑ ┃│┃┌─┒│┃│ ┏━━━┛│ ┏━┑┃" << endl
-		  << L"                         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┖───┒│ ┖─┘┖┒" << endl
-		  << L"                         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┏━━━┛│ ┏━┑ ┃" << endl
+		  << L"     " << card1.GetCardGraphic(0) << L"     │ ┏━┑ ┃  │ ┃  │┃ ┌──┒│ ┏━┑ ┃│ ┏━━━┛│ ┏━┑ ┃     " << card2.GetCardGraphic(0) << endl
+		  << L"     " << card1.GetCardGraphic(1) << L"     │ ┃ │ ┃┌─┘ ┖─┒│┖─┴─ ┃│ ┃ │ ┃│ ┖───┒│ ┃ │ ┃     " << card2.GetCardGraphic(1) << L"" << endl
+		  << L"     " << card1.GetCardGraphic(2) << L"     ┕━┛ ┕━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛┕━━━━━┛┕━┛ ┕━┛     " << card2.GetCardGraphic(2) << L"" << endl
+		  << L"     " << card1.GetCardGraphic(3) << L"         ┌─┒    ┌─────┒┌┒   ┌┒┌─────┒┌────┒         " << card2.GetCardGraphic(3) << L"" << endl
+		  << L"     " << card1.GetCardGraphic(4) << L"         │ ┃    │ ┏━┑ ┃│┃┌─┒│┃│ ┏━━━┛│ ┏━┑┃         " << card2.GetCardGraphic(4) << L"" << endl
+		  << L"     " << card1.GetCardGraphic(5) << L"         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┖───┒│ ┖─┘┖┒        " << card2.GetCardGraphic(5) << L"" << endl
+		  << L"     " << card1.GetCardGraphic(6) << L"         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┏━━━┛│ ┏━┑ ┃        " << card2.GetCardGraphic(6) << L"" << endl
 		  << L"                         │ ┖───┒│ ┖─┘ ┃│┖┘ ┖┘┃│ ┖───┒│ ┃ │ ┃" << endl
 		  << L"                         ┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛" << endl;
 	wcout << L"                               BY - OLIVER CALLAGHAN" << endl << endl;

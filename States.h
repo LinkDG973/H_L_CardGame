@@ -36,6 +36,7 @@ protected:
 	void SetDirtyRender(bool _Val) { _DirtyRender = _Val; }
 	void MakeSpace(int _Val) { for (int y = 0; y < _Val; ++y) wcout << endl; }
 	bool _ValidInput = true;
+	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
 private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
@@ -78,7 +79,7 @@ private:
 	void UpdateScore(bool _Res, wstring _Input);
 
 	ERROR_CODE Init();
-	ERROR_CODE Draw_Card(Card& _C, int _Indent);
+	ERROR_CODE Draw_Card(Card _C, int _Indent);
 	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent);
 	ERROR_CODE GenerateGraphics(Card& _C);
 	ERROR_CODE Reset_PlayState();
@@ -86,9 +87,7 @@ private:
 	int GetDeckSize();
 
 	void DrawGameScreen();
-	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
 
-	Card _Deck[MAX_DECK_SIZE];
 	Card _InPlay[10];
 	Card _FaceDown;
 
