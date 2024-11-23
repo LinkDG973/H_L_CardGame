@@ -21,7 +21,7 @@ public:
 		SpecificRender();
 
 		wcout << BOARDER << endl;
-		if (!_ValidInput) wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"Invalid input, please try again." << endl;
+		if (!_ValidInput) wcout << L"                          Invalid input, please try again." << endl;
 		else wcout << _OutPromt << endl;
 		wcout << BOARDER << endl;
 		wcout << _CmdPromt + L" \u2192 ";
@@ -83,10 +83,12 @@ private:
 	ERROR_CODE GenerateGraphics(Card& _C);
 	ERROR_CODE Reset_PlayState();
 
+	int GetDeckSize();
+
 	void DrawGameScreen();
 	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
 
-	Card _Deck[DEFAULT_DECK_SIZE];
+	Card _Deck[MAX_DECK_SIZE];
 	Card _InPlay[10];
 	Card _FaceDown;
 
@@ -95,7 +97,6 @@ private:
 	int _CardIndex = 0;
 	bool _GameIsSetup = false;
 
-	//wstringstream _Result;
 	wstring _Result;
 };
 

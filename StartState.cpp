@@ -2,27 +2,27 @@
 #include "States.h"
 
 void StartState::DrawTitleScreen() {
-	wcout << CARD_INDENT << CARD_INDENT << L"┌─┒ ┌─┒┌─────┒┌─────┒┌─┒ ┌─┒┌─────┒┌────┒" << endl
-		  << CARD_INDENT << CARD_INDENT << L"│ ┃ │ ┃┕━┑ ┏━┛│┏━━┑ ┃│ ┃ │ ┃│ ┏━━━┛│ ┏━┑┃ " << endl
-		  << CARD_INDENT << CARD_INDENT << L"│ ┖─┘ ┃  │ ┃  │┃  ┕━┛│ ┖─┘ ┃│ ┖───┒│ ┖─┘┖┒" << endl
-		  << CARD_INDENT << CARD_INDENT << L"│ ┏━┑ ┃  │ ┃  │┃ ┌──┒│ ┏━┑ ┃│ ┏━━━┛│ ┏━┑ ┃" << endl
-		  << CARD_INDENT << CARD_INDENT << L"│ ┃ │ ┃┌─┘ ┖─┒│┖─┴─ ┃│ ┃ │ ┃│ ┖───┒│ ┃ │ ┃" << endl
-		  << CARD_INDENT << CARD_INDENT << L"┕━┛ ┕━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛┕━━━━━┛┕━┛ ┕━┛" << endl
-		  << CARD_INDENT << CARD_INDENT << L"    ┌─┒    ┌─────┒┌┒   ┌┒┌─────┒┌────┒" << endl
-		  << CARD_INDENT << CARD_INDENT << L"    │ ┃    │ ┏━┑ ┃│┃┌─┒│┃│ ┏━━━┛│ ┏━┑┃" << endl
-		  << CARD_INDENT << CARD_INDENT << L"    │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┖───┒│ ┖─┘┖┒" << endl
-		  << CARD_INDENT << CARD_INDENT << L"    │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┏━━━┛│ ┏━┑ ┃" << endl
-		  << CARD_INDENT << CARD_INDENT << L"    │ ┖───┒│ ┖─┘ ┃│┖┘ ┖┘┃│ ┖───┒│ ┃ │ ┃" << endl
-		  << CARD_INDENT << CARD_INDENT << L"    ┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"BY - OLIVER CALLAGHAN" << endl << endl;
+	wcout << L"                     ┌─┒ ┌─┒┌─────┒┌─────┒┌─┒ ┌─┒┌─────┒┌────┒" << endl
+		  << L"                     │ ┃ │ ┃┕━┑ ┏━┛│┏━━┑ ┃│ ┃ │ ┃│ ┏━━━┛│ ┏━┑┃" << endl
+		  << L"                     │ ┖─┘ ┃  │ ┃  │┃  ┕━┛│ ┖─┘ ┃│ ┖───┒│ ┖─┘┖┒" << endl
+		  << L"                     │ ┏━┑ ┃  │ ┃  │┃ ┌──┒│ ┏━┑ ┃│ ┏━━━┛│ ┏━┑ ┃" << endl
+		  << L"                     │ ┃ │ ┃┌─┘ ┖─┒│┖─┴─ ┃│ ┃ │ ┃│ ┖───┒│ ┃ │ ┃" << endl
+		  << L"                     ┕━┛ ┕━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛┕━━━━━┛┕━┛ ┕━┛" << endl
+		  << L"                         ┌─┒    ┌─────┒┌┒   ┌┒┌─────┒┌────┒" << endl
+		  << L"                         │ ┃    │ ┏━┑ ┃│┃┌─┒│┃│ ┏━━━┛│ ┏━┑┃" << endl
+		  << L"                         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┖───┒│ ┖─┘┖┒" << endl
+		  << L"                         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┏━━━┛│ ┏━┑ ┃" << endl
+		  << L"                         │ ┖───┒│ ┖─┘ ┃│┖┘ ┖┘┃│ ┖───┒│ ┃ │ ┃" << endl
+		  << L"                         ┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛" << endl;
+	wcout << L"                               BY - OLIVER CALLAGHAN" << endl << endl;
 
 	wcout << BOARDER << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     MAIN MENU" << endl;
+	wcout << L"                                     MAIN MENU" << endl;
 	wcout << BOARDER << endl << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   PLAY GAME (P)" << endl << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"   SETTINGS (S)" << endl << endl;
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << L"     RULES (R)" << endl << endl << endl;
-	SetCmdPromt(L"Select Option (P / S / R)");
+	wcout << L"                                   PLAY GAME (P)" << endl << endl;
+	wcout << L"                                    SETTINGS (S)" << endl << endl;
+	wcout << L"                                      RULES (R)" << endl << endl << endl;
+	SetCmdPromt(L"                           Select Option (P / S / R)");
 }
 
 void StartState::DrawRulesScreen() {

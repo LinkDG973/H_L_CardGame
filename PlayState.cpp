@@ -11,8 +11,14 @@ ERROR_CODE PlayState::Init() {
 		GenerateGraphics(temp_Card);
 		_C = temp_Card;
 		if (num > 13) {
-			num = 1;
-			suit_index++;
+			if (suit_index < 3) {
+				num = 1;
+				suit_index++;
+			}
+			else {
+				num = 14;
+				suit_index = 4;
+			}
 		}
 	}
 
@@ -63,6 +69,7 @@ ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 		case 11: ss << L"│J " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │"; break; // Jack Card
 		case 12: ss << L"│Q " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │"; break; // Queen Card
 		case 13: ss << L"│K " << _C.GetSuit() << L"   " << _C.GetSuit() << L"  │"; break; // King Card
+		case 14: ss << L"│J O K E R│"; break; // Joker Card
 	}
 
 	_C.GetCardGraphic(1) = ss.str();
@@ -77,6 +84,7 @@ void PlayState::Update() {
 	cin >> _Input;
 	_Input = toupper(_Input);
 	_ValidInput = CheckInput(_Input);
+
 	if (_CardIndex >= 10) { // If game has finished
 		Game::getInstance().SetScore(_Score);
 		Reset_PlayState();
@@ -101,6 +109,10 @@ void PlayState::DrawGameScreen() {
 	SetCmdPromt(CARD_INDENT + L"Higher or Lower? ( H / L )");
 }
 
+int PlayState::GetDeckSize() { 
+	return (MAX_DECK_SIZE - (2 * !Game::getInstance().GetGameConfig()._PWJokers)) - 1; 
+}
+
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
 	if (_Res) {
 		_Score += 150;
@@ -120,7 +132,7 @@ bool PlayState::CheckInput(char _Input) {
 	}
 
 	_InPlay[_CardIndex++].SetFlipState(false);
-	_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+	_randomIndex = randomNum(0, GetDeckSize());
 	return true;
 }
 
@@ -133,10 +145,10 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	_Score = 0;
 
 	srand(time(0));
-	_randomIndex = randomNum(0, DEFAULT_DECK_SIZE - 1);
+	_randomIndex = randomNum(0, GetDeckSize());
 
 	for (Card& _C : _InPlay) {
-		_C = _Deck[randomNum(0, DEFAULT_DECK_SIZE - 1)];
+		_C = _Deck[randomNum(0, GetDeckSize())];
 		_C.SetFlipState(true);
 	}
 
