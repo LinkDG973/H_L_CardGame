@@ -88,10 +88,7 @@ void PlayState::Update() {
 		_ValidInput = CheckBet(_Bet);
 	}
 	else {
-		char _Input = ' ';
-		cin >> _Input;
-		_Input = toupper(_Input);
-		_ValidInput = CheckInput(_Input);
+		BasicInput();
 	}
 
 	if (_CardIndex >= 10 || _Coins <= 0) { // If game has finished
@@ -116,7 +113,7 @@ void PlayState::DrawGameScreen() {
 	else {
 		wcout << CARD_INDENT << L"SCORE : " << _Score;
 	}
-	wcout << endl << BOARDER << endl;
+	wcout << L"   CARD : " << _CardIndex + 1 << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
@@ -196,11 +193,11 @@ bool PlayState::CheckBet(string _Bet) {
 			return true;
 		}
 		else {
-			SetErrorPromt(L"Invalid bet, please place a bet between or equal to 0 & ");
+			SetErrorPromt(L"                    Invalid bet, please place a bet between or equal to 0 & ");
 		}
 	}
 	else {
-		SetErrorPromt(L"Invalid bet, please input an integer number.");
+		SetErrorPromt(L"                          Invalid bet, please input an integer number.");
 	}
 
 	return false;

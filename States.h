@@ -9,20 +9,7 @@ public:
 	State() {}
 	~State() {};
 
-	virtual void Update() {
-		string _Input = "";
-		cin >> _Input;
-		trim(_Input);
-		if (_Input.size() == 1) {
-			char _charInput = _Input[0];
-			_charInput = toupper(_charInput);
-			_ValidInput = CheckInput(_charInput);
-		}
-		else {
-			_ValidInput = false;
-		}
-		_ErrorPromt = DEFAULT_ERROR_MSG;
-	};
+	virtual void Update() { BasicInput(); };
 	void Render() {
 		wcout << BOARDER << endl << BOARDER << endl;
 
@@ -53,7 +40,20 @@ protected:
 	void MakeSpace(int _Val) { for (int y = 0; y < _Val; ++y) wcout << endl; }
 	bool _ValidInput = true;
 	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
-
+	void BasicInput() {
+		string _Input = "";
+		cin >> _Input;
+		trim(_Input);
+		if (_Input.size() == 1) {
+			char _charInput = _Input[0];
+			_charInput = toupper(_charInput);
+			_ValidInput = CheckInput(_charInput);
+		}
+		else {
+			_ValidInput = false;
+		}
+		_ErrorPromt = DEFAULT_ERROR_MSG;
+	};
 private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
