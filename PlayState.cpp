@@ -7,22 +7,6 @@ ERROR_CODE PlayState::Init() {
 	ui8 num = 1;
 	ui8 suit_index = 0;
 
-	//for (Card& _C :_DeckRef) {
-	//	Card temp_Card(SUITS[suit_index], num++);
-	//	GenerateGraphics(temp_Card);
-	//	_C = temp_Card;
-	//	if (num > 13) {
-	//		if (suit_index < 3) {
-	//			num = 1;
-	//			suit_index++;
-	//		}
-	//		else {
-	//			num = 14;
-	//			suit_index = 4;
-	//		}
-	//	}
-	//}
-
 	for (int i = 0; i < MAX_DECK_SIZE; ++i) {
 		Card temp_Card(SUITS[suit_index], num++);
 		GenerateGraphics(temp_Card);
@@ -38,7 +22,6 @@ ERROR_CODE PlayState::Init() {
 			}
 		}
 	}
-
 
 	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
 		_FaceDown.GetCardGraphic(i) = _FaceDownCard[i];
@@ -98,10 +81,17 @@ ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 }
 
 void PlayState::Update() {
-	char _Input = ' ';
-	cin >> _Input;
-	_Input = toupper(_Input);
-	_ValidInput = CheckInput(_Input);
+	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
+		string _Bet = "";
+		cin >> _Bet;
+		_ValidInput = CheckBet(_Bet);
+	}
+	else {
+		char _Input = ' ';
+		cin >> _Input;
+		_Input = toupper(_Input);
+		_ValidInput = CheckInput(_Input);
+	}
 
 	if (_CardIndex >= 10) { // If game has finished
 		Game::getInstance().SetScore(_Score);
@@ -118,17 +108,35 @@ void PlayState::SpecificRender() {
 }
 
 void PlayState::DrawGameScreen() {
-	wcout << CARD_INDENT << L"SCORE : " << _Score << endl;
-	wcout << BOARDER << endl;
+	wcout << CARD_INDENT << L"SCORE : " << _Score;
+	if (Game::getInstance().GetGameConfig()._PWCoins) {
+		wcout << CARD_INDENT << L"COINS : £" << _Coins;
+	}
+	wcout << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	SetOutPromt(CARD_INDENT + _Result);
-	SetCmdPromt(CARD_INDENT + L"Higher or Lower? ( H / L )");
+	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
+		SetCmdPromt(CARD_INDENT + L"How much would you like to bet? ( Number ) : £");
+	}
+	else {
+		SetCmdPromt(CARD_INDENT + L"Higher or Lower? ( H / L )");
+	}
 }
 
 int PlayState::GetDeckSize() { 
-	return (MAX_DECK_SIZE - (2 * !Game::getInstance().GetGameConfig()._PWJokers)) - 1; 
+	return (MAX_DECK_SIZE - (2 * Game::getInstance().GetGameConfig()._PWJokers)) - 1; 
+}
+
+bool PlayState::isNumber(string& _Str) {
+
+	for (char const& c : _Str) {
+		if (std::isdigit(c) == 0)
+			return false;
+	}
+
+	return true;
 }
 
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
@@ -144,14 +152,40 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 
 bool PlayState::CheckInput(char _Input) {
 	switch (_Input) {
-		case 'H':  UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER"); break;
-		case 'L':  UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER"); break;
-		default: return false; break;
+	case 'H':
+		UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
+		_Betting = true;
+		break;
+	case 'L':
+		UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
+		_Betting = true;
+		break;
+	default: return false; break;
 	}
 
 	_InPlay[_CardIndex++].SetFlipState(false);
 	_randomIndex = randomNum(0, GetDeckSize());
 	return true;
+}
+
+bool PlayState::CheckBet(string _Bet) {
+	if (isNumber(_Bet)) {
+		int _NumBet = atoi(_Bet.c_str());
+		if (_NumBet >= 0 && _NumBet <= _Coins) {
+			_Result = L"Betting with coins.";
+			_Betting = false;
+			SetErrorPromt(L"");
+			return true;
+		}
+		else {
+			SetErrorPromt(L"Invalid bet, please place a bet between or equal to 0 & ");
+		}
+	}
+	else {
+		SetErrorPromt(L"Invalid bet, please input an integer number.");
+	}
+
+	return false;
 }
 
 ERROR_CODE PlayState::Reset_PlayState() {
@@ -161,6 +195,12 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	_GameIsSetup = false;
 	_CardIndex = 0;
 	_Score = 0;
+
+	if (Game::getInstance().GetGameConfig()._PWCoins) {
+
+		SetErrorPromt(L"");
+		_Coins = STARTING_COIN_COUNT;
+	}
 
 	srand(time(0));
 	_randomIndex = randomNum(0, GetDeckSize());

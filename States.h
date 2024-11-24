@@ -14,6 +14,7 @@ public:
 		cin >> _Input;
 		_Input = toupper(_Input);
 		_ValidInput = CheckInput(_Input);
+		_ErrorPromt = DEFAULT_ERROR_MSG;
 	};
 	void Render() {
 		wcout << BOARDER << endl << BOARDER << endl;
@@ -21,15 +22,17 @@ public:
 		SpecificRender();
 
 		wcout << BOARDER << endl;
-		if (!_ValidInput) wcout << L"                          Invalid input, please try again." << endl;
+		if (!_ValidInput) wcout << _ErrorPromt << endl;
 		else wcout << _OutPromt << endl;
 		wcout << BOARDER << endl;
 		wcout << _CmdPromt + L" \u2192 ";
 	};
 
 	bool IsRenderDirty() { return _DirtyRender; }
+
 	void SetCmdPromt(wstring _Msg) { _CmdPromt = _Msg; }
 	void SetOutPromt(wstring _Msg) { _OutPromt = _Msg; }
+	void SetErrorPromt(wstring _Msg) { _ErrorPromt = _Msg; }
 
 protected:
 	virtual void SpecificRender() = 0;
@@ -42,6 +45,7 @@ private:
 	bool _DirtyRender = true;
 	wstring _CmdPromt = L"";
 	wstring _OutPromt = L"";
+	wstring _ErrorPromt = L"";
 };
 
 class StartState : public State {
@@ -88,6 +92,9 @@ private:
 
 	void DrawGameScreen();
 
+	bool CheckBet(string _Bet);
+	bool isNumber(string& _Str);
+
 	Card _InPlay[10];
 	Card _FaceDown;
 
@@ -95,6 +102,9 @@ private:
 	int _randomIndex = 0;
 	int _CardIndex = 0;
 	bool _GameIsSetup = false;
+
+	int _Coins = STARTING_COIN_COUNT;
+	bool _Betting = true;
 
 	wstring _Result;
 };

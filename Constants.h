@@ -29,6 +29,8 @@ static const std::wstring CARD_INDENT = L"           ";
 static const std::wstring SMALL_INDENT = L"   ";
 static const std::wstring BOARDER = L"───────────────────────────────────────────────────────────────────────────────────";
 
+static const int STARTING_COIN_COUNT = 2000;
+
 static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"┌─────────┐",
 	L"│┌───────┐│",
@@ -40,6 +42,7 @@ static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"           "
 };
 static const std::wstring _Selector = L"     \u2571\u2572     ";
+static const std::wstring DEFAULT_ERROR_MSG = L"                          Invalid input, please try again.";
 
 struct GameConfig {
 	GameConfig() {};
