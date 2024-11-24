@@ -48,6 +48,9 @@ public:
 	Card GetCard(int _Index) { return _Deck[_Index]; }
 	void SetCard(int _Index, Card& _Card) { _Deck[_Index] = _Card; }
 
+	const int GetCoins() { return _Coins; }
+	void SetCoins(int _Val) { _Coins = _Val; }
+
 private:
 	State* _CurrentState;
 
@@ -58,6 +61,7 @@ private:
 	std::wstring _UserName = L"";
 	int _HighScore = 0;
 	int _Score = 0;
+	int _Coins = 0;
 
 	GameConfig _Config;
 	Card _Deck[MAX_DECK_SIZE];

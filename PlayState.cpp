@@ -84,6 +84,7 @@ void PlayState::Update() {
 	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
 		string _Bet = "";
 		cin >> _Bet;
+		trim(_Bet);
 		_ValidInput = CheckBet(_Bet);
 	}
 	else {
@@ -93,8 +94,9 @@ void PlayState::Update() {
 		_ValidInput = CheckInput(_Input);
 	}
 
-	if (_CardIndex >= 10) { // If game has finished
+	if (_CardIndex >= 10 || _Coins <= 0) { // If game has finished
 		Game::getInstance().SetScore(_Score);
+		Game::getInstance().SetCoins(_Coins);
 		Reset_PlayState();
 		Game::getInstance().SwitchState(END_STATE);
 	}

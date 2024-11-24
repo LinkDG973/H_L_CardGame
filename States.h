@@ -10,10 +10,17 @@ public:
 	~State() {};
 
 	virtual void Update() {
-		char _Input = ' ';
+		string _Input = "";
 		cin >> _Input;
-		_Input = toupper(_Input);
-		_ValidInput = CheckInput(_Input);
+		trim(_Input);
+		if (_Input.size() == 1) {
+			char _charInput = _Input[0];
+			_charInput = toupper(_charInput);
+			_ValidInput = CheckInput(_charInput);
+		}
+		else {
+			_ValidInput = false;
+		}
 		_ErrorPromt = DEFAULT_ERROR_MSG;
 	};
 	void Render() {
@@ -34,12 +41,19 @@ public:
 	void SetOutPromt(wstring _Msg) { _OutPromt = _Msg; }
 	void SetErrorPromt(wstring _Msg) { _ErrorPromt = _Msg; }
 
+	inline std::string trim(std::string& str) {
+		str.erase(str.find_last_not_of(' ') + 1);         //suffixing spaces
+		str.erase(0, str.find_first_not_of(' '));       //prefixing spaces
+		return str;
+	}
+
 protected:
 	virtual void SpecificRender() = 0;
 	void SetDirtyRender(bool _Val) { _DirtyRender = _Val; }
 	void MakeSpace(int _Val) { for (int y = 0; y < _Val; ++y) wcout << endl; }
 	bool _ValidInput = true;
 	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
+
 private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
