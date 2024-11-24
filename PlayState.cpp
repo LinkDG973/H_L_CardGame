@@ -108,9 +108,11 @@ void PlayState::SpecificRender() {
 }
 
 void PlayState::DrawGameScreen() {
-	wcout << CARD_INDENT << L"SCORE : " << _Score;
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
 		wcout << CARD_INDENT << L"COINS : £" << _Coins;
+	}
+	else {
+		wcout << CARD_INDENT << L"SCORE : " << _Score;
 	}
 	wcout << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
@@ -140,13 +142,25 @@ bool PlayState::isNumber(string& _Str) {
 }
 
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
-	if (_Res) {
-		_Score += 150;
-		_Result = L"CARD WAS " + _Input + L"! +150 POINTS!";
+	if (Game::getInstance().GetGameConfig()._PWCoins) {
+		if (_Res) {
+			_Coins += _NumBet * 2;
+			_Result = L"CARD WAS " + _Input + L"! +COINS!";
+		}
+		else {
+			_Coins -= _NumBet;
+			_Result = L"CARD NOT " + _Input + L". -COINS.";
+		}
 	}
 	else {
-		_Score -= 100;
-		_Result = L"CARD NOT " + _Input + L". -100 POINTS.";
+		if (_Res) {
+			_Score += 150;
+			_Result = L"CARD WAS " + _Input + L"! +150 POINTS!";
+		}
+		else {
+			_Score -= 100;
+			_Result = L"CARD NOT " + _Input + L". -100 POINTS.";
+		}
 	}
 }
 
@@ -160,7 +174,9 @@ bool PlayState::CheckInput(char _Input) {
 		UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
 		_Betting = true;
 		break;
-	default: return false; break;
+	default: 
+		SetErrorPromt(DEFAULT_ERROR_MSG);
+		return false; break;
 	}
 
 	_InPlay[_CardIndex++].SetFlipState(false);
@@ -170,7 +186,7 @@ bool PlayState::CheckInput(char _Input) {
 
 bool PlayState::CheckBet(string _Bet) {
 	if (isNumber(_Bet)) {
-		int _NumBet = atoi(_Bet.c_str());
+		_NumBet = atoi(_Bet.c_str());
 		if (_NumBet >= 0 && _NumBet <= _Coins) {
 			_Result = L"Betting with coins.";
 			_Betting = false;
@@ -197,9 +213,9 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	_Score = 0;
 
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
-
 		SetErrorPromt(L"");
 		_Coins = STARTING_COIN_COUNT;
+		_NumBet = 0;
 	}
 
 	srand(time(0));

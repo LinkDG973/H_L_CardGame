@@ -104,6 +104,7 @@ private:
 	bool _GameIsSetup = false;
 
 	int _Coins = STARTING_COIN_COUNT;
+	int _NumBet = 0;
 	bool _Betting = true;
 
 	wstring _Result;
