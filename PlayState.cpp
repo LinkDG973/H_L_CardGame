@@ -131,7 +131,6 @@ int PlayState::GetDeckSize() {
 }
 
 bool PlayState::isNumber(string& _Str) {
-
 	for (char const& c : _Str) {
 		if (std::isdigit(c) == 0)
 			return false;
@@ -179,7 +178,8 @@ bool PlayState::CheckInput(char _Input) {
 	}
 
 	_InPlay[_CardIndex++].SetFlipState(false);
-	_randomIndex = randomNum(0, GetDeckSize());
+	// Sets Focus card for next round
+	_randomIndex = GetNewCardIndex();
 	return true;
 }
 
@@ -203,6 +203,21 @@ bool PlayState::CheckBet(string _Bet) {
 	return false;
 }
 
+int PlayState::GetNewCardIndex() {
+	int _RandNum = 0;
+	if (!Game::getInstance().GetGameConfig()._PWDuplicateCards) {
+		do {
+			_RandNum = randomNum(0, GetDeckSize());
+		} while (Game::getInstance().GetCard(_RandNum).GetPlayedState() == true);
+		Game::getInstance().GetCard(_RandNum).SetPlayedState(true);
+	}
+	else {
+		_RandNum = randomNum(0, GetDeckSize());
+	}
+
+	return _RandNum;
+}
+
 ERROR_CODE PlayState::Reset_PlayState() {
 	system("cls");
 
@@ -218,10 +233,15 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	}
 
 	srand(time(0));
-	_randomIndex = randomNum(0, GetDeckSize());
+	_randomIndex = GetNewCardIndex();
+
+	for (int i = 0; i < MAX_DECK_SIZE; ++i) {
+		Game::getInstance().GetCard(i).SetFlipState(false);
+	}
 
 	for (Card& _C : _InPlay) {
-		_C = Game::getInstance().GetCard(randomNum(0, GetDeckSize()));
+		// Set InPlay Cards
+		_C = Game::getInstance().GetCard(GetNewCardIndex());
 		_C.SetFlipState(true);
 	}
 

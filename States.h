@@ -93,6 +93,7 @@ public:
 protected:
 	void SpecificRender() override;
 private:
+
 	bool CheckInput(char _Input) override;
 	void UpdateScore(bool _Res, wstring _Input);
 
@@ -108,6 +109,8 @@ private:
 
 	bool CheckBet(string _Bet);
 	bool isNumber(string& _Str);
+
+	int GetNewCardIndex();
 
 	Card _InPlay[10];
 	Card _FaceDown;

@@ -49,7 +49,7 @@ struct GameConfig {
 	GameConfig(bool _J, bool _D, bool _C, bool _N, int _R)
 		: _PWJokers(_J), _PWDuplicateCards(_D), _PWCoins(_C), _PWDlbNothing(_N), _NumRows(_R) {};
 	bool _PWJokers = true;
-	bool _PWDuplicateCards = true;
+	bool _PWDuplicateCards = false;
 	bool _PWCoins = true;
 	bool _PWDlbNothing = true;
 	int _NumRows = 2;
