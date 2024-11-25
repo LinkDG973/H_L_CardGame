@@ -120,16 +120,16 @@ void PlayState::DrawGameScreen() {
 	else {
 		wcout << CARD_INDENT << L"SCORE : " << _Score;
 	}
-	wcout << L"   CARD : " << (_CardIndex + _CardCount) + 1 << endl << BOARDER << endl;
+	wcout << CARD_INDENT << L" CARD : " << (_CardIndex + _CardCount) + 1 << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
-	SetOutPromt(CARD_INDENT + _Result);
+	SetOutPromt(_Result);
 	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
-		SetCmdPromt(CARD_INDENT + L"How much would you like to bet? ( Number ) : £");
+		SetCmdPromt(L"                    How much would you like to bet? ( Number )");
 	}
 	else {
-		SetCmdPromt(CARD_INDENT + L"Higher or Lower? ( H / L )");
+		SetCmdPromt(L"                            Higher or Lower? ( H / L )");
 	}
 }
 

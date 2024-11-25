@@ -13,7 +13,7 @@ bool SetupState::CheckInput(char _Input) {
 		case 'D': _tempConfig._PWDuplicateCards = !_tempConfig._PWDuplicateCards; break;
 		case 'C': _tempConfig._PWCoins = !_tempConfig._PWCoins; break;
 		case 'N': _tempConfig._PWDlbNothing = !_tempConfig._PWDlbNothing; break;
-		case '1': case '2': case '3':
+		case '1': case '2':
 			_tempConfig._NumPlaySets = int(_Input) - ASCII_NUM_SHIFT; break;
 		default: return false; break;
 	}
@@ -27,19 +27,19 @@ wchar_t toggleChar(bool _toggle) {
 
 void SetupState::SpecificRender() {
 	MakeSpace(5);
-	wcout << CARD_INDENT << CARD_INDENT << L"┌───────────────────────────────────────────────┒" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│                  GAME SETUP                   ┃" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┬───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Jokers                      (J) │ " << toggleChar(_tempConfig._PWJokers) << L" ┃" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Duplicate Cards             (D) │ " << toggleChar(_tempConfig._PWDuplicateCards) << L" ┃" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Coins                       (C) │ " << toggleChar(_tempConfig._PWCoins) << L" ┃" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Double or Nothing Mode      (N) │ " << toggleChar(_tempConfig._PWDlbNothing) << L" ┃" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of card sets           (1 / 2 / 3) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
+	wcout << L"                ┌────────────────────────────────────────────────┒" << endl;
+	wcout << L"                │                   GAME SETUP                   ┃" << endl;
+	wcout << L"                ├────────────────────────────────────────────┬───┨" << endl;
+	wcout << L"                │ Play with Jokers                       (J) │ " << toggleChar(_tempConfig._PWJokers) << L" ┃" << endl;
+	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << L"                │ Play with Duplicate Cards              (D) │ " << toggleChar(_tempConfig._PWDuplicateCards) << L" ┃" << endl;
+	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << L"                │ Play with Coins                        (C) │ " << toggleChar(_tempConfig._PWCoins) << L" ┃" << endl;
+	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << L"                │ Play with Double or Nothing Mode       (N) │ " << toggleChar(_tempConfig._PWDlbNothing) << L" ┃" << endl;
+	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << L"                │ Number of card sets               ( 1 / 2) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
+	wcout << L"                ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
 	MakeSpace(6);
-	SetCmdPromt(L"Select Option to toggle, type 'B' to Return to the Title Screen (B)");
+	SetCmdPromt(L"      Select Option to toggle or type 'B' to Return to the Title Screen (B)");
 }

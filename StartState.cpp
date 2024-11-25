@@ -2,10 +2,8 @@
 #include "States.h"
 
 void StartState::DrawTitleScreen() {
-
 	Card card1 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
 	Card card2 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
-
 
 	wcout << L"                     ┌─┒ ┌─┒┌─────┒┌─────┒┌─┒ ┌─┒┌─────┒┌────┒" << endl
 		  << L"                     │ ┃ │ ┃┕━┑ ┏━┛│┏━━┑ ┃│ ┃ │ ┃│ ┏━━━┛│ ┏━┑┃" << endl
