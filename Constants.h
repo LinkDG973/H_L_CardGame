@@ -19,7 +19,7 @@ static ERROR_CODE ret_code;  // Error Check Return Variable
 #define END_STATE 3
 
 constexpr ui8 MAX_DECK_SIZE = 54;
-//constexpr ui8 DEFAULT_DECK_SIZE = 52;
+constexpr ui8 PLAY_DECK_SIZE = 10;
 constexpr ui8 CARD_GRAPHIC_SIZE = 8;
 
 constexpr ui8 ASCII_NUM_SHIFT = 48;
@@ -47,11 +47,11 @@ static const std::wstring DEFAULT_ERROR_MSG = L"                          Invali
 struct GameConfig {
 	GameConfig() {};
 	GameConfig(bool _J, bool _D, bool _C, bool _N, int _R)
-		: _PWJokers(_J), _PWDuplicateCards(_D), _PWCoins(_C), _PWDlbNothing(_N), _NumRows(_R) {};
+		: _PWJokers(_J), _PWDuplicateCards(_D), _PWCoins(_C), _PWDlbNothing(_N), _NumPlaySets(_R) {};
 	bool _PWJokers = true;
 	bool _PWDuplicateCards = false;
 	bool _PWCoins = true;
 	bool _PWDlbNothing = true;
-	int _NumRows = 2;
+	int _NumPlaySets = 1;
 };
 

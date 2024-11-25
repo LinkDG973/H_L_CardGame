@@ -14,7 +14,7 @@ bool SetupState::CheckInput(char _Input) {
 		case 'C': _tempConfig._PWCoins = !_tempConfig._PWCoins; break;
 		case 'N': _tempConfig._PWDlbNothing = !_tempConfig._PWDlbNothing; break;
 		case '1': case '2': case '3':
-			_tempConfig._NumRows = int(_Input) - ASCII_NUM_SHIFT; break;
+			_tempConfig._NumPlaySets = int(_Input) - ASCII_NUM_SHIFT; break;
 		default: return false; break;
 	}
 	return true;
@@ -38,7 +38,7 @@ void SetupState::SpecificRender() {
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"│ Play with Double or Nothing Mode      (N) │ " << toggleChar(_tempConfig._PWDlbNothing) << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"├───────────────────────────────────────────┼───┨" << endl;
-	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of Card Rows           (1 / 2 / 3) │ " << _tempConfig._NumRows << L" ┃" << endl;
+	wcout << CARD_INDENT << CARD_INDENT << L"│ Number of card sets           (1 / 2 / 3) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
 	wcout << CARD_INDENT << CARD_INDENT << L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
 	MakeSpace(6);
 	SetCmdPromt(L"Select Option to toggle, type 'B' to Return to the Title Screen (B)");

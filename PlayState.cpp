@@ -92,10 +92,17 @@ void PlayState::Update() {
 	}
 
 	if (_CardIndex >= 10 || _Coins <= 0) { // If game has finished
-		Game::getInstance().SetScore(_Score);
-		Game::getInstance().SetCoins(_Coins);
-		Reset_PlayState();
-		Game::getInstance().SwitchState(END_STATE);
+		if ((_CardCount + _CardIndex) < PLAY_DECK_SIZE * Game::getInstance().GetGameConfig()._NumPlaySets) {
+			_CardCount += _CardIndex;
+			Reset_PlayCards();
+		}
+		else {
+			// End the game
+			Game::getInstance().SetScore(_Score);
+			Game::getInstance().SetCoins(_Coins);
+			Reset_PlayState();
+			Game::getInstance().SwitchState(END_STATE);
+		}
 	}
 
 	SetDirtyRender(true);
@@ -113,7 +120,7 @@ void PlayState::DrawGameScreen() {
 	else {
 		wcout << CARD_INDENT << L"SCORE : " << _Score;
 	}
-	wcout << L"   CARD : " << _CardIndex + 1 << endl << BOARDER << endl;
+	wcout << L"   CARD : " << (_CardIndex + _CardCount) + 1 << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
@@ -218,12 +225,20 @@ int PlayState::GetNewCardIndex() {
 	return _RandNum;
 }
 
+void PlayState::Reset_PlayCards() {
+	for (Card& _C : _InPlay) {
+		// Set InPlay Cards
+		_C = Game::getInstance().GetCard(GetNewCardIndex());
+		_C.SetFlipState(true);
+	}
+	_CardIndex = 0;
+}
+
 ERROR_CODE PlayState::Reset_PlayState() {
 	system("cls");
 
 	_ValidInput = true;
 	_GameIsSetup = false;
-	_CardIndex = 0;
 	_Score = 0;
 
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
@@ -239,11 +254,7 @@ ERROR_CODE PlayState::Reset_PlayState() {
 		Game::getInstance().GetCard(i).SetFlipState(false);
 	}
 
-	for (Card& _C : _InPlay) {
-		// Set InPlay Cards
-		_C = Game::getInstance().GetCard(GetNewCardIndex());
-		_C.SetFlipState(true);
-	}
+	Reset_PlayCards();
 
 	return GAME_OK;
 }

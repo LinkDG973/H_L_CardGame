@@ -102,6 +102,7 @@ private:
 	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent);
 	ERROR_CODE GenerateGraphics(Card& _C);
 	ERROR_CODE Reset_PlayState();
+	void Reset_PlayCards();
 
 	int GetDeckSize();
 
@@ -112,12 +113,13 @@ private:
 
 	int GetNewCardIndex();
 
-	Card _InPlay[10];
+	Card _InPlay[PLAY_DECK_SIZE];
 	Card _FaceDown;
 
 	int _Score = 0;
 	int _randomIndex = 0;
 	int _CardIndex = 0;
+	int _CardCount = 0;
 	bool _GameIsSetup = false;
 
 	int _Coins = STARTING_COIN_COUNT;
