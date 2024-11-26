@@ -9,27 +9,27 @@ void StartState::DrawTitleScreen() {
 		  << L"                     │ ┃ │ ┃┕━┑ ┏━┛│┏━━┑ ┃│ ┃ │ ┃│ ┏━━━┛│ ┏━┑┃" << endl
 		  << L"                     │ ┖─┘ ┃  │ ┃  │┃  ┕━┛│ ┖─┘ ┃│ ┖───┒│ ┖─┘┖┒" << endl
 		  << L"     " << card1.GetCardGraphic(0) << L"     │ ┏━┑ ┃  │ ┃  │┃ ┌──┒│ ┏━┑ ┃│ ┏━━━┛│ ┏━┑ ┃     " << card2.GetCardGraphic(0) << endl
-		  << L"     " << card1.GetCardGraphic(1) << L"     │ ┃ │ ┃┌─┘ ┖─┒│┖─┴─ ┃│ ┃ │ ┃│ ┖───┒│ ┃ │ ┃     " << card2.GetCardGraphic(1) << L"" << endl
-		  << L"     " << card1.GetCardGraphic(2) << L"     ┕━┛ ┕━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛┕━━━━━┛┕━┛ ┕━┛     " << card2.GetCardGraphic(2) << L"" << endl
-		  << L"     " << card1.GetCardGraphic(3) << L"         ┌─┒    ┌─────┒┌┒   ┌┒┌─────┒┌────┒         " << card2.GetCardGraphic(3) << L"" << endl
-		  << L"     " << card1.GetCardGraphic(4) << L"         │ ┃    │ ┏━┑ ┃│┃┌─┒│┃│ ┏━━━┛│ ┏━┑┃         " << card2.GetCardGraphic(4) << L"" << endl
-		  << L"     " << card1.GetCardGraphic(5) << L"         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┖───┒│ ┖─┘┖┒        " << card2.GetCardGraphic(5) << L"" << endl
-		  << L"     " << card1.GetCardGraphic(6) << L"         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┏━━━┛│ ┏━┑ ┃        " << card2.GetCardGraphic(6) << L"" << endl
+		  << L"     " << card1.GetCardGraphic(1) << L"     │ ┃ │ ┃┌─┘ ┖─┒│┖─┴─ ┃│ ┃ │ ┃│ ┖───┒│ ┃ │ ┃     " << card2.GetCardGraphic(1) << endl
+		  << L"     " << card1.GetCardGraphic(2) << L"     ┕━┛ ┕━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛┕━━━━━┛┕━┛ ┕━┛     " << card2.GetCardGraphic(2) << endl
+		  << L"     " << card1.GetCardGraphic(3) << L"         ┌─┒    ┌─────┒┌┒   ┌┒┌─────┒┌────┒         " << card2.GetCardGraphic(3) << endl
+		  << L"     " << card1.GetCardGraphic(4) << L"         │ ┃    │ ┏━┑ ┃│┃┌─┒│┃│ ┏━━━┛│ ┏━┑┃         " << card2.GetCardGraphic(4) << endl
+		  << L"     " << card1.GetCardGraphic(5) << L"         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┖───┒│ ┖─┘┖┒        " << card2.GetCardGraphic(5) << endl
+		  << L"     " << card1.GetCardGraphic(6) << L"         │ ┃    │ ┃ │ ┃│┃│ ┃│┃│ ┏━━━┛│ ┏━┑ ┃        " << card2.GetCardGraphic(6) << endl
 		  << L"                         │ ┖───┒│ ┖─┘ ┃│┖┘ ┖┘┃│ ┖───┒│ ┃ │ ┃" << endl
 		  << L"                         ┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━━━━━┛┕━┛ ┕━┛" << endl;
-	wcout << L"                               BY - OLIVER CALLAGHAN" << endl << endl;
+	wcout << centreString(L"BY - OLIVER CALLAGHAN") << endl << endl;
 
 	wcout << BOARDER << endl;
-	wcout << L"                                     MAIN MENU" << endl;
+	wcout << centreString(L"MAIN MENU") << endl;
 	wcout << BOARDER << endl << endl;
-	wcout << L"                                   PLAY GAME (P)" << endl << endl;
-	wcout << L"                                    SETTINGS (S)" << endl << endl;
-	wcout << L"                                      RULES (R)" << endl << endl << endl;
+	wcout << centreString(L"PLAY GAME (P)") << endl << endl;
+	wcout << centreString(L"SETTINGS (S)") << endl << endl;
+	wcout << centreString(L"RULES (R)") << endl << endl << endl;
 	SetCmdPromt(L"Select Option (P / S / R)");
 }
 
 void StartState::DrawRulesScreen() {
-	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "     RULES" << endl;
+	wcout << centreString(L"RULES") << endl;
 	wcout << BOARDER << endl;
 
 	switch (_currentPage) {
