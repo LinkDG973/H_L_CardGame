@@ -40,11 +40,11 @@ void EndState::SpecificRender() {
 
 	if (tempVal > Game::getInstance().GetHighScore()) {
 		Game::getInstance().SetHighScore(tempVal);
-		wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "! NEW HIGH SCORE !" << endl;
-		wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "HIGH SCORE : " << Game::getInstance().GetHighScore() << endl;
+		wcout << centreString(L"! NEW HIGH SCORE !") << endl;
+		wcout << L"HIGH SCORE : " << Game::getInstance().GetHighScore() << endl;
 	}
 	else {
-		wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT << "HIGH SCORE : " << Game::getInstance().GetHighScore() << endl << endl;
+		wcout << "HIGH SCORE : " << Game::getInstance().GetHighScore() << endl << endl;
 	}
 
 	wcout << CARD_INDENT << CARD_INDENT << CARD_INDENT

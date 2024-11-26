@@ -126,10 +126,10 @@ void PlayState::DrawGameScreen() {
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	SetOutPromt(_Result);
 	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
-		SetCmdPromt(L"                    How much would you like to bet? ( Number )");
+		SetCmdPromt(centreString(L"How much would you like to bet? ( Number )"));
 	}
 	else {
-		SetCmdPromt(L"                            Higher or Lower? ( H / L )");
+		SetCmdPromt(centreString(L"Higher or Lower? ( H / L )"));
 	}
 }
 
@@ -147,26 +147,33 @@ bool PlayState::isNumber(string& _Str) {
 }
 
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
+	wstringstream _MSG;
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
 		if (_Res) {
 			_Coins += _NumBet * 2;
-			_Result = L"CARD WAS " + _Input + L"! +COINS!";
+			_MSG << _InPlay[_CardIndex].GetVal() << _InPlay[_CardIndex].GetSuit() << L" CARD WAS " + _Input + L" THAN " <<
+					Game::getInstance().GetCard(_randomIndex).GetVal() << Game::getInstance().GetCard(_randomIndex).GetSuit() << L"! +£" << _NumBet * 2 << L" COINS!";
 		}
 		else {
 			_Coins -= _NumBet;
-			_Result = L"CARD NOT " + _Input + L". -COINS.";
+			_MSG << _InPlay[_CardIndex].GetVal() << _InPlay[_CardIndex].GetSuit() << L" CARD WAS NOT " + _Input + L" THAN " <<
+				Game::getInstance().GetCard(_randomIndex).GetVal() << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -£" << _NumBet * 2 << L" COINS!";
 		}
 	}
 	else {
 		if (_Res) {
 			_Score += 150;
-			_Result = L"CARD WAS " + _Input + L"! +150 POINTS!";
+			_MSG << _InPlay[_CardIndex].GetVal() << _InPlay[_CardIndex].GetSuit() << L" CARD WAS " + _Input + L" THAN " <<
+				Game::getInstance().GetCard(_randomIndex).GetVal() << Game::getInstance().GetCard(_randomIndex).GetSuit() << L"! +150 POINTS";
+
 		}
 		else {
 			_Score -= 100;
-			_Result = L"CARD NOT " + _Input + L". -100 POINTS.";
+			_MSG << _InPlay[_CardIndex].GetVal() << _InPlay[_CardIndex].GetSuit() << L" CARD WAS NOT " + _Input + L" THAN " <<
+				Game::getInstance().GetCard(_randomIndex).GetVal() << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -100 POINTS";
 		}
 	}
+	_Result = centreString(_MSG.str());
 }
 
 bool PlayState::CheckInput(char _Input) {
@@ -191,21 +198,25 @@ bool PlayState::CheckInput(char _Input) {
 }
 
 bool PlayState::CheckBet(string _Bet) {
+	wstringstream _MSG;
 	if (isNumber(_Bet)) {
 		_NumBet = atoi(_Bet.c_str());
 		if (_NumBet >= 0 && _NumBet <= _Coins) {
-			_Result = L"Betting with coins.";
+			string s = _Bet + " BET PLACED.";
+			wstring ws(s.begin(), s.end());
+			_Result = centreString(L"£" + ws);
 			_Betting = false;
 			SetErrorPromt(L"");
 			return true;
 		}
 		else {
-			SetErrorPromt(L"                    Invalid bet, please place a bet between or equal to 0 & ");
+			_MSG << L"Invalid bet, please place a bet between or equal to £0 & £" << _Coins;
 		}
 	}
 	else {
-		SetErrorPromt(L"                          Invalid bet, please input an integer number.");
+		_MSG << L"Invalid bet, please input an integer number.";
 	}
+	SetErrorPromt(centreString(_MSG.str()));
 
 	return false;
 }

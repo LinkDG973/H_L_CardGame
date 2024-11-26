@@ -28,6 +28,7 @@ constexpr wchar_t SUITS[5] = { L'♠', L'♦', L'♥', L'♣', L'J' };
 static const std::wstring CARD_INDENT = L"           ";
 static const std::wstring SMALL_INDENT = L"   ";
 static const std::wstring BOARDER = L"───────────────────────────────────────────────────────────────────────────────────";
+static const int SCREEN_WIDTH = 83;
 
 static const int STARTING_COIN_COUNT = 2000;
 

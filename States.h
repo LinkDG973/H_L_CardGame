@@ -54,6 +54,13 @@ protected:
 		}
 		_ErrorPromt = DEFAULT_ERROR_MSG;
 	};
+
+	wstring centreString(wstring _str) {
+		// (screenwidth / 2) - (_str/2) to nearest int
+		int no_spaces = (SCREEN_WIDTH * 0.5f) - (_str.length() * 0.5f);
+		wstring sp(no_spaces, L' ');
+		return sp + _str;
+	}
 private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
