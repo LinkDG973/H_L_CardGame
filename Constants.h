@@ -20,7 +20,7 @@ static ERROR_CODE ret_code;  // Error Check Return Variable
 
 constexpr ui8 MAX_DECK_SIZE = 54;
 constexpr ui8 PLAY_DECK_SIZE = 10;
-constexpr ui8 CARD_GRAPHIC_SIZE = 8;
+constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 
 constexpr ui8 ASCII_NUM_SHIFT = 48;
 
@@ -38,10 +38,10 @@ static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"││ │ │ │ ││",
 	L"││ │ │ │ ││",
 	L"│└───────┘│",
-	L"└─────────┘",
-	L"           "
+	L"└─────────┘"
 };
 static const std::wstring _Selector = L"     \u2571\u2572     ";
+static const std::wstring _EmptySelector = L"           ";
 static const std::wstring DEFAULT_ERROR_MSG = L"                          Invalid input, please try again.";
 
 struct GameConfig {

@@ -119,6 +119,8 @@ private:
 	int _Score = 0;
 	int _randomIndex = 0;
 	int _CardIndex = 0;
+	int _CurrentRow = 0;
+	int _SelectorStart = 0;
 	int _CardCount = 0;
 	bool _GameIsSetup = false;
 

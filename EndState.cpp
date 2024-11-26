@@ -3,8 +3,7 @@
 
 bool EndState::CheckInput(char _Input) {
 	switch (_Input) {
-	case 'Y':
-		Game::getInstance().SwitchState(START_STATE);
+	case 'Y': Game::getInstance().SwitchState(START_STATE); break;
 	case 'N':
 		system("cls");
 		wcout << BOARDER << endl << BOARDER << endl;

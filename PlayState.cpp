@@ -115,12 +115,12 @@ void PlayState::SpecificRender() {
 
 void PlayState::DrawGameScreen() {
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
-		wcout << CARD_INDENT << L"COINS : £" << _Coins;
+		wcout << CARD_INDENT << L"COINS : £ " << _Coins;
 	}
 	else {
 		wcout << CARD_INDENT << L"SCORE : " << _Score;
 	}
-	wcout << CARD_INDENT << L" CARD : " << (_CardIndex + _CardCount) + 1 << endl << BOARDER << endl;
+	wcout << endl << CARD_INDENT << L"CARD  : " << (_CardIndex + _CardCount) + 1 << " / " << PLAY_DECK_SIZE * Game::getInstance().GetGameConfig()._NumPlaySets << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
@@ -134,7 +134,7 @@ void PlayState::DrawGameScreen() {
 }
 
 int PlayState::GetDeckSize() { 
-	return (MAX_DECK_SIZE - (2 * Game::getInstance().GetGameConfig()._PWJokers)) - 1; 
+	return (MAX_DECK_SIZE - (2 * !Game::getInstance().GetGameConfig()._PWJokers)) - 1; 
 }
 
 bool PlayState::isNumber(string& _Str) {
@@ -214,6 +214,7 @@ int PlayState::GetNewCardIndex() {
 	int _RandNum = 0;
 	if (!Game::getInstance().GetGameConfig()._PWDuplicateCards) {
 		do {
+			int ds = GetDeckSize();
 			_RandNum = randomNum(0, GetDeckSize());
 		} while (Game::getInstance().GetCard(_RandNum).GetPlayedState() == true);
 		Game::getInstance().GetCard(_RandNum).SetPlayedState(true);
@@ -240,6 +241,7 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	_ValidInput = true;
 	_GameIsSetup = false;
 	_Score = 0;
+	_CardCount = 0;
 
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
 		SetErrorPromt(L"");
@@ -260,9 +262,9 @@ ERROR_CODE PlayState::Reset_PlayState() {
 }
 
 ERROR_CODE PlayState::Draw_Card(Card _C, int _Indent) {
-	for (int i = 0; i < CARD_GRAPHIC_SIZE - 1; ++i) {
+	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
 		wstring _line = L"";
-		for (int y = 0; y < _Indent; ++y) _line += CARD_INDENT;
+		_line += L"                                    ";
 		wcout << _line << _C.GetCardGraphic(i) << endl;
 	}
 	return GAME_OK;
@@ -270,26 +272,44 @@ ERROR_CODE PlayState::Draw_Card(Card _C, int _Indent) {
 
 ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent) {
 	int num = 0;
+	if (_CardIndex >= PLAY_DECK_SIZE * 0.5f) {
+		_CurrentRow = 5;
+	}
+	else {
+		_CurrentRow = 0;
+	}
+
 	for (int i = 0; i < _C_Count; i + 0) { // for the number of cards
-		for (int x = 0; x < CARD_GRAPHIC_SIZE; ++x) { // for the number of graphics
+		for (int x = 0; x < CARD_GRAPHIC_SIZE + 1; ++x) { // for the number of graphics
 			wstring _line = L"";
-			for (int y = 0; y < _Indent; ++y) _line += CARD_INDENT;
+			for (int y = 0; y < _Indent; ++y) _line += L"              ";
 			num = 0;
+			int _tIndex = 0;
 			for (int j = 0; j < _Columns; ++j) { // for the number of columns
-				if (x == 7 && (i+num) == _CardIndex) {
-					_line += _Selector;
+				_tIndex = i + num;
+				if (x == 7) {
+					// Draw Selector Row
+					if ((_tIndex) == _CardIndex) {
+						_line += _Selector;
+					}
+					else {
+						_line += _EmptySelector;
+					}
 				}
 				else {
-					if (_CardSet[i + num].GetFlipState()) {
+					if (_CardSet[_tIndex].GetFlipState()) {
 						_line += _FaceDown.GetCardGraphic(x);
 					}
 					else {
-						_line += _CardSet[i + num].GetCardGraphic(x);
+						_line += _CardSet[_tIndex].GetCardGraphic(x);
 					}
 				}
 				++num;
 			}
-			wcout << _line << endl;
+
+			if (x != 7 || (_tIndex) >= _CurrentRow && (_tIndex) < _CurrentRow + 5) {
+				wcout << _line << endl;
+			}
 		}
 		i += num;
 	}
