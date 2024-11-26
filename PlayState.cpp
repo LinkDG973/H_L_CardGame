@@ -180,11 +180,9 @@ bool PlayState::CheckInput(char _Input) {
 	switch (_Input) {
 	case 'H':
 		UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
-		_Betting = true;
 		break;
 	case 'L':
 		UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
-		_Betting = true;
 		break;
 	default: 
 		SetErrorPromt(DEFAULT_ERROR_MSG);
@@ -194,6 +192,7 @@ bool PlayState::CheckInput(char _Input) {
 	_InPlay[_CardIndex++].SetFlipState(false);
 	// Sets Focus card for next round
 	_randomIndex = GetNewCardIndex();
+	_Betting = true;
 	return true;
 }
 
@@ -263,9 +262,8 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	srand(time(0));
 	_randomIndex = GetNewCardIndex();
 
-	for (int i = 0; i < MAX_DECK_SIZE; ++i) {
+	for (int i = 0; i < MAX_DECK_SIZE; ++i) 
 		Game::getInstance().GetCard(i).SetFlipState(false);
-	}
 
 	Reset_PlayCards();
 
@@ -273,53 +271,38 @@ ERROR_CODE PlayState::Reset_PlayState() {
 }
 
 ERROR_CODE PlayState::Draw_Card(Card _C, int _Indent) {
-	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
-		wstring _line = L"";
-		_line += L"                                    ";
-		wcout << _line << _C.GetCardGraphic(i) << endl;
-	}
+	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) 
+		wcout << centreString(_C.GetCardGraphic(i)) << endl;
 	return GAME_OK;
 }
 
 ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent) {
 	int num = 0;
-	if (_CardIndex >= PLAY_DECK_SIZE * 0.5f) {
-		_CurrentRow = 5;
-	}
-	else {
-		_CurrentRow = 0;
-	}
+
+	if (_CardIndex >= PLAY_DECK_SIZE * 0.5f) _CurrentRow = 5;
+	else _CurrentRow = 0;
 
 	for (int i = 0; i < _C_Count; i + 0) { // for the number of cards
 		for (int x = 0; x < CARD_GRAPHIC_SIZE + 1; ++x) { // for the number of graphics
 			wstring _line = L"";
-			for (int y = 0; y < _Indent; ++y) _line += L"              ";
 			num = 0;
 			int _tIndex = 0;
 			for (int j = 0; j < _Columns; ++j) { // for the number of columns
 				_tIndex = i + num;
 				if (x == 7) {
 					// Draw Selector Row
-					if ((_tIndex) == _CardIndex) {
-						_line += _Selector;
-					}
-					else {
-						_line += _EmptySelector;
-					}
+					if ((_tIndex) == _CardIndex) _line += _Selector;
+					else _line += _EmptySelector;
 				}
 				else {
-					if (_CardSet[_tIndex].GetFlipState()) {
-						_line += _FaceDown.GetCardGraphic(x);
-					}
-					else {
-						_line += _CardSet[_tIndex].GetCardGraphic(x);
-					}
+					if (_CardSet[_tIndex].GetFlipState()) _line += _FaceDown.GetCardGraphic(x);
+					else _line += _CardSet[_tIndex].GetCardGraphic(x);
 				}
 				++num;
 			}
 
 			if (x != 7 || (_tIndex) >= _CurrentRow && (_tIndex) < _CurrentRow + 5) {
-				wcout << _line << endl;
+				wcout << centreString(_line) << endl;
 			}
 		}
 		i += num;

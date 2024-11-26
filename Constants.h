@@ -41,7 +41,7 @@ static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"│└───────┘│",
 	L"└─────────┘"
 };
-static const std::wstring _Selector = L"     \u2571\u2572     ";
+static const std::wstring _Selector = L"     \u2571\u2572    ";
 static const std::wstring _EmptySelector = L"           ";
 static const std::wstring DEFAULT_ERROR_MSG = L"Invalid input, please try again.";
 

@@ -27,7 +27,7 @@ wchar_t toggleChar(bool _toggle) {
 
 void SetupState::SpecificRender() {
 	MakeSpace(5);
-	wcout << L"                ┌────────────────────────────────────────────────┒" << endl;
+	wcout << centreString(L"┌────────────────────────────────────────────────┒") << endl;
 	wcout << L"                │                   GAME SETUP                   ┃" << endl;
 	wcout << L"                ├────────────────────────────────────────────┬───┨" << endl;
 	wcout << L"                │ Play with Jokers                       (J) │ " << toggleChar(_tempConfig._PWJokers) << L" ┃" << endl;
@@ -41,5 +41,5 @@ void SetupState::SpecificRender() {
 	wcout << L"                │ Number of card sets               ( 1 / 2) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
 	wcout << L"                ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
 	MakeSpace(6);
-	SetCmdPromt(L"      Select Option to toggle or type 'B' to Return to the Title Screen (B)");
+	SetCmdPromt(L"Select Option to toggle or type 'B' to Return to the Title Screen (B)");
 }
