@@ -25,7 +25,7 @@ void StartState::DrawTitleScreen() {
 	wcout << L"                                   PLAY GAME (P)" << endl << endl;
 	wcout << L"                                    SETTINGS (S)" << endl << endl;
 	wcout << L"                                      RULES (R)" << endl << endl << endl;
-	SetCmdPromt(L"                           Select Option (P / S / R)");
+	SetCmdPromt(L"Select Option (P / S / R)");
 }
 
 void StartState::DrawRulesScreen() {

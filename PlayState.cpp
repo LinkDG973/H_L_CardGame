@@ -126,10 +126,10 @@ void PlayState::DrawGameScreen() {
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	SetOutPromt(_Result);
 	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
-		SetCmdPromt(centreString(L"How much would you like to bet? ( Number )"));
+		SetCmdPromt(L"How much would you like to bet? ( Number )");
 	}
 	else {
-		SetCmdPromt(centreString(L"Higher or Lower? ( H / L )"));
+		SetCmdPromt(L"Higher or Lower? ( H / L )");
 	}
 }
 
@@ -173,7 +173,7 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 				Game::getInstance().GetCard(_randomIndex).GetVal() << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -100 POINTS";
 		}
 	}
-	_Result = centreString(_MSG.str());
+	_Result = _MSG.str();
 }
 
 bool PlayState::CheckInput(char _Input) {
@@ -204,7 +204,7 @@ bool PlayState::CheckBet(string _Bet) {
 		if (_NumBet >= 0 && _NumBet <= _Coins) {
 			string s = _Bet + " BET PLACED.";
 			wstring ws(s.begin(), s.end());
-			_Result = centreString(L"£" + ws);
+			_Result = L"£" + ws;
 			_Betting = false;
 			SetErrorPromt(L"");
 			return true;
@@ -216,7 +216,7 @@ bool PlayState::CheckBet(string _Bet) {
 	else {
 		_MSG << L"Invalid bet, please input an integer number.";
 	}
-	SetErrorPromt(centreString(_MSG.str()));
+	SetErrorPromt(_MSG.str());
 
 	return false;
 }

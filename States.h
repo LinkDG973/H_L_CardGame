@@ -16,10 +16,10 @@ public:
 		SpecificRender();
 
 		wcout << BOARDER << endl;
-		if (!_ValidInput) wcout << _ErrorPromt << endl;
-		else wcout << _OutPromt << endl;
+		if (!_ValidInput) wcout << centreString(_ErrorPromt) << endl;
+		else wcout << centreString(_OutPromt) << endl;
 		wcout << BOARDER << endl;
-		wcout << _CmdPromt + L" \u2192 ";
+		wcout << centreString(_CmdPromt + L" \u2192 ");
 	};
 
 	bool IsRenderDirty() { return _DirtyRender; }
