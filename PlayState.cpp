@@ -75,7 +75,15 @@ ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 
 	_C.GetCardGraphic(1) = ss.str();
 	_C.GetCardGraphic(5) = _C.GetCardGraphic(1);
-	if (_C.GetVal() != 10)std::reverse(_C.GetCardGraphic(5).begin(), _C.GetCardGraphic(5).end());
+	if (_C.GetVal() != 10) {
+		std::reverse(_C.GetCardGraphic(5).begin(), _C.GetCardGraphic(5).end()); 
+	}
+	else { 
+		_C.GetCardGraphic(5)[1] = L' ';
+		_C.GetCardGraphic(5)[2] = L' ';
+		_C.GetCardGraphic(5)[8] = L'1';
+		_C.GetCardGraphic(5)[9] = L'0';
+	}
 
 	return GAME_OK;
 }
