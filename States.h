@@ -118,7 +118,7 @@ private:
 	bool CheckBet(string _Bet);
 	bool isNumber(string& _Str);
 
-	int GetNewCardIndex();
+	int GetNewCardIndex(int _DeckSize);
 
 	Card _InPlay[PLAY_DECK_SIZE];
 	Card _FaceDown;

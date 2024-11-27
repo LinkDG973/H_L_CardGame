@@ -19,6 +19,7 @@ static ERROR_CODE ret_code;  // Error Check Return Variable
 #define END_STATE 3
 
 constexpr ui8 MAX_DECK_SIZE = 54;
+constexpr ui8 FOCUS_DECK_SIZE = 51;
 constexpr ui8 PLAY_DECK_SIZE = 10;
 constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 

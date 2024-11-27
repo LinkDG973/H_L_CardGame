@@ -117,7 +117,7 @@ void StartState::DrawRulesScreen() {
 bool StartState::CheckInput(char _Input) {
 	if (!_showingRules) {
 		switch (_Input) {
-			case 'P': Game::getInstance().SwitchState(PLAY_STATE); break;
+			case 'P': Game::getInstance().SwitchState(PLAY_STATE);  break;
 			case 'S': Game::getInstance().SwitchState(SETUP_STATE); break;
 			case 'R': _showingRules = true; break;
 			default: return false; break;
@@ -129,9 +129,8 @@ bool StartState::CheckInput(char _Input) {
 				_showingRules = false;
 				_currentPage = 1;
 				break;
-			case '1': _currentPage = 1; break;
-			case '2': _currentPage = 2; break;
-			case '3': _currentPage = 3; break;
+			case '1': case '2': case '3':
+				_currentPage = int(_Input) - ASCII_NUM_SHIFT; break;
 			default: return false; break;
 		}
 	}
@@ -140,10 +139,6 @@ bool StartState::CheckInput(char _Input) {
 }
 
 void StartState::SpecificRender() {
-	if (!_showingRules) {
-		DrawTitleScreen();
-	}
-	else {
-		DrawRulesScreen();
-	}
+	if (!_showingRules) DrawTitleScreen();
+	else DrawRulesScreen();
 }

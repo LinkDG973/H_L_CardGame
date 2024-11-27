@@ -142,7 +142,6 @@ bool PlayState::isNumber(string& _Str) {
 		if (std::isdigit(c) == 0)
 			return false;
 	}
-
 	return true;
 }
 
@@ -177,21 +176,35 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 }
 
 bool PlayState::CheckInput(char _Input) {
-	switch (_Input) {
-	case 'H':
-		UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
-		break;
-	case 'L':
-		UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
-		break;
-	default: 
-		SetErrorPromt(DEFAULT_ERROR_MSG);
-		return false; break;
+	if (_InPlay[_CardIndex].GetVal() != 14) { // If Player Card is not a joker
+		switch (_Input) {
+		case 'H':
+			UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
+			break;
+		case 'L':
+			UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
+			break;
+		default:
+			SetErrorPromt(DEFAULT_ERROR_MSG);
+			return false; break;
+		}
+	}
+	else {
+		wstringstream _MSG;
+		if (Game::getInstance().GetGameConfig()._PWCoins) {
+			_Coins += _NumBet * 2;
+			_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! £" << _NumBet * 2 << L" COINS!";
+		}
+		else {
+			_Score += 150;
+			_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! +150 POINTS!";
+		}
+		_Result = _MSG.str();
 	}
 
 	_InPlay[_CardIndex++].SetFlipState(false);
 	// Sets Focus card for next round
-	_randomIndex = GetNewCardIndex();
+	_randomIndex = GetNewCardIndex(FOCUS_DECK_SIZE);
 	_Betting = true;
 	return true;
 }
@@ -220,26 +233,26 @@ bool PlayState::CheckBet(string _Bet) {
 	return false;
 }
 
-int PlayState::GetNewCardIndex() {
+int PlayState::GetNewCardIndex(int _DeckSize) {
 	int _RandNum = 0;
 	if (!Game::getInstance().GetGameConfig()._PWDuplicateCards) {
 		do {
-			int ds = GetDeckSize();
-			_RandNum = randomNum(0, GetDeckSize());
+			_RandNum = randomNum(0, _DeckSize);
 		} while (Game::getInstance().GetCard(_RandNum).GetPlayedState() == true);
 		Game::getInstance().GetCard(_RandNum).SetPlayedState(true);
 	}
 	else {
-		_RandNum = randomNum(0, GetDeckSize());
+		_RandNum = randomNum(0, _DeckSize);
 	}
 
 	return _RandNum;
 }
 
 void PlayState::Reset_PlayCards() {
+	int _DeckSize = GetDeckSize();
 	for (Card& _C : _InPlay) {
 		// Set InPlay Cards
-		_C = Game::getInstance().GetCard(GetNewCardIndex());
+		_C = Game::getInstance().GetCard(GetNewCardIndex(_DeckSize));
 		_C.SetFlipState(true);
 	}
 	_CardIndex = 0;
@@ -260,7 +273,7 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	}
 
 	srand(time(0));
-	_randomIndex = GetNewCardIndex();
+	_randomIndex = GetNewCardIndex(FOCUS_DECK_SIZE);
 
 	for (int i = 0; i < MAX_DECK_SIZE; ++i) 
 		Game::getInstance().GetCard(i).SetFlipState(false);
