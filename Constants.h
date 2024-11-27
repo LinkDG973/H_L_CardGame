@@ -26,6 +26,7 @@ constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 constexpr ui8 ASCII_NUM_SHIFT = 48;
 
 constexpr wchar_t SUITS[5] = { L'♠', L'♦', L'♥', L'♣', L'J' };
+constexpr wchar_t INITALS[14] = { L'0', L'1', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9', L'10', L'J', L'Q', L'K'};
 static const std::wstring CARD_INDENT = L"           ";
 static const std::wstring SMALL_INDENT = L"   ";
 static const std::wstring BOARDER = L"───────────────────────────────────────────────────────────────────────────────────";
