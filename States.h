@@ -130,6 +130,7 @@ private:
 	int _SelectorStart = 0;
 	int _CardCount = 0;
 	bool _GameIsSetup = false;
+	bool _Holding = false;
 
 	int _Coins = STARTING_COIN_COUNT;
 	int _NumBet = 0;

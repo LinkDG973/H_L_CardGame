@@ -133,12 +133,18 @@ void PlayState::DrawGameScreen() {
 	wcout << BOARDER << endl;
 	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
 	SetOutPromt(_Result);
-	if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
-		SetCmdPromt(L"How much would you like to bet? ( Number )");
+	if (!_Holding) {
+		if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
+			SetCmdPromt(L"How much would you like to bet? ( Number )");
+		}
+		else {
+			SetCmdPromt(L"Higher or Lower? ( H / L )");
+		}
 	}
 	else {
-		SetCmdPromt(L"Higher or Lower? ( H / L )");
+		SetCmdPromt(L"Press Enter to continue... ( E )");
 	}
+
 }
 
 int PlayState::GetDeckSize() { 
@@ -179,40 +185,57 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 				INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -100 POINTS";
 		}
 	}
+	_Holding = true;
 	_Result = _MSG.str();
 }
 
 bool PlayState::CheckInput(char _Input) {
-	if (_InPlay[_CardIndex].GetVal() != 14) { // If Player Card is not a joker
+	if (!_Holding) {
+		wstringstream _MSG;
+		if (_InPlay[_CardIndex].GetVal() != 14) { // If Player Card is not a joker
+			switch (_Input) {
+			case 'H':
+				UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
+				break;
+			case 'L':
+				UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
+				break;
+			default:
+				SetErrorPromt(DEFAULT_ERROR_MSG);
+				return false; break;
+			}
+		}
+		else {
+			if (Game::getInstance().GetGameConfig()._PWCoins) {
+				_Coins += _NumBet * 2;
+				_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! £" << _NumBet * 2 << L" COINS!";
+			}
+			else {
+				_Score += 150;
+				_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! +150 POINTS!";
+			}
+			_Holding = true;
+			_Result = _MSG.str();
+		}
+		_InPlay[_CardIndex].SetFlipState(false);
+
+	}
+	else {
+		// Wait for Input
 		switch (_Input) {
-		case 'H':
-			UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
-			break;
-		case 'L':
-			UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
+		case 'E':
+			++_CardIndex;
+			_Holding = false;
+			_randomIndex = GetNewCardIndex(FOCUS_DECK_SIZE);
+			_Betting = true;
 			break;
 		default:
 			SetErrorPromt(DEFAULT_ERROR_MSG);
 			return false; break;
+			break;
 		}
-	}
-	else {
-		wstringstream _MSG;
-		if (Game::getInstance().GetGameConfig()._PWCoins) {
-			_Coins += _NumBet * 2;
-			_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! £" << _NumBet * 2 << L" COINS!";
-		}
-		else {
-			_Score += 150;
-			_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! +150 POINTS!";
-		}
-		_Result = _MSG.str();
 	}
 
-	_InPlay[_CardIndex++].SetFlipState(false);
-	// Sets Focus card for next round
-	_randomIndex = GetNewCardIndex(FOCUS_DECK_SIZE);
-	_Betting = true;
 	return true;
 }
 
