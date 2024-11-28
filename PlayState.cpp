@@ -123,15 +123,15 @@ void PlayState::SpecificRender() {
 
 void PlayState::DrawGameScreen() {
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
-		wcout << CARD_INDENT << L"COINS : £ " << _Coins;
+		wcout << CARD_INDENT << L"COINS : £ " << _Coins << _RoundResult;
 	}
 	else {
-		wcout << CARD_INDENT << L"SCORE : " << _Score;
+		wcout << CARD_INDENT << L"SCORE : " << _Score << _RoundResult;
 	}
 	wcout << endl << CARD_INDENT << L"CARD  : " << (_CardIndex + _CardCount) + 1 << " / " << PLAY_DECK_SIZE * Game::getInstance().GetGameConfig()._NumPlaySets << endl << BOARDER << endl;
-	Draw_Card(Game::getInstance().GetCard(_randomIndex), 3); // Focus Card
+	Draw_Card(Game::getInstance().GetCard(_randomIndex)); // Focus Card
 	wcout << BOARDER << endl;
-	Draw_Cards(_InPlay, 9, 5, 1); // Player's Cards
+	Draw_Cards(_InPlay, 9, 5); // Player's Cards
 	SetOutPromt(_Result);
 	if (!_Holding) {
 		if (Game::getInstance().GetGameConfig()._PWCoins && _Betting) {
@@ -142,7 +142,7 @@ void PlayState::DrawGameScreen() {
 		}
 	}
 	else {
-		SetCmdPromt(L"Press Enter to continue... ( E )");
+		SetCmdPromt(L"Press 'E' to continue... ( E )");
 	}
 
 }
@@ -161,26 +161,32 @@ bool PlayState::isNumber(string& _Str) {
 
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
 	wstringstream _MSG;
+	wstringstream _ResMSG;
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
 		if (_Res) {
-			_Coins += _NumBet * 2;
+			_Difference = _NumBet * 2;
+			_ResMSG << L"+ £" << _NumBet * 2;
 			_MSG << INITALS[_InPlay[_CardIndex].GetVal()] << _InPlay[_CardIndex].GetSuit() << L" CARD WAS " + _Input + L" THAN " <<
 				INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L"! +£" << _NumBet * 2 << L" COINS!";
 		}
 		else {
-			_Coins -= _NumBet;
+			_Difference = -_NumBet;
+			_ResMSG << L"- £" << _NumBet;
 			_MSG << INITALS[_InPlay[_CardIndex].GetVal()] << _InPlay[_CardIndex].GetSuit() << L" CARD WAS NOT " + _Input + L" THAN " <<
-				INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -£" << _NumBet * 2 << L" COINS!";
+				INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -£" << _NumBet << L" COINS!";
 		}
+		_RoundResult = _ResMSG.str();
 	}
 	else {
 		if (_Res) {
-			_Score += 150;
+			_Difference = 150;
+			_RoundResult = L" +150";
 			_MSG << INITALS[_InPlay[_CardIndex].GetVal()] << _InPlay[_CardIndex].GetSuit() << L" CARD WAS " + _Input + L" THAN " <<
 				INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L"! +150 POINTS";
 		}
 		else {
-			_Score -= 100;
+			_Difference = -100;
+			_RoundResult = L" -100";
 			_MSG << INITALS[_InPlay[_CardIndex].GetVal()] << _InPlay[_CardIndex].GetSuit() << L" CARD WAS NOT " + _Input + L" THAN " <<
 				INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L". -100 POINTS";
 		}
@@ -191,7 +197,6 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 
 bool PlayState::CheckInput(char _Input) {
 	if (!_Holding) {
-		wstringstream _MSG;
 		if (_InPlay[_CardIndex].GetVal() != 14) { // If Player Card is not a joker
 			switch (_Input) {
 			case 'H':
@@ -206,6 +211,7 @@ bool PlayState::CheckInput(char _Input) {
 			}
 		}
 		else {
+			wstringstream _MSG;
 			if (Game::getInstance().GetGameConfig()._PWCoins) {
 				_Coins += _NumBet * 2;
 				_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! £" << _NumBet * 2 << L" COINS!";
@@ -218,7 +224,6 @@ bool PlayState::CheckInput(char _Input) {
 			_Result = _MSG.str();
 		}
 		_InPlay[_CardIndex].SetFlipState(false);
-
 	}
 	else {
 		// Wait for Input
@@ -228,6 +233,14 @@ bool PlayState::CheckInput(char _Input) {
 			_Holding = false;
 			_randomIndex = GetNewCardIndex(FOCUS_DECK_SIZE);
 			_Betting = true;
+			_Result = L"";
+			_RoundResult = L"";
+			if (Game::getInstance().GetGameConfig()._PWCoins) {
+				_Coins += _Difference;
+			}
+			else {
+				_Score += _Difference;
+			}
 			break;
 		default:
 			SetErrorPromt(DEFAULT_ERROR_MSG);
@@ -313,13 +326,7 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	return GAME_OK;
 }
 
-ERROR_CODE PlayState::Draw_Card(Card _C, int _Indent) {
-	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) 
-		wcout << centreString(_C.GetCardGraphic(i)) << endl;
-	return GAME_OK;
-}
-
-ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent) {
+ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns) {
 	int num = 0;
 
 	if (_CardIndex >= PLAY_DECK_SIZE * 0.5f) _CurrentRow = 5;

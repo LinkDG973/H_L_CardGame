@@ -1,9 +1,25 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "States.h"
 
 bool EndState::CheckInput(char _Input) {
-	switch (_Input) {
-		case 'Y': Game::getInstance().SwitchState(START_STATE); break;
+	if (_DblN_Played == false) {
+		switch (_Input)
+		{
+		case 'Y':
+			_DblN_Played = true;
+			break;
+		case 'N':
+			_DblN_Played = true;
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		switch (_Input) {
+		case 'Y':
+			_DblN_Played = false;
+			Game::getInstance().SwitchState(START_STATE); break;
 		case 'N':
 			system("cls");
 			wcout << BOARDER << endl << BOARDER << endl;
@@ -17,17 +33,18 @@ bool EndState::CheckInput(char _Input) {
 			Game::getInstance().setGameRunning(false);
 			break;
 		default: return false; break;
+		}
 	}
 
 	return true;
 }
 
-void EndState::SpecificRender() {
+void EndState::DrawEndScreen() {
 	MakeSpace(10);
 	wcout << BOARDER << endl;
 
 	int tempVal = 0;
-	wstring mode = L"COINS : �";
+	wstring mode = L"COINS : £";
 	wstringstream _MSG;
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
 		tempVal = Game::getInstance().GetCoins();
@@ -57,4 +74,25 @@ void EndState::SpecificRender() {
 
 	MakeSpace(11);
 	SetCmdPromt(L"Play Again ? (Y / N)");
+}
+
+void EndState::DrawDblN() {
+	Card card1 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
+	MakeSpace(4);
+	Draw_Card(card1);
+	MakeSpace(4);
+	for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
+		wcout << centreString(_FaceDownCard[i]) << endl;
+	}
+	MakeSpace(4);
+	SetCmdPromt(L"Go for double or nothing? (Y / N)");
+}
+
+void EndState::SpecificRender() {
+	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played) {
+		DrawDblN();
+	}
+	else {
+		DrawEndScreen();
+	}
 }

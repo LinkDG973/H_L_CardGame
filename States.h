@@ -53,7 +53,12 @@ protected:
 			_ValidInput = false;
 		}
 		_ErrorPromt = DEFAULT_ERROR_MSG;
-	};
+	}
+	ERROR_CODE Draw_Card(Card _C) {
+		for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i)
+			wcout << centreString(_C.GetCardGraphic(i)) << endl;
+		return GAME_OK;
+	}
 
 	wstring centreString(wstring _str) {
 		// (screenwidth / 2) - (_str/2) to nearest int
@@ -105,8 +110,7 @@ private:
 	void UpdateScore(bool _Res, wstring _Input);
 
 	ERROR_CODE Init();
-	ERROR_CODE Draw_Card(Card _C, int _Indent);
-	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns, int _Indent);
+	ERROR_CODE Draw_Cards(Card* _CardSet, int _C_Count, int _Columns);
 	ERROR_CODE GenerateGraphics(Card& _C);
 	ERROR_CODE Reset_PlayState();
 	void Reset_PlayCards();
@@ -133,10 +137,12 @@ private:
 	bool _Holding = false;
 
 	int _Coins = STARTING_COIN_COUNT;
+	int _Difference = 0;
 	int _NumBet = 0;
 	bool _Betting = true;
 
 	wstring _Result;
+	wstring _RoundResult = L"";
 };
 
 class EndState : public State {
@@ -144,4 +150,7 @@ protected:
 	void SpecificRender() override;
 private:
 	bool CheckInput(char _Input) override;
+	void DrawEndScreen();
+	void DrawDblN();
+	bool _DblN_Played = false;
 };
