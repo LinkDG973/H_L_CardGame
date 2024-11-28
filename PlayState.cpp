@@ -159,6 +159,30 @@ bool PlayState::isNumber(string& _Str) {
 	return true;
 }
 
+bool PlayState::CheckEqual(int _Val1, int _Val2) {
+	wstringstream _MSG;
+	wstringstream _ResMSG;
+	if (_Val1 == _Val2) {
+		if (Game::getInstance().GetGameConfig()._PWCoins) {
+			_Coins += _NumBet;
+			_ResMSG << L"+ £" << _NumBet;
+			_MSG << L"CARDS WERE EQUAL, RETURN BET";
+			_RoundResult = _ResMSG.str();
+		}
+		else {
+			_Score += 100;
+			_RoundResult = L" +100";
+			_MSG << L"CARDS WERE EQUAL +100 POINTS";
+		}
+
+		_Holding = true;
+		_Result = _MSG.str();
+		return true;
+	}
+
+	return false;
+}
+
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
 	wstringstream _MSG;
 	wstringstream _ResMSG;
@@ -200,10 +224,14 @@ bool PlayState::CheckInput(char _Input) {
 		if (_InPlay[_CardIndex].GetVal() != 14) { // If Player Card is not a joker
 			switch (_Input) {
 			case 'H':
-				UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
+				if (!CheckEqual(_InPlay[_CardIndex].GetVal(), Game::getInstance().GetCard(_randomIndex).GetVal())) {
+					UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
+				}
 				break;
 			case 'L':
-				UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
+				if (!CheckEqual(_InPlay[_CardIndex].GetVal(), Game::getInstance().GetCard(_randomIndex).GetVal())) {
+					UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
+				}
 				break;
 			default:
 				SetErrorPromt(DEFAULT_ERROR_MSG);

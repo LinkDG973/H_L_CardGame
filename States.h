@@ -107,6 +107,7 @@ protected:
 private:
 
 	bool CheckInput(char _Input) override;
+	bool CheckEqual(int _Val1, int _Val2);
 	void UpdateScore(bool _Res, wstring _Input);
 
 	ERROR_CODE Init();
@@ -153,4 +154,10 @@ private:
 	void DrawEndScreen();
 	void DrawDblN();
 	bool _DblN_Played = false;
+	bool _Dbln_Set = false;
+	bool _Holding = false;
+	Card _RandCard;
+	Card _PlayerCard;
+	wstring _Result;
+
 };
