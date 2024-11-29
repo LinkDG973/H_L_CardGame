@@ -61,14 +61,11 @@ void EndState::DrawEndScreen() {
 	wcout << BOARDER << endl;
 
 	int tempVal = 0;
-	wstring mode = L"COINS : £";
 	wstringstream _MSG;
+	wstring mode = L"SCORE : ";
+	tempVal = Game::getInstance().GetScore();
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
-		tempVal = Game::getInstance().GetCoins();
-	}
-	else {
-		tempVal = Game::getInstance().GetScore();
-		mode = L"SCORE : ";
+		wstring mode = L"COINS : £";
 	}
 
 	if (tempVal > 0 && tempVal > Game::getInstance().GetHighScore()) {

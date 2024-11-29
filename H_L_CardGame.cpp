@@ -11,4 +11,6 @@ int main() {
         _Game.Render();
         _Game.Update();
     }
+
+    // Release
 }

@@ -24,18 +24,16 @@ public:
 
 	bool IsRenderDirty() { return _DirtyRender; }
 
+protected:
 	void SetCmdPromt(wstring _Msg) { _CmdPromt = _Msg; }
 	void SetOutPromt(wstring _Msg) { _OutPromt = _Msg; }
 	void SetErrorPromt(wstring _Msg) { _ErrorPromt = _Msg; }
-
+	virtual void SpecificRender() = 0;
 	inline std::string trim(std::string& str) {
 		str.erase(str.find_last_not_of(' ') + 1);         //suffixing spaces
 		str.erase(0, str.find_first_not_of(' '));       //prefixing spaces
 		return str;
 	}
-
-protected:
-	virtual void SpecificRender() = 0;
 	void SetDirtyRender(bool _Val) { _DirtyRender = _Val; }
 	void MakeSpace(int _Val) { for (int y = 0; y < _Val; ++y) wcout << endl; }
 	bool _ValidInput = true;
@@ -128,7 +126,7 @@ private:
 	Card _InPlay[PLAY_DECK_SIZE];
 	Card _FaceDown;
 
-	int _Score = 0;
+	int _PlayerScore = 0;
 	int _randomIndex = 0;
 	int _CardIndex = 0;
 	int _CurrentRow = 0;
@@ -137,7 +135,6 @@ private:
 	bool _GameIsSetup = false;
 	bool _Holding = false;
 
-	int _Coins = STARTING_COIN_COUNT;
 	int _Difference = 0;
 	int _NumBet = 0;
 	bool _Betting = true;

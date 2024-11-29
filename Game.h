@@ -29,13 +29,11 @@ public:
 	};
 
 	const bool IsGameRunning() { return _GameRunning; }
+
 	void setGameRunning(bool _Val) { _GameRunning = _Val; }
 
-	const wstring GetUserName() { return _UserName; }
-	void setUserName(wstring _Val) { _UserName = _Val; }
-
-	const int GetScore() { return _Score; }
-	void SetScore(int _Val) { _Score = _Val; }
+	const int GetScore() { return _PlayerScore; }
+	void SetScore(int _Val) { _PlayerScore = _Val; }
 
 	const int GetHighScore() { return _HighScore; }
 	void SetHighScore(int _Val) { _HighScore = _Val; }
@@ -48,23 +46,16 @@ public:
 	Card GetCard(int _Index) { return _Deck[_Index]; }
 	void SetCard(int _Index, Card& _Card) { _Deck[_Index] = _Card; }
 
-	const int GetCoins() { return _Coins; }
-	void SetCoins(int _Val) { _Coins = _Val; }
-
 private:
 	State* _CurrentState;
-
 	State* _GameStates[STATE_COUNT];
 
 	bool _GameRunning = false;
 
-	std::wstring _UserName = L"";
 	int _HighScore = 0;
-	int _Score = 0;
-	int _Coins = 0;
+	int _PlayerScore = 0; // Varible to hold both regular score and coins
 
 	GameConfig _Config;
 	Card _Deck[MAX_DECK_SIZE];
-
 };
 

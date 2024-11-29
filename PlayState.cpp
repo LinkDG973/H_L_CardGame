@@ -99,15 +99,14 @@ void PlayState::Update() {
 		BasicInput();
 	}
 
-	if (_CardIndex >= 10 || _Coins <= 0) { // If game has finished
+	if (_CardIndex >= 10 || Game::getInstance().GetGameConfig()._PWCoins && _PlayerScore <= 0) { // If game has finished
 		if ((_CardCount + _CardIndex) < PLAY_DECK_SIZE * Game::getInstance().GetGameConfig()._NumPlaySets) {
 			_CardCount += _CardIndex;
 			Reset_PlayCards();
 		}
 		else {
 			// End the game
-			Game::getInstance().SetScore(_Score);
-			Game::getInstance().SetCoins(_Coins);
+			Game::getInstance().SetScore(_PlayerScore);
 			Reset_PlayState();
 			Game::getInstance().SwitchState(END_STATE);
 		}
@@ -123,10 +122,10 @@ void PlayState::SpecificRender() {
 
 void PlayState::DrawGameScreen() {
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
-		wcout << CARD_INDENT << L"COINS : £ " << _Coins << _RoundResult;
+		wcout << CARD_INDENT << L"COINS : £ " << _PlayerScore << _RoundResult;
 	}
 	else {
-		wcout << CARD_INDENT << L"SCORE : " << _Score << _RoundResult;
+		wcout << CARD_INDENT << L"SCORE : " << _PlayerScore << _RoundResult;
 	}
 	wcout << endl << CARD_INDENT << L"CARD  : " << (_CardIndex + _CardCount) + 1 << " / " << PLAY_DECK_SIZE * Game::getInstance().GetGameConfig()._NumPlaySets << endl << BOARDER << endl;
 	Draw_Card(Game::getInstance().GetCard(_randomIndex)); // Focus Card
@@ -164,13 +163,13 @@ bool PlayState::CheckEqual(int _Val1, int _Val2) {
 	wstringstream _ResMSG;
 	if (_Val1 == _Val2) {
 		if (Game::getInstance().GetGameConfig()._PWCoins) {
-			_Coins += _NumBet;
+			_PlayerScore += _NumBet;
 			_ResMSG << L"+ £" << _NumBet;
 			_MSG << L"CARDS WERE EQUAL, RETURN BET";
 			_RoundResult = _ResMSG.str();
 		}
 		else {
-			_Score += 100;
+			_PlayerScore += 100;
 			_RoundResult = L" +100";
 			_MSG << L"CARDS WERE EQUAL +100 POINTS";
 		}
@@ -241,11 +240,11 @@ bool PlayState::CheckInput(char _Input) {
 		else {
 			wstringstream _MSG;
 			if (Game::getInstance().GetGameConfig()._PWCoins) {
-				_Coins += _NumBet * 2;
+				_PlayerScore += _NumBet * 2;
 				_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! £" << _NumBet * 2 << L" COINS!";
 			}
 			else {
-				_Score += 150;
+				_PlayerScore += 150;
 				_MSG << L"JOKER CARD PLAYED! BEATING ANY CARD! +150 POINTS!";
 			}
 			_Holding = true;
@@ -264,10 +263,10 @@ bool PlayState::CheckInput(char _Input) {
 			_Result = L"";
 			_RoundResult = L"";
 			if (Game::getInstance().GetGameConfig()._PWCoins) {
-				_Coins += _Difference;
+				_PlayerScore += _Difference;
 			}
 			else {
-				_Score += _Difference;
+				_PlayerScore += _Difference;
 			}
 			break;
 		default:
@@ -284,7 +283,7 @@ bool PlayState::CheckBet(string _Bet) {
 	wstringstream _MSG;
 	if (isNumber(_Bet)) {
 		_NumBet = atoi(_Bet.c_str());
-		if (_NumBet >= 0 && _NumBet <= _Coins) {
+		if (_NumBet >= 0 && _NumBet <= _PlayerScore) {
 			string s = _Bet + " BET PLACED.";
 			wstring ws(s.begin(), s.end());
 			_Result = L"£" + ws;
@@ -293,7 +292,7 @@ bool PlayState::CheckBet(string _Bet) {
 			return true;
 		}
 		else {
-			_MSG << L"Invalid bet, please place a bet between or equal to £0 & £" << _Coins;
+			_MSG << L"Invalid bet, please place a bet between or equal to £0 & £" << _PlayerScore;
 		}
 	}
 	else {
@@ -334,13 +333,15 @@ ERROR_CODE PlayState::Reset_PlayState() {
 
 	_ValidInput = true;
 	_GameIsSetup = false;
-	_Score = 0;
 	_CardCount = 0;
 
 	if (Game::getInstance().GetGameConfig()._PWCoins) {
 		SetErrorPromt(L"");
-		_Coins = STARTING_COIN_COUNT;
+		_PlayerScore = STARTING_COIN_COUNT;
 		_NumBet = 0;
+	}
+	else {
+		_PlayerScore = 0;
 	}
 
 	srand(time(0));
@@ -370,7 +371,7 @@ ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns) {
 				if (x == 7) {
 					// Draw Selector Row
 					if ((_tIndex) == _CardIndex) _line += _Selector;
-					else _line += _EmptySelector;
+					else _line += CARD_INDENT;
 				}
 				else {
 					if (_CardSet[_tIndex].GetFlipState()) _line += _FaceDown.GetCardGraphic(x);
