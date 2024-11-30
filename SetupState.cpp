@@ -1,8 +1,7 @@
 ﻿#include "Game.h"
 #include "States.h"
 
-#include <cctype>
-
+// Input Selection for Settings State
 bool SetupState::CheckInput(char _Input) {
 	switch (_Input) {
 		case 'B':
@@ -20,26 +19,27 @@ bool SetupState::CheckInput(char _Input) {
 	return true;
 }
 
+// Toggle Character function
 wchar_t toggleChar(bool _toggle) {
 	if (_toggle) { return L'╳'; }
 	return L' ';
 }
 
 void SetupState::SpecificRender() {
-	MakeSpace(5);
+	MakeSpace(5); // Draw Settings Menu Table
 	wcout << centreString(L"┌────────────────────────────────────────────────┒") << endl;
-	wcout << L"                │                   GAME SETUP                   ┃" << endl;
-	wcout << L"                ├────────────────────────────────────────────┬───┨" << endl;
+	wcout << centreString(L"│                   GAME SETUP                   ┃") << endl;
+	wcout << centreString(L"├────────────────────────────────────────────┬───┨") << endl;
 	wcout << L"                │ Play with Jokers                       (J) │ " << toggleChar(_tempConfig._PWJokers) << L" ┃" << endl;
-	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << centreString(L"├────────────────────────────────────────────┼───┨") << endl;
 	wcout << L"                │ Play with Duplicate Cards              (D) │ " << toggleChar(_tempConfig._PWDuplicateCards) << L" ┃" << endl;
-	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << centreString(L"├────────────────────────────────────────────┼───┨") << endl;
 	wcout << L"                │ Play with Coins                        (C) │ " << toggleChar(_tempConfig._PWCoins) << L" ┃" << endl;
-	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << centreString(L"├────────────────────────────────────────────┼───┨") << endl;
 	wcout << L"                │ Play with Double or Nothing Mode       (N) │ " << toggleChar(_tempConfig._PWDlbNothing) << L" ┃" << endl;
-	wcout << L"                ├────────────────────────────────────────────┼───┨" << endl;
+	wcout << centreString(L"├────────────────────────────────────────────┼───┨") << endl;
 	wcout << L"                │ Number of card sets               ( 1 / 2) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
-	wcout << L"                ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛" << endl;
+	wcout << centreString(L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛") << endl;
 	MakeSpace(6);
-	SetCmdPromt(L"Select Option to toggle or type 'B' to Return to the Title Screen (B)");
+	SetCmdPromt(L"Select Option to toggle or type 'B' to Return to the Title Screen (B)"); // Set Command Promt Message
 }

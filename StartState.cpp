@@ -38,10 +38,10 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     │ PLAY WITH JOKERS                                                      ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │ ⌂ Adds Jokers to the game pool.                                       ┃" << endl;
-		wcout << L"     │                                                                       ┃" << endl;
-		wcout << L"     │                                                                       ┃" << endl;
-		wcout << L"     │                                                                       ┃" << endl;
-		wcout << L"     │                                                                       ┃" << endl;
+		wcout << L"     │ ⌂ Joker cards beat all cards regardless of if the player selects      ┃" << endl;
+		wcout << L"     │   higher or lower.                                                    ┃" << endl;
+		wcout << L"     │ ⌂ Joker cards can only be drawn in the player's card and not the      ┃" << endl;
+		wcout << L"     │   computer's card.                                                    ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │ PLAY WITH DUPLICATE CARDS                                             ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
@@ -50,10 +50,10 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │ PLAY WITH COINS                                                       ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
-		wcout << L"     │ ⌂ Adds betting chips to the game. This gives the player the option to ┃" << endl;
+		wcout << L"     │ ⌂ Adds betting coins to the game. This gives the player the option to ┃" << endl;
 		wcout << L"     │   bet a certain amount on their choice of higher or lower.            ┃" << endl;
-		wcout << L"     │ ⌂ Winning grants extra points based on the amount placed.             ┃" << endl;
-		wcout << L"     │                                                                       ┃" << endl;
+		wcout << L"     │ ⌂ A winning bet rewards the player with double their placed bet.      ┃" << endl;
+		wcout << L"     │   A loosing bet looses the players bet.                               ┃" << endl;
 		wcout << L"     │                                                                       ┃" << endl;
 		wcout << L"     │                                                                       ┃" << endl;
 		wcout << L"     ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
@@ -116,20 +116,20 @@ void StartState::DrawRulesScreen() {
 
 bool StartState::CheckInput(char _Input) {
 	if (!_showingRules) {
-		switch (_Input) {
+		switch (_Input) { // TITLE Screen Inputs
 			case 'P': Game::getInstance().SwitchState(PLAY_STATE);  break;
 			case 'S': Game::getInstance().SwitchState(SETUP_STATE); break;
 			case 'R': _showingRules = true; break;
 			default: return false; break;
 		}
 	}
-	else {
+	else { // RULE Screen Inputs
 		switch (_Input) {
-			case 'B': 
-				_showingRules = false;
-				_currentPage = 1;
+			case 'B': // Back input
+				_showingRules = false; // Switch back to the title screen.
+				_currentPage = 1; // Reset the rules screen
 				break;
-			case '1': case '2': case '3':
+			case '1': case '2': case '3': // Set the current page to the input number
 				_currentPage = int(_Input) - ASCII_NUM_SHIFT; break;
 			default: return false; break;
 		}

@@ -38,6 +38,7 @@ bool EndState::CheckInput(char _Input) {
 				Game::getInstance().SwitchState(START_STATE); 
 				break;
 			case 'N':
+				// DRAW FINAL STATE
 				system("cls");
 				wcout << BOARDER << endl << BOARDER << endl;
 				MakeSpace(12);

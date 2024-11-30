@@ -23,10 +23,7 @@ public:
 	~Game() {};
 
 	void Update() { _CurrentState->Update(); };
-	void Render() {
-		if (_CurrentState->IsRenderDirty())
-			_CurrentState->Render();
-	};
+	void Render() { _CurrentState->Render(); };
 
 	const bool IsGameRunning() { return _GameRunning; }
 
@@ -43,7 +40,7 @@ public:
 	void UpdateGameConfig(GameConfig _GC) { _Config = _GC; };
 	const GameConfig GetGameConfig() { return _Config; }
 
-	Card GetCard(int _Index) { return _Deck[_Index]; }
+	Card& GetCard(int _Index) { return _Deck[_Index]; }
 	void SetCard(int _Index, Card& _Card) { _Deck[_Index] = _Card; }
 
 private:

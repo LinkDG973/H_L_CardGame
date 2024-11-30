@@ -55,4 +55,3 @@ struct GameConfig {
 	bool _PWDlbNothing = true;
 	int _NumPlaySets = 1;
 };
-

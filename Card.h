@@ -16,7 +16,9 @@ public:
 	void SetFlipState(bool _Val) { _Flipped = _Val; }
 	
 	bool GetPlayedState() { return _Played; }
-	void SetPlayedState(bool _Val) { _Played = _Val; }
+	void SetPlayedState(bool _Val) { 
+		_Played = _Val; 
+	}
 
 private:
 	bool _Flipped = false;

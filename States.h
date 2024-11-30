@@ -11,33 +11,31 @@ public:
 
 	virtual void Update() { BasicInput(); };
 	void Render() {
-		wcout << BOARDER << endl << BOARDER << endl;
-
-		SpecificRender();
-
-		wcout << BOARDER << endl;
-		if (!_ValidInput) wcout << centreString(_ErrorPromt) << endl;
-		else wcout << centreString(_OutPromt) << endl;
-		wcout << BOARDER << endl;
-		wcout << centreString(_CmdPromt + L" \u2192 ");
+		wcout << BOARDER << endl << BOARDER << endl; // Draw Screen Header Boarder
+		SpecificRender(); // Draw State Respective Screen
+		wcout << BOARDER << endl; // Draw State Screen Footer
+		// Draw Input Dependent Message
+		if (!_ValidInput) wcout << centreString(_ErrorPromt) << endl; // Output Error Message
+		else wcout << centreString(_OutPromt) << endl; // Output Command Responce message
+		wcout << BOARDER << endl; // Draw Command Message Footer
+		wcout << centreString(_CmdPromt + L" \u2192 "); // Draw Command Prompt Message and Cursor
 	};
 
 	bool IsRenderDirty() { return _DirtyRender; }
 
 protected:
+	bool _ValidInput = true;
+
+	virtual void SpecificRender() = 0;
+
 	void SetCmdPromt(wstring _Msg) { _CmdPromt = _Msg; }
 	void SetOutPromt(wstring _Msg) { _OutPromt = _Msg; }
 	void SetErrorPromt(wstring _Msg) { _ErrorPromt = _Msg; }
-	virtual void SpecificRender() = 0;
-	inline std::string trim(std::string& str) {
-		str.erase(str.find_last_not_of(' ') + 1);         //suffixing spaces
-		str.erase(0, str.find_first_not_of(' '));       //prefixing spaces
-		return str;
-	}
 	void SetDirtyRender(bool _Val) { _DirtyRender = _Val; }
+
 	void MakeSpace(int _Val) { for (int y = 0; y < _Val; ++y) wcout << endl; }
-	bool _ValidInput = true;
 	int randomNum(int _Min, int _Max) { return rand() % (_Max - _Min + 1) + _Min; }
+
 	void BasicInput() {
 		string _Input = "";
 		cin >> _Input;
@@ -52,6 +50,7 @@ protected:
 		}
 		_ErrorPromt = DEFAULT_ERROR_MSG;
 	}
+
 	ERROR_CODE Draw_Card(Card _C) {
 		for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i)
 			wcout << centreString(_C.GetCardGraphic(i)) << endl;
@@ -64,6 +63,13 @@ protected:
 		wstring sp(no_spaces, L' ');
 		return sp + _str;
 	}
+
+	inline std::string trim(std::string& str) {
+		str.erase(str.find_last_not_of(' ') + 1);         //suffixing spaces
+		str.erase(0, str.find_first_not_of(' '));       //prefixing spaces
+		return str;
+	}
+
 private:
 	virtual bool CheckInput(char _Input) = 0;
 	bool _DirtyRender = true;
@@ -73,9 +79,8 @@ private:
 };
 
 class StartState : public State {
-protected:
-	void SpecificRender() override;
 private:
+	void SpecificRender() override;
 	bool CheckInput(char _Input) override;
 	void DrawTitleScreen();
 	void DrawRulesScreen();
@@ -84,9 +89,8 @@ private:
 };
 
 class SetupState : public State {
-protected:
-	void SpecificRender() override;
 private:
+	void SpecificRender() override;
 	bool CheckInput(char _Input) override;
 	GameConfig _tempConfig;
 };
@@ -100,9 +104,8 @@ public:
 
 	void Update() override;
 
-protected:
-	void SpecificRender() override;
 private:
+	void SpecificRender() override;
 
 	bool CheckInput(char _Input) override;
 	bool CheckEqual(int _Val1, int _Val2);
@@ -116,37 +119,34 @@ private:
 
 	int GetDeckSize();
 
-	void DrawGameScreen();
-
 	bool CheckBet(string _Bet);
-	bool isNumber(string& _Str);
 
 	int GetNewCardIndex(int _DeckSize);
 
 	Card _InPlay[PLAY_DECK_SIZE];
 	Card _FaceDown;
 
-	int _PlayerScore = 0;
-	int _randomIndex = 0;
-	int _CardIndex = 0;
-	int _CurrentRow = 0;
-	int _SelectorStart = 0;
-	int _CardCount = 0;
 	bool _GameIsSetup = false;
 	bool _Holding = false;
-
-	int _Difference = 0;
-	int _NumBet = 0;
 	bool _Betting = true;
+
+	int _PlayerScore = 0;
+	int _NumBet = 0;
+	int _Difference = 0;
+
+	int _randomIndex = 0;
+	int _CardIndex = 0;
+	int _CurrentRow = 0;	// Uses to note which row the Selector is on
+	int _SelectorStart = 0;
+	int _CardCount = 0;
 
 	wstring _Result;
 	wstring _RoundResult = L"";
 };
 
 class EndState : public State {
-protected:
-	void SpecificRender() override;
 private:
+	void SpecificRender() override;
 	bool CheckInput(char _Input) override;
 	void DrawEndScreen();
 	void DrawDblN();
@@ -156,5 +156,4 @@ private:
 	Card _RandCard;
 	Card _PlayerCard;
 	wstring _Result;
-
 };
