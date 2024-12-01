@@ -10,10 +10,13 @@ bool SetupState::CheckInput(char _Input) {
 			break;
 		case 'J': _tempConfig._PWJokers = !_tempConfig._PWJokers; break;
 		case 'D': _tempConfig._PWDuplicateCards = !_tempConfig._PWDuplicateCards; break;
-		case 'C': _tempConfig._PWCoins = !_tempConfig._PWCoins; break;
+		case 'C': 
+			_tempConfig._PWCoins = !_tempConfig._PWCoins; 
+			if (_tempConfig._PWCoins == true) _tempConfig._Score = STARTING_COIN_COUNT;
+			else _tempConfig._Score = 0;
+			break;
 		case 'N': _tempConfig._PWDlbNothing = !_tempConfig._PWDlbNothing; break;
-		case '1': case '2':
-			_tempConfig._NumPlaySets = int(_Input) - ASCII_NUM_SHIFT; break;
+		case '1': case '2': _tempConfig._NumPlaySets = int(_Input) - ASCII_NUM_SHIFT; break;
 		default: return false; break;
 	}
 	return true;
@@ -38,7 +41,7 @@ void SetupState::SpecificRender() {
 	wcout << centreString(L"├────────────────────────────────────────────┼───┨") << endl;
 	wcout << L"                │ Play with Double or Nothing Mode       (N) │ " << toggleChar(_tempConfig._PWDlbNothing) << L" ┃" << endl;
 	wcout << centreString(L"├────────────────────────────────────────────┼───┨") << endl;
-	wcout << L"                │ Number of card sets               ( 1 / 2) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
+	wcout << L"                │ Number of Rounds                  ( 1 / 2) │ " << _tempConfig._NumPlaySets << L" ┃" << endl;
 	wcout << centreString(L"┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━┛") << endl;
 	MakeSpace(6);
 	SetCmdPromt(L"Select Option to toggle or type 'B' to Return to the Title Screen (B)"); // Set Command Promt Message

@@ -2,16 +2,16 @@
 #include "States.h"
 
 bool EndState::CheckInput(char _Input) {
-	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played && Game::getInstance().GetScore() > 0 || _Holding) {
+	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played && Game::getInstance().GetGameConfig()._Score > 0 || _Holding) {
 		if (!_Holding) {
 			switch (_Input) {
 				case 'Y':
 					if (_PlayerCard.GetSuit() == _RandCard.GetSuit()) {
-						Game::getInstance().SetScore(Game::getInstance().GetScore() * 2); // Doubles the Player's Score
+						Game::getInstance().GetGameConfig()._Score *= 2; // Doubles the Player's Score
 						_Result = L"SUITS MATCH, YOU WIN X2 SCORE!";
 					}
 					else {
-						Game::getInstance().SetScore(0); // Zeros the Player's Score
+						Game::getInstance().GetGameConfig()._Score = 0; // Zeros the Player's Score
 						_Result = L"SUITS DON'T MATCH, YOU LOSE.";
 					}
 					_Holding = true;
@@ -35,6 +35,7 @@ bool EndState::CheckInput(char _Input) {
 			case 'Y':
 				_DblN_Played = false;
 				_Dbln_Set = false;
+				Game::getInstance().GetGameConfig()._Score = 0;
 				Game::getInstance().SwitchState(START_STATE); 
 				break;
 			case 'N':
@@ -95,26 +96,21 @@ void EndState::DrawDblN() {
 	MakeSpace(4);
 	Draw_Card(_RandCard);
 	MakeSpace(4);
-	if (_Holding) {
-		Draw_Card(_PlayerCard);
-	}
+	if (_Holding) Draw_Card(_PlayerCard);
 	else {
-		for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) {
+		for (int i = 0; i < CARD_GRAPHIC_SIZE; ++i) 
 			wcout << centreString(_FaceDownCard[i]) << endl;
-		}
 	}
 	MakeSpace(4);
 	if (_Holding) {
 		SetOutPromt(_Result);
 		SetCmdPromt(L"Press 'E' to continue... (E)");
 	}
-	else {
-		SetCmdPromt(L"Go for double or nothing? (Y / N)");
-	}
+	else SetCmdPromt(L"Go for double or nothing? (Y / N)");
 }
 
 void EndState::SpecificRender() {
-	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played && Game::getInstance().GetScore() > 0 || _Holding) {
+	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played && Game::getInstance().GetGameConfig()._Score > 0 || _Holding) {
 		if (!_Dbln_Set) {
 			_RandCard = Game::getInstance().GetCard(randomNum(0, FOCUS_DECK_SIZE));
 			_PlayerCard = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE - 1));

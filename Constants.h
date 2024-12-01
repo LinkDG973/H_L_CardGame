@@ -26,7 +26,7 @@ constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 constexpr ui8 ASCII_NUM_SHIFT = 48;
 
 constexpr wchar_t SUITS[5] = { L'♠', L'♦', L'♥', L'♣', L'J' };
-constexpr wchar_t INITALS[14] = { L'0', L'1', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9', L'10', L'J', L'Q', L'K'};
+constexpr wchar_t INITALS[14] = { L'0', L'A', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9', L'10', L'J', L'Q', L'K'};
 static const std::wstring CARD_INDENT = L"           ";
 static const int SCREEN_WIDTH = 83;
 static const std::wstring BOARDER(SCREEN_WIDTH, L'─');
@@ -47,11 +47,12 @@ static const std::wstring DEFAULT_ERROR_MSG = L"Invalid input, please try again.
 
 struct GameConfig {
 	GameConfig() {};
-	GameConfig(bool _J, bool _D, bool _C, bool _N, int _R)
-		: _PWJokers(_J), _PWDuplicateCards(_D), _PWCoins(_C), _PWDlbNothing(_N), _NumPlaySets(_R) {};
+	GameConfig(bool _J, bool _D, bool _C, bool _N, int _R, int _S)
+		: _PWJokers(_J), _PWDuplicateCards(_D), _PWCoins(_C), _PWDlbNothing(_N), _NumPlaySets(_R), _Score(_S) {};
 	bool _PWJokers = true;
 	bool _PWDuplicateCards = false;
 	bool _PWCoins = true;
 	bool _PWDlbNothing = true;
 	int _NumPlaySets = 1;
+	int _Score = 0;
 };

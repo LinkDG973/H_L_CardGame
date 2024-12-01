@@ -6,7 +6,7 @@
 
 class State {
 public:
-	State() {}
+	State() {};
 	~State() {};
 
 	virtual void Update() { BasicInput(); };
@@ -45,9 +45,7 @@ protected:
 			_charInput = toupper(_charInput);
 			_ValidInput = CheckInput(_charInput);
 		}
-		else {
-			_ValidInput = false;
-		}
+		else _ValidInput = false;
 		_ErrorPromt = DEFAULT_ERROR_MSG;
 	}
 
@@ -97,7 +95,7 @@ private:
 
 class PlayState : public State {
 public:
-	PlayState() {
+	PlayState(GameConfig& _GC) : G_Conf(_GC) {
 		ret_code = Init();
 		assert(ret_code == GAME_OK && "Play State Initialised Incorrectly"); // Assert Game Initalisation
 	};
@@ -124,13 +122,11 @@ private:
 	int GetNewCardIndex(int _DeckSize);
 
 	Card _InPlay[PLAY_DECK_SIZE];
-	Card _FaceDown;
 
 	bool _GameIsSetup = false;
 	bool _Holding = false;
 	bool _Betting = true;
 
-	int _PlayerScore = 0;
 	int _NumBet = 0;
 	int _Difference = 0;
 
@@ -139,6 +135,8 @@ private:
 	int _CurrentRow = 0;	// Uses to note which row the Selector is on
 	int _SelectorStart = 0;
 	int _CardCount = 0;
+
+	GameConfig& G_Conf;
 
 	wstring _Result;
 	wstring _RoundResult = L"";

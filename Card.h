@@ -3,8 +3,7 @@
 class Card {
 public:
 	Card() {};
-	Card(wchar_t _S, int _V)
-		: _Suit(_S), _Value(_V) {};
+	Card(wchar_t _S, int _V) : _Suit(_S), _Value(_V) {};
 	~Card() {};
 
 	wchar_t GetSuit() { return _Suit; }
@@ -16,9 +15,7 @@ public:
 	void SetFlipState(bool _Val) { _Flipped = _Val; }
 	
 	bool GetPlayedState() { return _Played; }
-	void SetPlayedState(bool _Val) { 
-		_Played = _Val; 
-	}
+	void SetPlayedState(bool _Val) { _Played = _Val; }
 
 private:
 	bool _Flipped = false;
@@ -35,4 +32,3 @@ private:
 		L"└─────────┘"
 	};
 };
-

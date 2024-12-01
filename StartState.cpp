@@ -65,10 +65,10 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     │ ⌂ This mode adds a the opition to play a double or nothing mini game  ┃" << endl;
 		wcout << L"     │   at the end of the higher-lower game. This mini game provides a high ┃" << endl;
 		wcout << L"     │   risk-high reward game.                                              ┃" << endl;
-		wcout << L"     │ ⌂ The player bets all their points on if their card suit matched the  ┃" << endl;
+		wcout << L"     │ ⌂ The player bets all their points on if their card suit matches the  ┃" << endl;
 		wcout << L"     │   shuffled card.                                                      ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
-		wcout << L"     │ OTHER                                                                 ┃" << endl;
+		wcout << L"     │ -                                                                     ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │                                                                       ┃" << endl;
 		wcout << L"     │                                                                       ┃" << endl;
@@ -77,7 +77,7 @@ void StartState::DrawRulesScreen() {
 		wcout << L"     │                                                                       ┃" << endl;
 		wcout << L"     │                                                                       ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
-		wcout << L"     │ OTHER                                                                 ┃" << endl;
+		wcout << L"     │ -                                                                     ┃" << endl;
 		wcout << L"     ├───────────────────────────────────────────────────────────────────────┨" << endl;
 		wcout << L"     │                                                                       ┃" << endl;
 		wcout << L"     │                                                                       ┃" << endl;

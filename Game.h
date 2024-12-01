@@ -14,7 +14,7 @@ public:
 
 		_GameStates[START_STATE] = new StartState();
 		_GameStates[SETUP_STATE] = new SetupState();
-		_GameStates[PLAY_STATE] = new PlayState();
+		_GameStates[PLAY_STATE] = new PlayState(_Config);
 		_GameStates[END_STATE] = new EndState();
 
 		_CurrentState = _GameStates[START_STATE];
@@ -29,16 +29,16 @@ public:
 
 	void setGameRunning(bool _Val) { _GameRunning = _Val; }
 
-	const int GetScore() { return _PlayerScore; }
-	void SetScore(int _Val) { _PlayerScore = _Val; }
-
 	const int GetHighScore() { return _HighScore; }
 	void SetHighScore(int _Val) { _HighScore = _Val; }
 
 	void SwitchState(int _Index) { _CurrentState = _GameStates[_Index]; }
 
 	void UpdateGameConfig(GameConfig _GC) { _Config = _GC; };
-	const GameConfig GetGameConfig() { return _Config; }
+	GameConfig& GetGameConfig() { return _Config; }
+
+	void SetScore(const int _Val) { _Score = _Val; }
+	int GetScore() { return _Score; }
 
 	Card& GetCard(int _Index) { return _Deck[_Index]; }
 	void SetCard(int _Index, Card& _Card) { _Deck[_Index] = _Card; }
@@ -50,7 +50,7 @@ private:
 	bool _GameRunning = false;
 
 	int _HighScore = 0;
-	int _PlayerScore = 0; // Varible to hold both regular score and coins
+	int _Score = 0;
 
 	GameConfig _Config;
 	Card _Deck[MAX_DECK_SIZE];
