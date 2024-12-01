@@ -1,6 +1,14 @@
-﻿#include "Game.h"
+﻿//====================================================================================
+// NAME: StartState.cpp
+// DESC: Presents and Controls the Title and Rules Screens
+// AUTH: Oliver Callaghan
+//====================================================================================
+#include "Game.h"
 #include "States.h"
+//====================================================================================
 
+// SUMMARY: Draws the game logo and title screen options.
+// RETURNS: VOID
 void StartState::DrawTitleScreen() {
 	Card card1 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
 	Card card2 = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE));
@@ -28,6 +36,8 @@ void StartState::DrawTitleScreen() {
 	SetCmdPromt(L"Select Option (P / S / R)");
 }
 
+// SUMMARY: Draws the Rule Screen by selected page.
+// RETURNS: VOID
 void StartState::DrawRulesScreen() {
 	wcout << centreString(L"RULES") << endl;
 	wcout << BOARDER << endl;
@@ -114,6 +124,9 @@ void StartState::DrawRulesScreen() {
 	SetCmdPromt(L"Input (B) to Return to the Title Screen");
 }
 
+// SUMMARY: Takes the player's input, (Switches if on Title or Rules Screen).
+// PARAMETERS: CHAR - Player's Input Character Command.
+// RETURNS: BOOL - Validation Result of Input
 bool StartState::CheckInput(char _Input) {
 	if (!_showingRules) {
 		switch (_Input) { // TITLE Screen Inputs
@@ -138,6 +151,8 @@ bool StartState::CheckInput(char _Input) {
 	return true;
 }
 
+// SUMMARY: Manages which Screen (Title or Rules) to Draw
+// RETURNS: VOID
 void StartState::SpecificRender() {
 	if (!_showingRules) DrawTitleScreen();
 	else DrawRulesScreen();

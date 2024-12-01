@@ -1,7 +1,15 @@
-﻿#include "Game.h"
+﻿//====================================================================================
+// NAME: SetupState.cpp
+// DESC: Presents a settings table so the player can adjust game settings.
+// AUTH: Oliver Callaghan
+//====================================================================================
+#include "Game.h"
 #include "States.h"
+//====================================================================================
 
-// Input Selection for Settings State
+// SUMMARY: Takes the player's input.
+// PARAMETERS: CHAR - Player's Input Character Command.
+// RETURNS: BOOL - Validation Result of Input
 bool SetupState::CheckInput(char _Input) {
 	switch (_Input) {
 		case 'B':
@@ -22,12 +30,16 @@ bool SetupState::CheckInput(char _Input) {
 	return true;
 }
 
-// Toggle Character function
+// SUMMARY: Toggle Character function
+// PARAMETERS: BOOL - State of selection to toggle.
+// RETURNS: WCHAR_T - Character respective of toggle state (X - ON / ' ' - OFF)
 wchar_t toggleChar(bool _toggle) {
 	if (_toggle) { return L'╳'; }
 	return L' ';
 }
 
+// SUMMARY: Draws settings Screen.
+// RETURNS: VOID
 void SetupState::SpecificRender() {
 	MakeSpace(5); // Draw Settings Menu Table
 	wcout << centreString(L"┌────────────────────────────────────────────────┒") << endl;

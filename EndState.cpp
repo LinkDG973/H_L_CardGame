@@ -1,6 +1,15 @@
-﻿#include "Game.h"
+﻿//====================================================================================
+// NAME: EndState.cpp
+// DESC: Manages the End Game Processes including Double or Nothing and Score Screen.
+// AUTH: Oliver Callaghan
+//====================================================================================
+#include "Game.h"
 #include "States.h"
+//====================================================================================
 
+// SUMMARY: Takes the player's input, (Switches if on Highscore / Double or Nothing / END Screen).
+// PARAMETERS: CHAR - Player's Input Character Command.
+// RETURNS: BOOL - Validation Result of Input
 bool EndState::CheckInput(char _Input) {
 	if (G_Conf._PWDlbNothing && !_DblN_Played && G_Conf._Score > 0 || _Holding) {
 		if (!_Holding) {
@@ -59,6 +68,8 @@ bool EndState::CheckInput(char _Input) {
 	return true;
 }
 
+// SUMMARY: Draws and Manages the Highscore Screen.
+// RETURNS: VOID
 void EndState::DrawEndScreen() {
 	MakeSpace(10);
 	wcout << BOARDER << endl;
@@ -83,6 +94,8 @@ void EndState::DrawEndScreen() {
 	SetCmdPromt(L"Play Again ? (Y / N)");
 }
 
+// SUMMARY: Draws and Manages the Double or Nothing Screen.
+// RETURNS: VOID
 void EndState::DrawDblN() {
 	MakeSpace(4);
 	Draw_Card(_RandCard);
@@ -100,6 +113,8 @@ void EndState::DrawDblN() {
 	else SetCmdPromt(L"Go for double or nothing? (Y / N)");
 }
 
+// SUMMARY: Manages if Double or Nothing Criteria is met and which screen to draw.
+// RETURNS: VOID
 void EndState::SpecificRender() {
 	if (G_Conf._PWDlbNothing && !_DblN_Played && G_Conf._Score > 0 || _Holding) {
 		if (!_Dbln_Set) {
