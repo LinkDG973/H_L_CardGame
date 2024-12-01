@@ -1,38 +1,46 @@
 ﻿#pragma once
-
+//====================================================================================
+// NAME: Constants.h
+// DESC: Contains constant values and structures used across the states.
+// AUTH: Oliver Callaghan
+//====================================================================================
 #include <iostream>
-
 #include <assert.h>
-
 using namespace std;
+//====================================================================================
 
 typedef unsigned __int8 ui8; // Type Declaration for unsinged 8-bit integers
 
-typedef ui8 ERROR_CODE; // Error Code Type
-static ERROR_CODE ret_code;  // Error Check Return Variable
-#define GAME_OK 0	// Clean Error Code
+typedef ui8 ERROR_CODE;		// Error Code Type
+static ERROR_CODE ret_code; // Error Check Return Variable
+#define GAME_OK 0			// Clean Error Code
 
+// SUMMARY: State ID's used to label state indexes by name rather than number (useful for debug purposes).
 #define STATE_COUNT 4
 #define START_STATE 0
 #define SETUP_STATE 1
 #define PLAY_STATE 2
 #define END_STATE 3
 
-constexpr ui8 MAX_DECK_SIZE = 54;
-constexpr ui8 FOCUS_DECK_SIZE = 51;
-constexpr ui8 PLAY_DECK_SIZE = 10;
-constexpr ui8 CARD_GRAPHIC_SIZE = 7;
+// SUMMARY: Constants Managing the Deck Sizes.
+constexpr ui8 MAX_DECK_SIZE = 54;   // Full Deck Size
+constexpr ui8 FOCUS_DECK_SIZE = 51; // Deck Size used by the computer card.
+constexpr ui8 PLAY_DECK_SIZE = 10;  // Player's selection Deck Size
 
-constexpr ui8 ASCII_NUM_SHIFT = 48;
+constexpr ui8 ASCII_NUM_SHIFT = 48; // Used to convert numeric characters into integer values.
 
+// SUMMARY: Values relating to suits and card graphic values by index
 constexpr wchar_t SUITS[5] = { L'♠', L'♦', L'♥', L'♣', L'J' };
 constexpr wchar_t INITALS[14] = { L'0', L'A', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9', L'10', L'J', L'Q', L'K'};
-static const std::wstring CARD_INDENT = L"           ";
+
+// SUMMARY: Constants Managing the screen width and the boarders.
 static const int SCREEN_WIDTH = 83;
 static const std::wstring BOARDER(SCREEN_WIDTH, L'─');
 
-static const int STARTING_COIN_COUNT = 2000;
+static const int STARTING_COIN_COUNT = 2000; // Starting coin count
 
+// SUMMARY: Face Down Card Graphic negates use of a full card object.
+constexpr ui8 CARD_GRAPHIC_SIZE = 7;
 static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"┌─────────┐",
 	L"│┌───────┐│",
@@ -42,9 +50,13 @@ static const std::wstring _FaceDownCard[CARD_GRAPHIC_SIZE] = {
 	L"│└───────┘│",
 	L"└─────────┘"
 };
+
+// SUMMARY: Constants used for drawing selectors, cards and Default Error Messages
+static const std::wstring CARD_INDENT = L"           ";
 static const std::wstring _Selector = L"     \u2571\u2572    ";
 static const std::wstring DEFAULT_ERROR_MSG = L"Invalid input, please try again.";
 
+// SUMMARY: Game Settings Configuration Structure (with defaults) used to keep game settings consistant between states.
 struct GameConfig {
 	GameConfig() {};
 	GameConfig(bool _J, bool _D, bool _C, bool _N, int _R, int _S)

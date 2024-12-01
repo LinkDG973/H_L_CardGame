@@ -7,7 +7,7 @@
 #include "States.h"
 //====================================================================================
 
-// SUMMARY: Initalises the Deck and the Play State
+// SUMMARY: Initalises the Deck and the Play State.
 // RETURNS: GAME_OK
 ERROR_CODE PlayState::Init() {
 	for (int i = 0; i < 4; ++i) { // For each SUIT
