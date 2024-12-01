@@ -87,15 +87,6 @@ void PlayState::Update() {
 			Reset_PlayCards();
 		}
 		else { // End the game
-
-			//Game::getInstance().SetScore(_PlayerScore);
-			//G_Conf._Score = G_Conf._Score;
-			//Game::getInstance().UpdateGameConfig(G_Conf);
-			//const GameConfig T_config = G_Conf;
-			//Game::getInstance().UpdateGameConfig(T_config);
-
-			Game::getInstance().SetScore(G_Conf._Score);
-
 			Reset_PlayState();
 			Game::getInstance().SwitchState(END_STATE);
 		}
@@ -289,11 +280,7 @@ ERROR_CODE PlayState::Reset_PlayState() {
 
 	if (G_Conf._PWCoins) {
 		SetErrorPromt(L"");
-		G_Conf._Score = STARTING_COIN_COUNT;
 		_NumBet = 0;
-	}
-	else {
-		G_Conf._Score = 0;
 	}
 
 	srand(time(0));

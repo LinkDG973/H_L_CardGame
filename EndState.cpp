@@ -2,16 +2,16 @@
 #include "States.h"
 
 bool EndState::CheckInput(char _Input) {
-	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played && Game::getInstance().GetGameConfig()._Score > 0 || _Holding) {
+	if (G_Conf._PWDlbNothing && !_DblN_Played && G_Conf._Score > 0 || _Holding) {
 		if (!_Holding) {
 			switch (_Input) {
 				case 'Y':
 					if (_PlayerCard.GetSuit() == _RandCard.GetSuit()) {
-						Game::getInstance().GetGameConfig()._Score *= 2; // Doubles the Player's Score
+						G_Conf._Score *= 2; // Doubles the Player's Score
 						_Result = L"SUITS MATCH, YOU WIN X2 SCORE!";
 					}
 					else {
-						Game::getInstance().GetGameConfig()._Score = 0; // Zeros the Player's Score
+						G_Conf._Score = 0; // Zeros the Player's Score
 						_Result = L"SUITS DON'T MATCH, YOU LOSE.";
 					}
 					_Holding = true;
@@ -35,7 +35,8 @@ bool EndState::CheckInput(char _Input) {
 			case 'Y':
 				_DblN_Played = false;
 				_Dbln_Set = false;
-				Game::getInstance().GetGameConfig()._Score = 0;
+				if (G_Conf._PWCoins) G_Conf._Score = STARTING_COIN_COUNT;
+				else G_Conf._Score = 0;
 				Game::getInstance().SwitchState(START_STATE); 
 				break;
 			case 'N':
@@ -62,28 +63,18 @@ void EndState::DrawEndScreen() {
 	MakeSpace(10);
 	wcout << BOARDER << endl;
 
-	int tempVal = 0;
-	wstringstream _MSG;
-	wstring mode = L"SCORE : ";
-	tempVal = Game::getInstance().GetScore();
-	if (Game::getInstance().GetGameConfig()._PWCoins) {
-		wstring mode = L"COINS : £";
-	}
-
-	if (tempVal > 0 && tempVal > Game::getInstance().GetHighScore()) {
-		wstringstream _MSG2;
-		Game::getInstance().SetHighScore(tempVal);
+	if (G_Conf._Score > 0 && G_Conf._Score > Game::getInstance().GetHighScore()) {
+		Game::getInstance().SetHighScore(G_Conf._Score);
 		wcout << centreString(L"! NEW HIGH SCORE !") << endl;
-		_MSG2 << L"HIGH SCORE : " << Game::getInstance().GetHighScore() << endl;
-		wcout << centreString(_MSG2.str()) << endl;
-	}
-	else {
-		wstringstream _MSG2;
-		_MSG2 << "HIGH SCORE : " << Game::getInstance().GetHighScore();
-		wcout << centreString(_MSG2.str()) << endl << endl;
 	}
 
-	_MSG << mode << tempVal;
+	wcout << centreString(L"HIGH SCORE : " + to_wstring(Game::getInstance().GetHighScore())) << endl;
+
+	wstringstream _MSG;
+	if (Game::getInstance().GetGameConfig()._PWCoins) _MSG << L"COINS : £";
+	else _MSG << L"SCORE : ";
+
+	_MSG << G_Conf._Score;
 
 	wcout << centreString(_MSG.str()) << endl;
 	wcout << BOARDER << endl;
@@ -110,7 +101,7 @@ void EndState::DrawDblN() {
 }
 
 void EndState::SpecificRender() {
-	if (Game::getInstance().GetGameConfig()._PWDlbNothing && !_DblN_Played && Game::getInstance().GetGameConfig()._Score > 0 || _Holding) {
+	if (G_Conf._PWDlbNothing && !_DblN_Played && G_Conf._Score > 0 || _Holding) {
 		if (!_Dbln_Set) {
 			_RandCard = Game::getInstance().GetCard(randomNum(0, FOCUS_DECK_SIZE));
 			_PlayerCard = Game::getInstance().GetCard(randomNum(0, MAX_DECK_SIZE - 1));

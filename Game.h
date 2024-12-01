@@ -15,7 +15,7 @@ public:
 		_GameStates[START_STATE] = new StartState();
 		_GameStates[SETUP_STATE] = new SetupState();
 		_GameStates[PLAY_STATE] = new PlayState(_Config);
-		_GameStates[END_STATE] = new EndState();
+		_GameStates[END_STATE] = new EndState(_Config);
 
 		_CurrentState = _GameStates[START_STATE];
 		_GameRunning = true;
@@ -37,9 +37,6 @@ public:
 	void UpdateGameConfig(GameConfig _GC) { _Config = _GC; };
 	GameConfig& GetGameConfig() { return _Config; }
 
-	void SetScore(const int _Val) { _Score = _Val; }
-	int GetScore() { return _Score; }
-
 	Card& GetCard(int _Index) { return _Deck[_Index]; }
 	void SetCard(int _Index, Card& _Card) { _Deck[_Index] = _Card; }
 
@@ -50,7 +47,6 @@ private:
 	bool _GameRunning = false;
 
 	int _HighScore = 0;
-	int _Score = 0;
 
 	GameConfig _Config;
 	Card _Deck[MAX_DECK_SIZE];

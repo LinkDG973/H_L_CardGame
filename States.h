@@ -143,6 +143,8 @@ private:
 };
 
 class EndState : public State {
+public:
+	EndState(GameConfig& _GC) : G_Conf(_GC) {};
 private:
 	void SpecificRender() override;
 	bool CheckInput(char _Input) override;
@@ -154,4 +156,5 @@ private:
 	Card _RandCard;
 	Card _PlayerCard;
 	wstring _Result;
+	GameConfig& G_Conf;
 };
