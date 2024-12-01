@@ -1,26 +1,35 @@
-﻿#include "Game.h"
+﻿//===============================================================================
+// NAME: PlayState.cpp
+// DESC: Operates and Manages the Main Game
+// AUTH: Oliver Callaghan
+//===============================================================================
+#include "Game.h"
 #include "States.h"
+//===============================================================================
 
-// Initalise the Deck
+// SUMMARY: Initalises the Deck and the Play State
+// RETURNS: GAME_OK
 ERROR_CODE PlayState::Init() {
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 13; ++j) {
-			Card temp_Card(SUITS[i], j + 1);
-			GenerateGraphics(temp_Card);
-			Game::getInstance().SetCard(j + (13 * i), temp_Card);
+	for (int i = 0; i < 4; ++i) { // For each SUIT
+		for (int j = 0; j < 13; ++j) { // For each card belonging to the suit
+			Card temp_Card(SUITS[i], j + 1); // Set card's suit and value
+			GenerateGraphics(temp_Card); // Generate card's graphics 
+			Game::getInstance().SetCard(j + (13 * i), temp_Card); // Update relative card in the game deck
 		}
 	}
-
+	// Create and Initalise Joker Cards
 	Card temp_Card(SUITS[4], 14);
 	GenerateGraphics(temp_Card);
 	Game::getInstance().SetCard(52, temp_Card);
 	Game::getInstance().SetCard(53, temp_Card);
-
-	Reset_PlayState();
+	Reset_PlayState(); // Reset the playstate to defaults
 
 	return GAME_OK;
 }
 
+// SUMMARY: Generates the visuals for each card by it's value and suit.
+// PARAMETERS: CARD - containing a suit and value.
+// RETURNS: GAME_OK
 ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 
 	wstringstream mSuit; // │    ♦    │
@@ -71,13 +80,15 @@ ERROR_CODE PlayState::GenerateGraphics(Card& _C) {
 	return GAME_OK;
 }
 
+// SUMMARY: Main Game Update Function
+// RETURNS: VOID
 void PlayState::Update() {
-	if (G_Conf._PWCoins && _Betting) {
+	if (G_Conf._PWCoins && _Betting) { // Betting inputs
 		string _Bet = "";
 		cin >> _Bet;
 		_ValidInput = CheckBet(trim(_Bet));
 	}
-	else BasicInput();
+	else BasicInput(); // Basic Input Function
 
 	// If game has reached a finish state
 	if (_CardIndex >= 10 || G_Conf._PWCoins && G_Conf._Score <= 0) {
@@ -93,6 +104,8 @@ void PlayState::Update() {
 	}
 }
 
+// SUMMARY: Play State Rendering Function
+// RETURNS: VOID
 void PlayState::SpecificRender() {
 	if (G_Conf._PWCoins) wcout << CARD_INDENT << L"COINS : £ " << G_Conf._Score << _RoundResult;
 	else wcout << CARD_INDENT << L"SCORE : " << G_Conf._Score << _RoundResult;
@@ -110,6 +123,9 @@ void PlayState::SpecificRender() {
 	else SetCmdPromt(L"Press 'E' to continue... ( E )");
 }
 
+// SUMMARY: Checks if card values are equal
+// PARAMETERS: INT - Player Card Value, INT - Computer Card Value
+// RETURNS: BOOL - Equal Result
 bool PlayState::CheckEqual(int _Val1, int _Val2) {
 	wstringstream _MSG;
 	wstringstream _ResMSG;
@@ -134,6 +150,9 @@ bool PlayState::CheckEqual(int _Val1, int _Val2) {
 	return false;
 }
 
+// SUMMARY: Updates Score and Develops an output message relative to the rounds result 
+// PARAMETERS: BOOL - Round Result (Win/Lose), WSTRING - String of which input was selected (Higher/Lower)
+// RETURNS: VOID
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
 	wstringstream _MSG;
 	_MSG << INITALS[_InPlay[_CardIndex].GetVal()] << _InPlay[_CardIndex].GetSuit() << L" CARD WAS ";
@@ -167,6 +186,9 @@ void PlayState::UpdateScore(bool _Res, wstring _Input) {
 	_Result = _MSG.str() + _ResMSG.str();
 }
 
+// SUMMARY: Main Input Function For Play State, switches dependent on the progression of the game.
+// PARAMETERS: CHAR - Player's input character commmand.
+// RETURNS: BOOL - If the input was valid or not.
 bool PlayState::CheckInput(char _Input) {
 	if (!_Holding) { // If the game state is not paused between rounds
 		if (_InPlay[_CardIndex].GetVal() != 14) { // If Player Card is not a JOKER
@@ -176,7 +198,7 @@ bool PlayState::CheckInput(char _Input) {
 					UpdateScore(_InPlay[_CardIndex].GetVal() >= Game::getInstance().GetCard(_randomIndex).GetVal(), L"HIGHER");
 				break;
 			case 'L': // If the player selects LOWER
-				if (!CheckEqual(_InPlay[_CardIndex].GetVal(), Game::getInstance().GetCard(_randomIndex).GetVal())) 
+				if (!CheckEqual(_InPlay[_CardIndex].GetVal(), Game::getInstance().GetCard(_randomIndex).GetVal()))
 					UpdateScore(_InPlay[_CardIndex].GetVal() <= Game::getInstance().GetCard(_randomIndex).GetVal(), L"LOWER");
 				break;
 			default:
@@ -199,7 +221,7 @@ bool PlayState::CheckInput(char _Input) {
 		}
 		_InPlay[_CardIndex].SetFlipState(false);
 	}
-	else { 
+	else {
 		switch (_Input) { // <- HOLDING STATE (Between rounds)
 		case 'E':
 			++_CardIndex; // Switch to the new card in play
@@ -218,11 +240,17 @@ bool PlayState::CheckInput(char _Input) {
 	return true;
 }
 
+// SUMMARY: Checks if the input string only contains numeric digits.
+// PARAMETERS: STRING - Player Input
+// RETURNS: BOOL - Result of Check
 bool isNumber(string& _Str) {
 	for (char const& c : _Str) if (std::isdigit(c) == 0) return false;
-	return true;
+	return true; // If String only contains numeric digits.
 }
 
+// SUMMARY: Checks the player's bet input and passes if valid.
+// PARAMETERS: STRING - Player's Bet
+// RETURNS: BOOL - Validation Result
 bool PlayState::CheckBet(string _Bet) {
 	wstringstream _MSG;
 	if (isNumber(_Bet)) {
@@ -243,10 +271,15 @@ bool PlayState::CheckBet(string _Bet) {
 	return false;
 }
 
+// SUMMARY: Returns the Size of the Deck relative to if JOKERS are in play.
+// RETURNS: INT - Size of Deck under current settings
 int PlayState::GetDeckSize() {
-	return (MAX_DECK_SIZE - (2 * !Game::getInstance().GetGameConfig()._PWJokers)) - 1;
+	return (MAX_DECK_SIZE - (2 * !G_Conf._PWJokers)) - 1;
 }
 
+// SUMMARY: Returns Random index from cards that have not been played yet. (Unless using duplicate cards).
+// PARAMETERS: INT - Size of Current Deck.
+// RETURNS: INT - Random Index of Card.
 int PlayState::GetNewCardIndex(int _DeckSize) {
 	int _RandNum = 0;
 	if (!G_Conf._PWDuplicateCards) { // If using a single deck
@@ -262,6 +295,8 @@ int PlayState::GetNewCardIndex(int _DeckSize) {
 	return _RandNum;
 }
 
+// SUMMARY: Resets the Player's selection of cards and the current card index.
+// RETURNS: VOID
 void PlayState::Reset_PlayCards() {
 	int _DeckSize = GetDeckSize();
 	for (Card& _C : _InPlay) {
@@ -271,6 +306,8 @@ void PlayState::Reset_PlayCards() {
 	_CardIndex = 0;
 }
 
+// SUMMARY: Returns the play state back to default settings.
+// RETURNS: GAME_OK
 ERROR_CODE PlayState::Reset_PlayState() {
 	system("cls");
 
@@ -296,6 +333,9 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	return GAME_OK;
 }
 
+// SUMMARY: Draws multiple cards in horozontal columns and rows.
+// PARAMETERS: CARD* - Array ptr of Cards to Draw, INT - Number of Cards, INT - Numer of Columns
+// RETURNS: GAME_OK
 ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns) {
 	for (int i = 0; i < _C_Count; i += _Columns) { // For the number of cards
 		for (int x = 0; x < CARD_GRAPHIC_SIZE; ++x) { // For each line in each card's graphic (+1 to include a selector line)
