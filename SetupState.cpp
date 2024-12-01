@@ -41,7 +41,7 @@ wchar_t toggleChar(bool _toggle) {
 // SUMMARY: Draws settings Screen.
 // RETURNS: VOID
 void SetupState::SpecificRender() {
-	MakeSpace(5); // Draw Settings Menu Table
+	MakeSpace(7); // Draw Settings Menu Table
 	wcout << centreString(L"┌────────────────────────────────────────────────┒") << endl;
 	wcout << centreString(L"│                   GAME SETUP                   ┃") << endl;
 	wcout << centreString(L"├────────────────────────────────────────────┬───┨") << endl;
