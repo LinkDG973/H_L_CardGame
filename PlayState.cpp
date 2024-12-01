@@ -137,8 +137,8 @@ bool PlayState::CheckEqual(int _Val1, int _Val2) {
 void PlayState::UpdateScore(bool _Res, wstring _Input) {
 	wstringstream _MSG;
 	_MSG << INITALS[_InPlay[_CardIndex].GetVal()] << _InPlay[_CardIndex].GetSuit() << L" CARD WAS ";
-	if (!_Res) _MSG << L"NOT ";
-	_MSG << _Input + L"THAN " << INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L"!";
+	if (!_Res) _MSG << L"NOT";
+	_MSG << _Input + L" THAN " << INITALS[Game::getInstance().GetCard(_randomIndex).GetVal()] << Game::getInstance().GetCard(_randomIndex).GetSuit() << L"!";
 
 	wstringstream _ResMSG;
 	if (G_Conf._PWCoins) {
@@ -268,6 +268,7 @@ void PlayState::Reset_PlayCards() {
 		_C = Game::getInstance().GetCard(GetNewCardIndex(_DeckSize));
 		_C.SetFlipState(true);
 	}
+	_CardIndex = 0;
 }
 
 ERROR_CODE PlayState::Reset_PlayState() {
@@ -276,7 +277,6 @@ ERROR_CODE PlayState::Reset_PlayState() {
 	_ValidInput = true;
 	_GameIsSetup = false;
 	_CardCount = 0;
-	_CardIndex = 0;
 
 	if (G_Conf._PWCoins) {
 		SetErrorPromt(L"");
@@ -308,8 +308,10 @@ ERROR_CODE PlayState::Draw_Cards(Card* _CardSet, int _C_Count, int _Columns) {
 		}
 
 		// Make selector line
-		if (_CardIndex >= i && _CardIndex < (i + _Columns)) { // If card index is on the current Row
-			wstring _SelSpace(11 * (_CardIndex - i) + 14, L' ');
+		int adjustedIndex = _CardIndex;
+		if (_CardIndex >= 10) adjustedIndex -= 10;
+		if (adjustedIndex >= i && adjustedIndex < (i + _Columns)) { // If card index is on the current Row
+			wstring _SelSpace(11 * (adjustedIndex - i) + 14, L' ');
 			wcout << _SelSpace << _Selector << endl;
 		}
 	}

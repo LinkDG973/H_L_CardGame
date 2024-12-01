@@ -54,5 +54,5 @@ struct GameConfig {
 	bool _PWCoins = true;
 	bool _PWDlbNothing = true;
 	int _NumPlaySets = 1;
-	int _Score = 0;
+	int _Score = STARTING_COIN_COUNT;
 };
